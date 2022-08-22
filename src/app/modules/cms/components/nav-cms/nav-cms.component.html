@@ -1,0 +1,105 @@
+<div class="show-mobile">
+  <div>
+    <button (click)="toggleMenu()">
+      <img src="./assets/svg/icon_menu.svg" alt="menu" />
+    </button>
+    <a href="">
+      <img src="./assets/svg/logo_yard_sale.svg" alt="logo" />
+    </a>
+    <a href="">
+      <img src="./assets/svg/icon_shopping_cart.svg" alt="logo" />
+    </a>
+  </div>
+  <!-- <div class="side-menu" [class.active]="activeMenu">
+    <button (click)="toggleMenu()">Close</button> -->
+  <!-- <ul>
+      <li><a routerLink="home">All</a></li>
+      <li *ngFor="let item of categories">
+        <a [routerLink]="['/category', item.id]">{{ item.name }}</a>
+      </li>
+    </ul> -->
+  <!-- </div> -->
+</div>
+<div class="hide-mobile">
+  <div>
+    <div>
+      <mat-icon
+        (click)="toggleMenu()"
+        class="menu-sidebar"
+        aria-hidden="false"
+        aria-label="Example home icon"
+        fontIcon="menu"
+      ></mat-icon>
+      <a class="logo" href="">
+        <h1>Integriprod</h1>
+      </a>
+    </div>
+
+    <nav>
+      <!-- <ul>
+        <li><a routerLinkActive="active" routerLink="home">All</a></li>
+        <li *ngFor="let item of categories">
+          <a routerLinkActive="active" [routerLink]="['/category', item.id]">{{
+            item.name
+          }}</a>
+        </li>
+      </ul> -->
+    </nav>
+    <div class="info">
+      <mat-icon
+        style="color: yellow"
+        class="menu-sidebar"
+        aria-hidden="false"
+        aria-label="Example home icon"
+        fontIcon="notifications"
+      ></mat-icon>
+
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        aria-label="Example icon-button with a menu"
+      >
+        <mat-icon style="color: teal">person</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button (click)="goProfile()" mat-menu-item>
+          <mat-icon>dialpad</mat-icon>
+          <span>{{ profile?.email }}</span>
+        </button>
+        <button mat-menu-item disabled>
+          <mat-icon>voicemail</mat-icon>
+          <span>Check voice mail</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+
+      <!-- <div class="account">
+        <button *ngIf="!profile; else elseBlock" (click)="login()">
+          Login
+        </button>
+        <ng-template #elseBlock>
+          <a routerLink="/profile">{{ profile?.email }}</a>
+          <button (click)="logout()">Logout</button>
+        </ng-template>
+      </div> -->
+      <!-- <div class="cart">
+        <a href="">
+          <img src="./assets/svg/icon_shopping_cart.svg" alt="logo" />
+        </a>
+        <span class="counter">{{ counter }}</span>
+      </div> -->
+    </div>
+  </div>
+</div>
+<div class="side-menu" [class.active]="activeMenu">
+  <button (click)="toggleMenu()">Close</button>
+  <!-- <ul>
+    <li><a routerLink="home">All</a></li>
+    <li *ngFor="let item of categories">
+      <a [routerLink]="['/category', item.id]">{{ item.name }}</a>
+    </li>
+  </ul> -->
+</div>
