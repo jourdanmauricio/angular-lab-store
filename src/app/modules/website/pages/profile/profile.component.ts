@@ -6,11 +6,12 @@ import { User } from 'src/app/models/user.model';
 import { CustomerService } from 'src/app/services/customer.service';
 import { createCustomerDto, Customer } from 'src/app/models/customer.model';
 import { MyValidators } from 'src/app/utils/validators';
-import { DialogService } from 'src/app/services/dialog.service';
+import { ChangePasswordDialogComponent } from 'src/app/modules/website/components/change-password-dialog/change-password-dialog.component';
 import { UsersService } from 'src/app/services/users.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { ChangePasswordDialogComponent } from 'src/app/modules/website/components/change-password-dialog/change-password-dialog.component';
+import { ConfirmDialogComponent } from 'src/app/modules/shared/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogData } from 'src/app/models/confirm-dialog-data.models';
 
 @Component({
   selector: 'app-profile',
@@ -29,43 +30,23 @@ export class ProfileComponent implements OnInit {
     private router: Router,
     private customerService: CustomerService,
     private fb: FormBuilder,
-    private dialogService: DialogService,
     private usersService: UsersService,
     private _snackBar: MatSnackBar,
     public dialog: MatDialog
   ) {
-    this.form = this.fb.group(
-      {
-        name: [
-          '',
-          [
-            Validators.required,
-            // Validators.pattern(/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g),
-          ],
-        ],
-        last_name: [
-          '',
-          [
-            Validators.required,
-            // Validators.pattern(/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g),
-          ],
-        ],
-        phone: ['', Validators.required],
-        document_type: [
-          '',
-          [Validators.required, MyValidators.validDocumentType],
-        ],
-        document_number: [
-          '',
-          [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
-        ],
-      }
-      // password: ['', [Validators.required, Validators.minLength(8)]],
-      // confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
-      // {
-      //   validators: MyValidators.matchPasswords,
-      // }
-    );
+    this.form = this.fb.group({
+      name: ['', [Validators.required]],
+      last_name: ['', [Validators.required]],
+      phone: ['', Validators.required],
+      document_type: [
+        '',
+        [Validators.required, MyValidators.validDocumentType],
+      ],
+      document_number: [
+        '',
+        [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
+      ],
+    });
   }
 
   ngOnInit(): void {
@@ -119,22 +100,28 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  openDialogDeleteAccount() {
-    this.dialogService
-      .confirmDialog({
-        title: '¿Estas seguro?',
-        message: '¿Deseas eliminar tu usuario?',
-        cancelText: 'No',
-        confirmText: 'Si',
-      })
-      .subscribe((confirm) => {
-        if (confirm) {
-          this.usersService.delete(this.user!.id).subscribe(() => {
-            this.authService.logout();
-            this.router.navigate(['/home']);
-          });
-        }
-      });
+  openDialogDeleteAccount(): void {
+    const data: ConfirmDialogData = {
+      title: '¿Estas seguro?',
+      message: '¿Deseas eliminar tu usuario?',
+      cancelText: 'No',
+      confirmText: 'Si',
+    };
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '320px',
+      autoFocus: '.actions>button',
+      data: data,
+    });
+
+    dialogRef.afterClosed().subscribe((confirm) => {
+      if (confirm) {
+        this.usersService.delete(this.user!.id).subscribe(() => {
+          this.authService.logout();
+          this.router.navigate(['/home']);
+        });
+      }
+    });
   }
 
   openDialogChangePassword(): void {

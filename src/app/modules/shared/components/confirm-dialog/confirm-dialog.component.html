@@ -1,11 +1,16 @@
-<div class="header">
+<div style="position: relative; text-align: center">
+  <div class="modal-btn-close">
+    <button mat-icon-button [mat-dialog-close]="false">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
   <h2 mat-dialog-title>{{ data.title }}</h2>
-  <button mat-icon-button [mat-dialog-close]="false">
-    <mat-icon>close</mat-icon>
-  </button>
 </div>
+<hr />
 <div mat-dialog-content>{{ data.message }}</div>
-<div mat-dialog-actions [align]="'end'">
+<hr />
+<div mat-dialog-actions class="actions" [align]="'end'">
   <button mat-raised-button [mat-dialog-close]="false">
     {{ data.cancelText }}
   </button>

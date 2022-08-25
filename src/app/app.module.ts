@@ -8,18 +8,20 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 /* Components */
-import { LoginComponent } from './modules/website/pages/login/login.component';
-import { SharedModule } from './modules/shared/shared.module';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { NavNotFoundComponent } from './components/nav-not-found/nav-not-found.component';
+
+// import { DialogService } from './services/dialog.service';
+// import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, NotFoundComponent],
+  declarations: [AppComponent, NotFoundComponent, NavNotFoundComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    SharedModule,
     HttpClientModule,
+    // MatDialogModule,
   ],
   providers: [
     {
@@ -27,6 +29,11 @@ import { NotFoundComponent } from './not-found/not-found.component';
       useClass: TokenInterceptor,
       multi: true,
     },
+    // {
+    //   provide: MatDialogRef,
+    //   useValue: {},
+    // },
+    // DialogService,
   ],
   bootstrap: [AppComponent],
 })

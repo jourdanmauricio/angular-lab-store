@@ -1,0 +1,98 @@
+<div class="show-mobile">
+  <div>
+    <!-- (click)="toggleMenu()" -->
+    <button>
+      <img src="./assets/svg/icon_menu.svg" alt="menu" />
+    </button>
+    <a href="">
+      <img src="./assets/svg/logo_yard_sale.svg" alt="logo" />
+    </a>
+    <a href="">
+      <img src="./assets/svg/icon_shopping_cart.svg" alt="logo" />
+    </a>
+  </div>
+  <!-- <div class="side-menu" [class.active]="activeMenu">
+    <button (click)="toggleMenu()">Close</button>
+    <ul>
+      <li><a routerLink="home">All</a></li>
+      <li *ngFor="let item of categories">
+        <a [routerLink]="['/category', item.id]">{{ item.name }}</a>
+      </li>
+    </ul>
+  </div> -->
+</div>
+<div class="hide-mobile">
+  <div>
+    <nav>
+      <a class="logo" href="">
+        <img src="./assets/svg/logo_yard_sale.svg" alt="logo" />
+      </a>
+      <!-- <ul>
+        <li><a routerLinkActive="active" routerLink="home">All</a></li>
+        <li *ngFor="let item of categories">
+          <a routerLinkActive="active" [routerLink]="['/category', item.id]">{{
+            item.name
+          }}</a>
+        </li>
+      </ul> -->
+    </nav>
+    <!-- <div class="info">
+      <div class="cart">
+        <a href="">
+          <mat-icon>shopping_cart</mat-icon>
+        </a>
+        <span class="counter">{{ counter }}</span>
+      </div>
+
+      <div>
+        <div class="guest" *ngIf="!profile; else elseBlock">
+          <button
+            (click)="login()"
+            style="line-height: 1.2"
+            mat-button
+            color="primary"
+          >
+            Inicia sesión <br />
+            Mi cuenta
+          </button>
+        </div>
+        <ng-template #elseBlock>
+          <div class="account">
+            <button
+              matTooltip="{{ profile?.email }}"
+              aria-label="Button that displays a tooltip when focused or hovered over"
+              mat-icon-button
+              [matMenuTriggerFor]="menu"
+              aria-label="Example icon-button with a menu"
+            >
+              <mat-icon style="color: teal">person</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button (click)="goProfile()" mat-menu-item>
+                <mat-icon>dialpad</mat-icon>
+                <span>Profile</span>
+              </button>
+              <button mat-menu-item disabled>
+                <mat-icon>voicemail</mat-icon>
+                <span>Check voice mail</span>
+              </button>
+              <button mat-menu-item (click)="logout()">
+                <mat-icon>logout</mat-icon>
+                <span>Logout</span>
+              </button>
+            </mat-menu>
+          </div>
+        </ng-template>
+      </div> -->
+
+    <!-- <div class="account">
+        <button *ngIf="!profile; else elseBlock" (click)="login()">
+          Login
+        </button>
+        <ng-template #elseBlock>
+          <a routerLink="/profile">{{ profile?.email }}</a>
+          <mat-icon (click)="logout()">logout</mat-icon>
+        </ng-template>
+      </div> -->
+  </div>
+</div>
