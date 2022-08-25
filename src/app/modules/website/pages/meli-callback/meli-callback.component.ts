@@ -33,6 +33,7 @@ export class MeliCallbackComponent implements OnInit {
 
     this.authMlService.changeCodeForToken(this.code).subscribe((res) => {
       this.credentials = res;
+      console.log('credentials ML', this.credentials);
       this.userMlService.getMlUser(res.user_id).subscribe((userMl) => {
         console.log('userML', userMl);
         // if (nickname !== dataMlUser.nickname)
