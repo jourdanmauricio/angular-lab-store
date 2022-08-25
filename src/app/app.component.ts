@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     // Verifico si existe un token para recargar el perfil
-    const token = this.tokenService.getToken();
+    const token = this.tokenService.getItem('token');
     if (token) {
       // Necesitamos que se ejecute el subscribe
       this.authService.getProfile().subscribe();

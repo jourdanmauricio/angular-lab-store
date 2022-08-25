@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { StoreService } from 'src/app/services/store.service';
 import { AuthService } from 'src/app/services/auth.service';
 // import { CategoriesService } from 'src/app/services/categories.service';
-import { User } from 'src/models/user.model';
+import { User } from 'src/app/models/user.model';
 // import { Category } from 'src/app/models/category.model';
 
 @Component({
@@ -19,7 +19,6 @@ export class NavHomeComponent implements OnInit {
   // categories: Category[] = [];
 
   constructor(
-    private storeService: StoreService,
     private authService: AuthService,
     // private categoriesService: CategoriesService,
     private router: Router

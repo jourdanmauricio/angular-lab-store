@@ -46,8 +46,15 @@
 
       <div>
         <div class="guest" *ngIf="!profile; else elseBlock">
-          <button (click)="login()">Login</button>
-          <button>Registro</button>
+          <button
+            (click)="login()"
+            style="line-height: 1.2"
+            mat-button
+            color="primary"
+          >
+            Inicia sesión <br />
+            Mi cuenta
+          </button>
         </div>
         <ng-template #elseBlock>
           <div class="account">

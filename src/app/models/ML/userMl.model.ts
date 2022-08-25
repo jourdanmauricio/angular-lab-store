@@ -1,0 +1,17 @@
+export interface UserMl {
+  // address: dataMlUser.address,
+  // buyer_reputation: dataMlUser.buyer_reputation,
+  // company: dataMlUser.company,
+  // country_id: dataMlUser.country_id,
+  // email: dataMlUser.email,
+  // first_name: dataMlUser.first_name,
+  // gender: dataMlUser.gender,
+  // nickname: dataMlUser.nickname,
+  // identification: dataMlUser.identification,
+  // last_name: dataMlUser.last_name,
+  // logo: dataMlUser.logo,
+  // permalink: dataMlUser.permalink,
+  // phone: dataMlUser.phone,
+  // seller_reputation: dataMlUser.seller_reputation,
+  // site_id: dataMlUser.site_id,
+}

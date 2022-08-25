@@ -1,0 +1,96 @@
+<div class="body">
+  <div class="login">
+    <mat-spinner *ngIf="loading" class="spinner" diameter="50"></mat-spinner>
+
+    <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="register()">
+      <img
+        src="./assets/images/login_user.png"
+        alt="Formulario de registro"
+        width="40%"
+      />
+      <h1>Registro</h1>
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="text" formControlName="email" />
+        <mat-icon matSuffix>person</mat-icon>
+        <mat-error *ngIf="emailValue?.hasError('required')">
+          Campo requerido
+        </mat-error>
+        <mat-error *ngIf="emailValue?.hasError('email')">
+          Email no válido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Contraseña</mat-label>
+        <input
+          autocomplete="off"
+          matInput
+          [type]="hide ? 'password' : 'text'"
+          formControlName="password"
+        />
+        <button
+          style="border: none; background: beige"
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+        <mat-error *ngIf="passwordValue?.hasError('required')">
+          Campo requerido
+        </mat-error>
+        <mat-error *ngIf="passwordValue?.hasError('minlength')">
+          Mínimo 8 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Confirmar contraseña</mat-label>
+        <input
+          autocomplete="off"
+          matInput
+          [type]="hideConfirm ? 'password' : 'text'"
+          formControlName="confirmPassword"
+        />
+        <button
+          style="border: none; background: beige"
+          mat-icon-button
+          matSuffix
+          (click)="hideConfirm = !hideConfirm"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hideConfirm"
+        >
+          <mat-icon>{{
+            hideConfirm ? "visibility_off" : "visibility"
+          }}</mat-icon>
+        </button>
+        <mat-error *ngIf="confirmPasswordValue?.hasError('not_matching')">
+          El password no coincide
+        </mat-error>
+        <mat-error *ngIf="confirmPasswordValue?.hasError('required')">
+          Campo requerido
+        </mat-error>
+        <mat-error *ngIf="confirmPasswordValue?.hasError('minlength')">
+          Mínimo 8 caracteres
+        </mat-error>
+      </mat-form-field>
+      <br />
+      <br />
+      <button
+        [disabled]="form.invalid"
+        class="full-width"
+        type="submit"
+        mat-raised-button
+        color="primary"
+      >
+        Registrase
+      </button>
+      <br />
+      <br />
+      ¿No tienes cuenta? <a routerLink="/login">Inicia sesión</a>
+    </form>
+  </div>
+</div>

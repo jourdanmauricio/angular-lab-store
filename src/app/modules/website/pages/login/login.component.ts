@@ -35,8 +35,8 @@ export class LoginComponent implements OnInit {
     console.log(email, password);
     // dispatch acction
     this.authService.loginAndGetProfile(email, password).subscribe({
-      next: (data) => {
-        console.log('RTA', data);
+      next: (user) => {
+        console.log('user', user);
         this.router.navigate(['home']);
       },
       error: () => {

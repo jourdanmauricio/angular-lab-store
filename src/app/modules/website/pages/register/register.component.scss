@@ -1,0 +1,30 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 80%;
+  align-items: center;
+}
+
+.login {
+  width: 100%;
+  max-width: 330px;
+  text-align: center;
+}
+
+.recovery-pass {
+  display: flex;
+  justify-content: flex-end;
+}
+
+button {
+  height: 50px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s;
+  -webkit-text-fill-color: black !important;
+}

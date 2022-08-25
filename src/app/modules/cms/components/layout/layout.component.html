@@ -1,16 +1,52 @@
-<nav-cms></nav-cms>
+<nav-cms (menu)="onToggleMenu()"></nav-cms>
 <div>
-  <!-- <header>
-    <h3>Title</h3>
-  </header> -->
+  <mat-sidenav-container
+    [ngClass]="{ expanded: isExpanded }"
+    autosize
+    class="sidenav-container"
+  >
+    <mat-sidenav class="sidenav" #sidenav [mode]="side" [(opened)]="showMenu">
+      <mat-nav-list>
+        <mat-list-item class="list-item" (click)="isExpanded = !isExpanded">
+          <mat-icon
+            mat-list-icon
+            class="chevron-button"
+            [ngClass]="{ rotated: isExpanded }"
+            >chevron_right</mat-icon
+          >
+        </mat-list-item>
 
-  <!-- <nav>
-    <ul>
-      <li><a routerLink="grid">Grid Page</a></li>
-      <li><a routerLink="tasks">Tasks Page</a></li>
-    </ul>
-  </nav> -->
-  <main>
-    <router-outlet></router-outlet>
-  </main>
+        <mat-list-item [routerLink]="'dashboard'">
+          <mat-icon mat-list-icon class="">home</mat-icon>
+          <span *ngIf="isExpanded">Dashboard</span>
+        </mat-list-item>
+
+        <mat-list-item [routerLink]="'users'">
+          <mat-icon mat-list-icon class="">group</mat-icon>
+          <span *ngIf="isExpanded">Usuarios</span>
+        </mat-list-item>
+
+        <mat-list-item [routerLink]="'settings'">
+          <mat-icon mat-list-icon class="">settings</mat-icon>
+          <span *ngIf="isExpanded">Configuración</span>
+        </mat-list-item>
+
+        <mat-list-item [routerLink]="'questions'">
+          <mat-icon mat-list-icon class="">question_mark</mat-icon>
+          <span *ngIf="isExpanded">Preguntas</span>
+        </mat-list-item>
+
+        <mat-list-item [routerLink]="'orders'">
+          <mat-icon mat-list-icon class="">shopping_cart</mat-icon>
+          <span *ngIf="isExpanded">Ventas</span>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>

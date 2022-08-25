@@ -1,12 +1,12 @@
-<div class="body">
+<div class="login-container">
   <div class="login">
     <mat-spinner *ngIf="loading" class="spinner" diameter="50"></mat-spinner>
 
     <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="login()">
       <img
         src="./assets/images/login_user.png"
-        alt="Formualrio Login"
-        width="50%"
+        alt="Formualario Login"
+        width="40%"
       />
       <h1>Login</h1>
 
@@ -36,6 +36,10 @@
         </button>
       </mat-form-field>
 
+      <div class="control-rigth">
+        <a routerLink="/recovery-password">Reestablecer contraseña</a>
+      </div>
+
       <br />
       <button
         [disabled]="form.invalid"
@@ -46,6 +50,10 @@
       >
         Login
       </button>
+      <br />
+      <br />
+
+      ¿No tienes cuenta? <a routerLink="/register">Registrarse</a>
     </form>
   </div>
 </div>
