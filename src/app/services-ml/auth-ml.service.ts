@@ -24,14 +24,12 @@ export class AuthMlService {
       client_id: environment.ML_APP_ID,
       client_secret: environment.ML_SECRET,
       code: code,
-      redirect_uri: `${environment.FRONT_END_URI}/settings/meli-callbac`,
-      // redirect_uri: `${environment.FRONT_END_URI}/cms/settings/meli-callback`,
+      redirect_uri: `${environment.FRONT_END_URI}/meli-callback`,
     };
 
+    console.log('callback', `${environment.FRONT_END_URI}/meli-callback`);
+
     let headers = new HttpHeaders();
-    // headers = headers.set('Content-Type', 'application/json');
-    // headers = headers.set('cache-control', 'no-cache');
-    // headers = headers.set('accept', 'application/json');
     headers = headers.set('accept', 'application/json');
     headers = headers.set('content-type', 'application/x-www-form-urlencoded');
 
