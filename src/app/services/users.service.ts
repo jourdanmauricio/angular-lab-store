@@ -51,7 +51,7 @@ export class UsersService {
   changePassword(id: number, data: UpdatePassDto) {
     return this.http
       .patch<String>(`${this.apiUrl}/users/change-password/${id}`, data, {
-        context: apiToken(),
+        context: apiToken('API'),
       })
       .pipe(
         catchError((error: HttpErrorResponse) => {
@@ -69,7 +69,7 @@ export class UsersService {
 
   delete(id: number) {
     return this.http.delete<String>(`${this.apiUrl}/users/${id}`, {
-      context: apiToken(),
+      context: apiToken('API'),
     });
   }
 }

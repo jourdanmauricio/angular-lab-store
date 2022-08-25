@@ -23,7 +23,7 @@ export class CustomerService {
 
   getCustomer() {
     return this.http
-      .get<Customer>(`${this.apiUrl}/customers`, { context: apiToken() })
+      .get<Customer>(`${this.apiUrl}/customers`, { context: apiToken('API') })
       .pipe(
         catchError((error: HttpErrorResponse) => {
           if (error.status === HttpStatusCode.NotFound) {
@@ -36,13 +36,13 @@ export class CustomerService {
 
   createCustomer(data: createCustomerDto) {
     return this.http.post<Customer>(`${this.apiUrl}/customers`, data, {
-      context: apiToken(),
+      context: apiToken('API'),
     });
   }
 
   updateCustomer(id: number, data: updateCustomerDto) {
     return this.http.patch<Customer>(`${this.apiUrl}/customers/${id}`, data, {
-      context: apiToken(),
+      context: apiToken('API'),
     });
   }
 }

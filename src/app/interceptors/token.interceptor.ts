@@ -11,11 +11,16 @@ import { Observable } from 'rxjs';
 
 import { TokenService } from '../services/token.service';
 
-const API_TOKEN = new HttpContextToken<boolean>(() => false);
+const TYPE_TOKEN = new HttpContextToken<string>(() => '');
 
-export function apiToken() {
-  return new HttpContext().set(API_TOKEN, true);
+export function apiToken(app: string) {
+  if (app === 'API') {
+    return new HttpContext().set(TYPE_TOKEN, 'token');
+  } else {
+    return new HttpContext().set(TYPE_TOKEN, 'tokenMl');
+  }
 }
+
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   constructor(private tokenService: TokenService) {}
@@ -24,22 +29,16 @@ export class TokenInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    if (request.context.get(API_TOKEN)) {
-      request = this.addToken(request);
+    const type = request.context.get(TYPE_TOKEN);
+    if (type === 'token' || type === 'tokenMl') {
+      const token = this.tokenService.getItem(type);
+      if (token) {
+        const authReq = request.clone({
+          headers: request.headers.set('Authorization', `Bearer ${token}`),
+        });
+        request = authReq;
+      }
     }
     return next.handle(request);
-  }
-
-  private addToken(request: HttpRequest<unknown>) {
-    const token = this.tokenService.getItem('token');
-    if (token) {
-      console.log('INTERCEPTOR', token);
-      const authReq = request.clone({
-        headers: request.headers.set('Authorization', `Bearer ${token}`),
-      });
-      return authReq;
-    } else {
-      return request;
-    }
   }
 }

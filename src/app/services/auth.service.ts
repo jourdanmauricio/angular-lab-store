@@ -36,7 +36,7 @@ export class AuthService {
 
   getProfile() {
     return this.http
-      .get<User>(`${this.apiUrl}/users/profile`, { context: apiToken() })
+      .get<User>(`${this.apiUrl}/users/profile`, { context: apiToken('API') })
       .pipe(
         tap((user) => {
           console.log('user', user);

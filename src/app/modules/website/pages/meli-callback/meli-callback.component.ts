@@ -1,6 +1,9 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs';
+import { TokenService } from 'src/app/services/token.service';
 import { AuthMl } from 'src/app/models/ML/authMl.model';
 import { AuthMlService } from 'src/app/services-ml/auth-ml.service';
 import { UserMlService } from 'src/app/services-ml/user-ml.service';
@@ -20,7 +23,9 @@ export class MeliCallbackComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private authMlService: AuthMlService,
-    private userMlService: UserMlService
+    private userMlService: UserMlService,
+    private _snackBar: MatSnackBar,
+    private tokenService: TokenService
   ) {}
 
   ngOnInit(): void {
@@ -34,10 +39,31 @@ export class MeliCallbackComponent implements OnInit {
     this.authMlService.changeCodeForToken(this.code).subscribe((res) => {
       this.credentials = res;
       console.log('credentials ML', this.credentials);
+      let headers = new HttpHeaders();
+      headers = headers.set('content-type', 'application/json');
+      headers = headers.set(
+        'Authorization',
+        `Bearer ${this.credentials.access_token}`
+      );
       this.userMlService.getMlUser(res.user_id).subscribe((userMl) => {
         console.log('userML', userMl);
-        // if (nickname !== dataMlUser.nickname)
-        // throw "No coincide el nickname ingresado con la autorización de Mercado Libre";
+        if (nickname !== userMl.nickname) {
+          this._snackBar.open(
+            'El nickname no coincide con el usuario logueado en ML',
+            'Cerrar',
+            {
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'top',
+            }
+          );
+        } else {
+          this.tokenService.saveItem('tokenMl', this.credentials!.access_token);
+          this.tokenService.saveItem(
+            'refreshTokenMl',
+            this.credentials!.refresh_token
+          );
+        }
       });
     });
 
