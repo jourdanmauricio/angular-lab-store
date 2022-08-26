@@ -8,6 +8,7 @@ import { AuthMl } from 'src/app/models/ML/authMl.model';
 import { AuthMlService } from 'src/app/services-ml/auth-ml.service';
 import { UserMlService } from 'src/app/services-ml/user-ml.service';
 import { User } from 'src/app/models/user.model';
+import { createUseMlDto, UserMl } from 'src/app/models/ML/userMl.model';
 
 @Component({
   selector: 'app-meli-callback',
@@ -15,10 +16,10 @@ import { User } from 'src/app/models/user.model';
   styleUrls: ['./meli-callback.component.scss'],
 })
 export class MeliCallbackComponent implements OnInit {
-  loading = false;
+  loading = true;
   code = '';
   state = '';
-  credentials: AuthMl | null = null;
+  credentials!: AuthMl;
 
   constructor(
     private router: Router,
@@ -50,30 +51,52 @@ export class MeliCallbackComponent implements OnInit {
             `Bearer ${this.credentials.access_token}`
           );
           return this.userMlService.getUserMl(res.user_id);
-        })
-      )
-      // , switchMap((userMl) => {
-      .subscribe((userMl) => {
-        if (nickname !== userMl.nickname) {
-          this._snackBar.open(
-            'El nickname no coincide con el usuario logueado en ML',
-            'Cerrar',
-            {
-              duration: 3000,
-              horizontalPosition: 'end',
-              verticalPosition: 'top',
-            }
-          );
-        } else {
-          this.tokenService.saveItem('tokenMl', this.credentials!.access_token);
+        }),
+        switchMap((resUserMl) => {
+          if (nickname !== resUserMl.nickname) {
+            this._snackBar.open(
+              'El nickname no coincide con el usuario logueado en ML',
+              'Cerrar',
+              {
+                duration: 3000,
+                horizontalPosition: 'end',
+                verticalPosition: 'top',
+              }
+            );
+            this.loading = false;
+            return 'Error';
+          }
+          this.tokenService.saveItem('tokenMl', this.credentials.access_token);
           this.tokenService.saveItem(
             'refreshTokenMl',
-            this.credentials!.refresh_token
+            this.credentials.refresh_token
           );
-          userMl.access_token = this.credentials!.access_token;
-          userMl.refresh_token = this.credentials!.refresh_token;
+          const userMl: createUseMlDto = {
+            id: resUserMl.id,
+            nickname: resUserMl.nickname,
+            permalink: resUserMl.permalink,
+            access_token: this.credentials.access_token,
+            token_type: this.credentials.token_type,
+            expires_in: this.credentials.expires_in,
+            scope: this.credentials.scope,
+            refresh_token: this.credentials.refresh_token,
+            site_id: resUserMl.site_id,
+          };
           console.log('userML', userMl);
-        }
+          return this.userMlService.createUserMl(userMl);
+        })
+      )
+      .subscribe((userMl) => {
+        this._snackBar.open(
+          `Usuario ${userMl} autorizado en Mercado Libre!`,
+          'Cerrar',
+          {
+            duration: 3000,
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+          }
+        );
+        this.router.navigate(['cms/dashboard']);
       });
     // .subscribe((res) => {
     //   this.credentials = res;
