@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { AuthMl } from '../models/ML/authMl.model';
 import { catchError, throwError } from 'rxjs';
 import { createUseMlDto, UserMl } from '../models/ML/userMl.model';
+import { apiToken } from '../interceptors/token.interceptor';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +31,8 @@ export class UserMlService {
   }
 
   createUserMl(data: createUseMlDto) {
-    return this.http.post<any>(`${this.apiUrl}/usersMl`, data);
+    return this.http.post<any>(`${this.apiUrl}/usersMl`, data, {
+      context: apiToken('API'),
+    });
   }
 }
