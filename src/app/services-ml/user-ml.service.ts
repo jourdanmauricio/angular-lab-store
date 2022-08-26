@@ -7,17 +7,19 @@ import {
 import { environment } from 'src/environments/environment';
 import { AuthMl } from '../models/ML/authMl.model';
 import { catchError, throwError } from 'rxjs';
+import { UserMl } from '../models/ML/userMl.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserMlService {
   private apiUrlMl = `${environment.API_URL_ML}`;
+  private apiUrl = `${environment.API_URL}`;
 
   constructor(private http: HttpClient) {}
 
-  getMlUser(user_id: number) {
-    return this.http.get<any>(`${this.apiUrlMl}/users/${user_id}`).pipe(
+  getUserMl(user_id: number) {
+    return this.http.get<UserMl>(`${this.apiUrlMl}/users/${user_id}`).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === HttpStatusCode.NotFound) {
           return throwError(() => 'Not found');
@@ -25,5 +27,9 @@ export class UserMlService {
         return throwError(() => error);
       })
     );
+  }
+
+  createUserMl(data: UserMl) {
+    return this.http.post<UserMl>(`${this.apiUrl}/usersMl`, data);
   }
 }

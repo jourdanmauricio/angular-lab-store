@@ -27,8 +27,6 @@ export class AuthMlService {
       redirect_uri: `${environment.FRONT_END_URI}/meli-callback`,
     };
 
-    console.log('callback', `${environment.FRONT_END_URI}/meli-callback`);
-
     let headers = new HttpHeaders();
     headers = headers.set('accept', 'application/json');
     headers = headers.set('content-type', 'application/x-www-form-urlencoded');
