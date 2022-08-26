@@ -13,8 +13,8 @@ import { createUseMlDto, UserMl } from '../models/ML/userMl.model';
   providedIn: 'root',
 })
 export class UserMlService {
-  private apiUrlMl = `${environment.API_URL_ML}/api/v1`;
-  private apiUrl = `${environment.API_URL}`;
+  private apiUrlMl = `${environment.API_URL_ML}`;
+  private apiUrl = `${environment.API_URL}/api/v1`;
 
   constructor(private http: HttpClient) {}
 
