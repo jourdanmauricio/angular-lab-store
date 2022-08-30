@@ -10,8 +10,10 @@
     </mat-form-field>
 
     <div>
+      <!-- [disabled]="!nicknameField.invalid || nicknameField.value?.length === 0" -->
       <button
-        [disabled]="!nicknameField.invalid || nicknameField.value?.length === 0"
+        [disabled]="!userMl"
+        (click)="delMlUser()"
         type="submit"
         mat-raised-button
         color="primary"
@@ -21,8 +23,8 @@
     </div>
     <div>
       <button
+        [disabled]="nicknameField.invalid || userMl"
         (click)="handleAuth()"
-        [disabled]="nicknameField.invalid"
         type="submit"
         mat-raised-button
         color="primary"
@@ -30,5 +32,11 @@
         Autorizar
       </button>
     </div>
+  </div>
+  <div *ngIf="userMl">
+    <p>ID: {{ userMl.id }} - {{ userMl.nickname }}</p>
+    <a [href]="userMl.permalink" target="_blank" rel="nofollow">{{
+      userMl.permalink
+    }}</a>
   </div>
 </div>

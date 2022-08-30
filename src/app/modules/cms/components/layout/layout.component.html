@@ -31,6 +31,11 @@
           <span *ngIf="isExpanded">Configuración</span>
         </mat-list-item>
 
+        <mat-list-item [routerLink]="'products'">
+          <mat-icon mat-list-icon class="">qr_code</mat-icon>
+          <span *ngIf="isExpanded">Productos</span>
+        </mat-list-item>
+
         <mat-list-item [routerLink]="'questions'">
           <mat-icon mat-list-icon class="">question_mark</mat-icon>
           <span *ngIf="isExpanded">Preguntas</span>

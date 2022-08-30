@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { UserMlService } from 'src/app/services/user-ml.service';
+import { UserMl } from 'src/app/models/userMl.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-conf-ml',
@@ -10,10 +13,41 @@ import { environment } from 'src/environments/environment';
 export class ConfMlComponent implements OnInit {
   loading = false;
   nicknameField = new FormControl('', Validators.required);
+  userMl: UserMl | null = null;
 
-  constructor() {}
+  constructor(
+    private userMlService: UserMlService,
+    private _snackBar: MatSnackBar
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.userMlService.getApiUserMl().subscribe({
+      next: (userMl) => {
+        this.userMl = userMl;
+        this.nicknameField.setValue(userMl.nickname);
+        this.nicknameField.disable();
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  delMlUser() {
+    this.userMlService.deleteApiUserMl(this.userMl!.id).subscribe({
+      next: () => {
+        this._snackBar.open('Usuario desvinculado', 'Cerrar', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+        });
+        this.userMl = null;
+        this.nicknameField.setValue('');
+        this.nicknameField.enable();
+      },
+      error: (err) => console.log('err', err),
+    });
+  }
 
   handleAuth() {
     console.log('Handle', this.nicknameField.value);

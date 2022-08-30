@@ -1,0 +1,12 @@
+<p>products works!</p>
+
+<mat-spinner *ngIf="loading" class="spinner" diameter="50"></mat-spinner>
+
+<button
+  *ngIf="!loading"
+  (click)="downloadMl()"
+  mat-raised-button
+  color="primary"
+>
+  Importar desde ML
+</button>

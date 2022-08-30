@@ -1,0 +1,81 @@
+@charset "UTF-8";
+/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+h1 {
+  color: #3f51b5;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-transition: background-color 5000s;
+  transition: background-color 5000s;
+  -webkit-text-fill-color: black !important;
+}
+
+.modal-btn-close {
+  position: absolute;
+  top: -22px;
+  right: -22px;
+  cursor: pointer;
+}
+
+.control-rigth {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+mat-form-field mat-icon {
+  color: #3f51b5;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.mt {
+  margin-top: 1rem;
+}
+
+.spinner {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/************* Material ***************/
+/* Reuducir el alto de mat-form-field */
+.control-sm .mat-form-field-flex > .mat-form-field-infix {
+  padding: 0.4em 0 !important;
+}
+
+.control-sm .mat-form-field-label-wrapper {
+  top: -1.5em;
+}
+
+.control-sm.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+  -webkit-transform: translateY(-1.1em) scale(0.75);
+          transform: translateY(-1.1em) scale(0.75);
+  width: 133.33333%;
+}
+
+/* Altura del input para que entre los tildes en mayúsulas (Ñ, Ó) */
+.mat-input-element {
+  height: 1rem;
+}
+
+/************* Material ***************/
+/*# sourceMappingURL=styles.css.map */

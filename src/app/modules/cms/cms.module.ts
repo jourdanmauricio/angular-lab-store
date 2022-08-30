@@ -15,6 +15,7 @@ import { OrdersComponent } from './pages/orders/orders.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { NavCmsComponent } from './components/nav-cms/nav-cms.component';
 import { ConfMlComponent } from './components/settings/conf-ml/conf-ml.component';
+import { ProductsComponent } from './pages/products/products.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ConfMlComponent } from './components/settings/conf-ml/conf-ml.component
     QuestionsComponent,
     OrdersComponent,
     ConfMlComponent,
+    ProductsComponent,
   ],
   imports: [CommonModule, CmsRoutingModule, SharedModule, MaterialModule], // , MaterialModule
 })

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { TokenService } from './services/token.service';
+import { UserMlService } from './services/user-ml.service';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private userMlService: UserMlService
   ) {}
 
   ngOnInit() {
@@ -21,6 +23,7 @@ export class AppComponent implements OnInit {
     if (token) {
       // Necesitamos que se ejecute el subscribe
       this.authService.getProfile().subscribe();
+      this.userMlService.getApiUserMl().subscribe();
     }
   }
 }

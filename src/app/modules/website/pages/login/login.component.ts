@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private _snackBar: MatSnackBar,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private tokenService: TokenService
   ) {
     this.form = this.fb.group({
       email: ['admin@integriprod.com', [Validators.required, Validators.email]],
@@ -26,7 +28,20 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Verifico si existe un token para recargar el perfil
+    const token = this.tokenService.getItem('token');
+    // Si hay Token se encuentra logueado, redirect
+    if (token) {
+      this.authService.getProfile().subscribe((res) => {
+        if (res.role === 'admin' || res.role === 'superadmin') {
+          this.router.navigate(['cms']);
+        } else {
+          this.router.navigate(['home']);
+        }
+      });
+    }
+  }
 
   login() {
     this.loading = true;

@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  API_URL: 'https://lab-backend.onrender.com',
+  // API_URL: 'https://lab-backend.onrender.com',
+  API_URL: 'http://localhost:3100',
   API_URL_ML: 'https://api.mercadolibre.com',
   ML_APP_ID: 658670237995191,
   ML_SECRET: 'GMau7wlNu4qJUoCX7baMfw1VvygrXCoB',
