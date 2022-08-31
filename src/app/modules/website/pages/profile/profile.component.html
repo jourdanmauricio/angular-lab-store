@@ -5,8 +5,9 @@
     <mat-divider></mat-divider>
   </div>
 
-  <form [formGroup]="form" (ngSubmit)="updateCustomer()">
-    <mat-spinner *ngIf="loading" class="spinner" diameter="50"></mat-spinner>
+  <mat-spinner *ngIf="loading" class="spinner" diameter="50"></mat-spinner>
+
+  <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="updateCustomer()">
     <div class="container-grid mt">
       <mat-form-field class="control-sm item" appearance="outline">
         <mat-label>Nombres</mat-label>

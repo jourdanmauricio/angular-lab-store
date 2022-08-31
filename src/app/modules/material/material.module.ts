@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+// import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -29,7 +29,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatIconModule,
     MatInputModule,
     MatButtonModule,
-    MatSnackBarModule,
+    // MatSnackBarModule,
     MatProgressSpinnerModule,
     MatMenuModule,
     MatTooltipModule,
@@ -48,7 +48,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatIconModule,
     MatInputModule,
     MatButtonModule,
-    MatSnackBarModule,
+    // MatSnackBarModule,
     MatProgressSpinnerModule,
     MatMenuModule,
     MatTooltipModule,

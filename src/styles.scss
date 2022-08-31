@@ -33,12 +33,6 @@ input:-webkit-autofill:active {
   justify-content: flex-end;
 }
 
-mat-form-field {
-  mat-icon {
-    color: #3f51b5;
-  }
-}
-
 .full-width {
   width: 100%;
 }
@@ -52,6 +46,20 @@ mat-form-field {
   margin-right: auto;
 }
 
+.snackbar-error {
+  background-color: red;
+  color: white;
+}
+
+.snackbar-success {
+  background-color: green;
+  color: white;
+}
+
+.snackbar-info {
+  background-color: #333;
+  color: white;
+}
 /************* Material ***************/
 /* Reuducir el alto de mat-form-field */
 .control-sm {
@@ -71,5 +79,11 @@ mat-form-field {
 /* Altura del input para que entre los tildes en mayúsulas (Ñ, Ó) */
 .mat-input-element {
   height: 1rem;
+}
+
+mat-form-field {
+  mat-icon {
+    color: #3f51b5;
+  }
 }
 /************* Material ***************/
