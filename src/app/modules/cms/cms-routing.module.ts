@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { UsersComponent } from './pages/users/users.component';
-import { SettingsComponent } from './pages/settings/settings.component';
 import { QuestionsComponent } from './pages/questions/questions.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { ProductsComponent } from './pages/products/products.component';
@@ -25,7 +24,10 @@ const routes: Routes = [
       },
       {
         path: 'settings',
-        component: SettingsComponent,
+        loadChildren: () =>
+          import('./pages/settings/settings.module').then(
+            (m) => m.SettingsModule
+          ),
       },
       {
         path: 'users',
