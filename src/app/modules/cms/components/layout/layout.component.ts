@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { fadeInAnimation } from 'src/app/_animations';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -7,6 +8,8 @@ import { AuthService } from 'src/app/services/auth.service';
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
+  animations: [fadeInAnimation],
+  host: { '[@fadeInAnimation]': '' },
 })
 export class LayoutComponent implements OnInit {
   isExpanded: boolean = true;

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { MessageService } from 'src/app/services/message.service';
 import { TokenService } from 'src/app/services/token.service';
 
 @Component({
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private router: Router,
     private authService: AuthService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private message: MessageService
   ) {
     this.form = this.fb.group({
       email: ['admin@integriprod.com', [Validators.required, Validators.email]],
@@ -52,6 +54,7 @@ export class LoginComponent implements OnInit {
     this.authService.loginAndGetProfile(email, password).subscribe({
       next: (user) => {
         console.log('user', user);
+        this.message.showMsg('Bienvenido!', 'info');
         this.router.navigate(['home']);
       },
       error: () => {

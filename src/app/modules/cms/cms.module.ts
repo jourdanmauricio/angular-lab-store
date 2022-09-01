@@ -16,6 +16,9 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { NavCmsComponent } from './components/nav-cms/nav-cms.component';
 import { ConfMlComponent } from './components/settings/conf-ml/conf-ml.component';
 import { ProductsComponent } from './pages/products/products.component';
+import { CategoriesComponent } from './pages/categories/categories.component';
+import { ConfProdComponent } from './components/settings/conf-prod/conf-prod.component';
+import { ConfProdImageTableComponent } from './components/settings/conf-prod-image-table/conf-prod-image-table.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,9 @@ import { ProductsComponent } from './pages/products/products.component';
     OrdersComponent,
     ConfMlComponent,
     ProductsComponent,
+    CategoriesComponent,
+    ConfProdComponent,
+    ConfProdImageTableComponent,
   ],
   imports: [CommonModule, CmsRoutingModule, SharedModule, MaterialModule], // , MaterialModule
 })

@@ -11,7 +11,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { NavNotFoundComponent } from './components/nav-not-found/nav-not-found.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-// import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [AppComponent, NotFoundComponent, NavNotFoundComponent],
@@ -20,7 +19,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    // MatDialogModule,
     MatSnackBarModule,
   ],
   providers: [
@@ -30,11 +28,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
       multi: true,
     },
     MatSnackBarModule,
-    // {
-    //   provide: MatDialogRef,
-    //   useValue: {},
-    // },
-    // DialogService,
   ],
   bootstrap: [AppComponent],
 })

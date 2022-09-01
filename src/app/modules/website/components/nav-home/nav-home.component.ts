@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { fadeInAnimation } from 'src/app/_animations';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 // import { CategoriesService } from 'src/app/services/categories.service';
@@ -9,6 +10,8 @@ import { User } from 'src/app/models/user.model';
   selector: 'app-nav-home',
   templateUrl: './nav-home.component.html',
   styleUrls: ['./nav-home.component.scss'],
+  animations: [fadeInAnimation],
+  host: { '[@fadeInAnimation]': '' },
 })
 export class NavHomeComponent implements OnInit {
   activeMenu = false;

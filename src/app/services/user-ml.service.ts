@@ -46,13 +46,12 @@ export class UserMlService {
       .get<UserMl>(`${this.apiUrl}/usersMl`, { context: apiToken('API') })
       .pipe(
         tap((userMl) => {
-          console.log('user', userMl);
           this.userMl.next(userMl);
         })
       )
       .pipe(
         tap((response) => {
-          console.log('getApiUserMl', response);
+          console.log('UserMl', response);
           this.tokenService.saveItem('tokenMl', response.access_token);
           this.tokenService.saveItem('refreshTokenMl', response.refresh_token);
         })

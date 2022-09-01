@@ -1,15 +1,9 @@
-.container-profile {
+.container-conf-prod {
   text-align: center;
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
 }
-
-// .profile {
-//   display: flex;
-//   flex-direction: column;
-//   gap: 1em;
-// }
 
 .container-grid {
   display: flex;
@@ -21,34 +15,12 @@
   width: 100%;
 }
 
-.admin {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-
-.actions {
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 1em;
-  button {
-    width: 100%;
-  }
-}
-
 @media screen and (min-width: 40em) {
   .container-grid {
     display: grid;
     grid-template-columns: auto auto;
     gap: 10px;
   }
-  // .profile {
-  //   display: flex;
-  //   flex-wrap: wrap;
-  //   flex-direction: row;
-  //   gap: 1em;
-  //   justify-content: space-between;
-  // }
   .actions {
     display: flex;
     flex-direction: row;

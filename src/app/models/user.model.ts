@@ -1,8 +1,8 @@
 export interface User {
   id: number;
   email: string;
-  password: string;
-  recovery_token: null;
+  password?: string;
+  recovery_token: string;
   role: string;
   token?: string;
 }

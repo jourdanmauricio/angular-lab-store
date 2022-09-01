@@ -1,0 +1,80 @@
+<mat-spinner *ngIf="loading" class="spinner" diameter="50"></mat-spinner>
+
+<div *ngIf="!loading">
+  <div class="mt">
+    <span>Productos</span>
+  </div>
+  <hr />
+  <form [formGroup]="form" (submit)="handleChange()">
+    <!-- {{ form.itemStatus }} -->
+    <div class="container-grid mt">
+      <mat-form-field class="control-sm item" appearance="outline">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="status">
+          <mat-option value="active">Activo</mat-option>
+          <mat-option value="paused">Pausado</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="control-sm item" appearance="outline">
+        <mat-label>Tipo de publicación</mat-label>
+        <mat-select formControlName="listing_type_id">
+          <mat-option value="gold_special">Clásica</mat-option>
+          <mat-option value="gold_pro">Premium</mat-option>
+        </mat-select>
+        <!-- <mat-error *ngIf="listingTypeIdValue?.hasError('required')">
+          Campo requerido
+        </mat-error> -->
+      </mat-form-field>
+      <mat-form-field class="control-sm item" appearance="outline">
+        <mat-label>Condición del item</mat-label>
+        <mat-select formControlName="condition">
+          <mat-option value="new">Nuevo</mat-option>
+          <mat-option value="used">Usado</mat-option>
+        </mat-select>
+        <!-- <mat-error *ngIf="conditionValue?.hasError('required')">
+          Campo requerido
+        </mat-error> -->
+      </mat-form-field>
+
+      <mat-checkbox class="example-margin" formControlName="hintSku"
+        >Sugerir Sku</mat-checkbox
+      >
+    </div>
+
+    <div class="mt">
+      <span>Sincronización</span>
+      <hr />
+    </div>
+
+    <div class="container-grid mt">
+      <mat-form-field class="control-sm item" appearance="outline">
+        <mat-label>% precio ML</mat-label>
+        <input matInput type="text" formControlName="price_percent_ml" />
+        <!-- <mat-error *ngIf="pricePercentMlValue?.hasError('pattern')">
+          Ingresa solo números
+        </mat-error> -->
+      </mat-form-field>
+      <mat-form-field class="control-sm item" appearance="outline">
+        <mat-label>% precio WEB</mat-label>
+        <input matInput type="text" formControlName="price_percent_web" />
+        <!-- <mat-error *ngIf="pricePercentWebValue?.hasError('pattern')">
+          Ingresa solo números
+        </mat-error> -->
+      </mat-form-field>
+    </div>
+
+    <!-- Imagenes -->
+    <div class="mt">
+      <span>Imágenes</span>
+      <hr />
+    </div>
+    <app-conf-prod-image-table
+      (picture)="addPicture($event)"
+      (delPicture)="delPicture($event)"
+      [pictures]="pictures"
+    ></app-conf-prod-image-table>
+    <div class="control-rigth mt">
+      <button mat-raised-button color="primary" type="submit">Modificar</button>
+    </div>
+  </form>
+</div>

@@ -14,6 +14,7 @@ import { apiToken } from '../interceptors/token.interceptor';
 import { UserMlService } from './user-ml.service';
 import { AuthMl } from '../models/authMl.model';
 import { createUseMlDto } from '../models/userMl.model';
+import { SettingsService } from './settings.service';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,8 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private tokenService: TokenService,
-    private userMlService: UserMlService
+    private userMlService: UserMlService,
+    private settingsService: SettingsService
   ) {}
 
   login(email: string, password: string) {
@@ -48,7 +50,7 @@ export class AuthService {
       .get<User>(`${this.apiUrl}/users/profile`, { context: apiToken('API') })
       .pipe(
         tap((user) => {
-          console.log('user', user);
+          console.log('User', user);
           this.user.next(user);
         })
       );
@@ -58,7 +60,8 @@ export class AuthService {
     return this.login(user, password)
       .pipe(
         switchMap(() => this.getProfile()),
-        switchMap(() => this.userMlService.getApiUserMl())
+        switchMap(() => this.userMlService.getApiUserMl()),
+        switchMap(() => this.settingsService.getSettings())
       )
       .pipe(
         catchError((error: HttpErrorResponse) => {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { apiToken } from '../interceptors/token.interceptor';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { forkJoin, Observable, of } from 'rxjs';
@@ -7,12 +7,14 @@ import { environment } from 'src/environments/environment';
 // Models
 import { UserMl } from '../models/userMl.model';
 import { ApiProduct, CreateProductDto, Product } from '../models/product.model';
+import { Picture } from '../models/picture.model';
 // Services
 import { UserMlService } from './user-ml.service';
 import { ProductsMlService } from './products-ml.service';
 import { CategoriesService } from './categories.service';
 import { Category } from '../models/category.model';
 import { ProductMl } from '../models/productML.model';
+import { TokenService } from './token.service';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +28,7 @@ export class ProductsService {
 
   constructor(
     private http: HttpClient,
+    private tokenService: TokenService,
     private userMlService: UserMlService,
     private categoriesService: CategoriesService,
     private productsMlService: ProductsMlService
@@ -136,6 +139,17 @@ export class ProductsService {
           return of(prod);
         })
       );
+  }
+
+  createImage(formData: FormData) {
+    const token = this.tokenService.getItem('tokenMl');
+    let headers = new HttpHeaders();
+    // headers = headers.set('content-type', 'multipart/form-data');
+    headers = headers.set('Authorization', `Bearer ${token}`);
+
+    return this.http.post<any>(`${this.apiUrlMl}/pictures`, formData, {
+      headers,
+    });
   }
   /* ####################### SERVICE ###################### */
 

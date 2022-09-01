@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { zip } from 'rxjs';
 import { AuthService } from './services/auth.service';
+import { SettingsService } from './services/settings.service';
 import { TokenService } from './services/token.service';
 import { UserMlService } from './services/user-ml.service';
 
@@ -14,7 +16,8 @@ export class AppComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private tokenService: TokenService,
-    private userMlService: UserMlService
+    private userMlService: UserMlService,
+    private settingsService: SettingsService
   ) {}
 
   ngOnInit() {
@@ -22,8 +25,11 @@ export class AppComponent implements OnInit {
     const token = this.tokenService.getItem('token');
     if (token) {
       // Necesitamos que se ejecute el subscribe
-      this.authService.getProfile().subscribe();
-      this.userMlService.getApiUserMl().subscribe();
+      zip(
+        this.authService.getProfile(),
+        this.userMlService.getApiUserMl(),
+        this.settingsService.getSettings()
+      ).subscribe();
     }
   }
 }

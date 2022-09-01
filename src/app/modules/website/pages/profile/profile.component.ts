@@ -8,10 +8,10 @@ import { createCustomerDto, Customer } from 'src/app/models/customer.model';
 import { MyValidators } from 'src/app/utils/validators';
 import { ChangePasswordDialogComponent } from 'src/app/modules/website/components/change-password-dialog/change-password-dialog.component';
 import { UsersService } from 'src/app/services/users.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/modules/shared/components/confirm-dialog/confirm-dialog.component';
 import { ConfirmDialogData } from 'src/app/models/confirm-dialog-data.models';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-profile',
@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit {
     private customerService: CustomerService,
     private fb: FormBuilder,
     private usersService: UsersService,
-    private _snackBar: MatSnackBar,
+    private message: MessageService,
     public dialog: MatDialog
   ) {
     this.form = this.fb.group({
@@ -79,21 +79,13 @@ export class ProfileComponent implements OnInit {
       this.customerService
         .updateCustomer(this.user!.id, data)
         .subscribe((res) => {
-          this._snackBar.open('Perfil modificado', 'Cerrar', {
-            duration: 3000,
-            horizontalPosition: 'end',
-            verticalPosition: 'top',
-          });
+          this.message.showMsg('Perfil modificado', 'success');
           this.loading = false;
           this.router.navigate(['/home']);
         });
     } else {
       this.customerService.createCustomer(data).subscribe((res) => {
-        this._snackBar.open('Perfil creado', 'Cerrar', {
-          duration: 3000,
-          horizontalPosition: 'end',
-          verticalPosition: 'top',
-        });
+        this.message.showMsg('Perfil creado', 'success');
         this.loading = false;
         this.router.navigate(['/home']);
       });

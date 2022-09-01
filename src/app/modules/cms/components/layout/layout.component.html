@@ -21,14 +21,19 @@
           <span *ngIf="isExpanded">Dashboard</span>
         </mat-list-item>
 
+        <mat-list-item [routerLink]="'settings'">
+          <mat-icon mat-list-icon class="">settings</mat-icon>
+          <span *ngIf="isExpanded">Configuración</span>
+        </mat-list-item>
+
         <mat-list-item [routerLink]="'users'">
           <mat-icon mat-list-icon class="">group</mat-icon>
           <span *ngIf="isExpanded">Usuarios</span>
         </mat-list-item>
 
-        <mat-list-item [routerLink]="'settings'">
-          <mat-icon mat-list-icon class="">settings</mat-icon>
-          <span *ngIf="isExpanded">Configuración</span>
+        <mat-list-item [routerLink]="'categories'">
+          <mat-icon mat-list-icon class="">category</mat-icon>
+          <span *ngIf="isExpanded">Categorías</span>
         </mat-list-item>
 
         <mat-list-item [routerLink]="'products'">
