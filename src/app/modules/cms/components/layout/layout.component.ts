@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { fadeInAnimation } from 'src/app/_animations';
-import { Router } from '@angular/router';
-import { User } from 'src/app/models/user.model';
-import { AuthService } from 'src/app/services/auth.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-layout',
@@ -13,14 +11,11 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LayoutComponent implements OnInit {
   isExpanded: boolean = true;
-  profile: User | null = null;
   showMenu: boolean = true;
   side: 'push' | 'over' | 'side' = 'side';
 
-  constructor(private authService: AuthService, private router: Router) {}
-
+  constructor(private usersService: UsersService) {}
   ngOnInit(): void {
-    this.authService.user$.subscribe((data) => (this.profile = data));
     //Total hack
     window.onresize = (e) => {
       this.checkMenu();

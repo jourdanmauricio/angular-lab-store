@@ -2,44 +2,69 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { apiToken } from '../interceptors/token.interceptor';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { forkJoin, Observable, of } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 // Models
 import { UserMl } from '../models/userMl.model';
 import { ApiProduct, CreateProductDto, Product } from '../models/product.model';
-import { Picture } from '../models/picture.model';
 // Services
-import { UserMlService } from './user-ml.service';
 import { ProductsMlService } from './products-ml.service';
 import { CategoriesService } from './categories.service';
 import { Category } from '../models/category.model';
 import { ProductMl } from '../models/productML.model';
-import { TokenService } from './token.service';
+import { LocalStorageService } from './local-storage.service';
+import { UsersService } from './users.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
+  // Product State
+  private currentProduct = new BehaviorSubject<Product | null>(null);
+  currentProduct$ = this.currentProduct.asObservable();
+
+  // Environment
   private apiUrlMl = `${environment.API_URL_ML}`;
   private apiUrl = `${environment.API_URL}/api/v1`;
+
+  // Variables
   userMl: UserMl | null = null;
   mlItems: ApiProduct[] = [];
   categories: string[] = [];
 
   constructor(
     private http: HttpClient,
-    private tokenService: TokenService,
-    private userMlService: UserMlService,
+    private localStorageService: LocalStorageService,
+    private usersService: UsersService,
     private categoriesService: CategoriesService,
     private productsMlService: ProductsMlService
   ) {
-    this.userMlService.userMl$.subscribe((data) => (this.userMl = data));
+    this.usersService.userMl$.subscribe((data) => (this.userMl = data));
+  }
+
+  setProduct(product: Product) {
+    this.localStorageService.saveItem('currentProd', JSON.stringify(product));
+    this.currentProduct.next(product);
+  }
+
+  updateCurrentProduct(property: any) {
+    let newValue;
+    this.currentProduct.subscribe((res) => {
+      newValue = { ...res, ...property };
+    });
+    // this.currentProduct.next(newValue);
   }
 
   /* ######################## LOCAL ####################### */
 
   getProducts() {
     return this.http.get<any>(`${this.apiUrl}/products`, {
+      context: apiToken('API'),
+    });
+  }
+
+  getProduct(id: string) {
+    return this.http.get<any>(`${this.apiUrl}/products/${id}`, {
       context: apiToken('API'),
     });
   }
@@ -51,6 +76,7 @@ export class ProductsService {
       title: data.title,
       seller_custom_field: data.seller_custom_field,
       price: data.price,
+      permalink: data.permalink,
       available_quantity: data.available_quantity,
       sold_quantity: data.sold_quantity,
       status: data.status,
@@ -142,7 +168,7 @@ export class ProductsService {
   }
 
   createImage(formData: FormData) {
-    const token = this.tokenService.getItem('tokenMl');
+    const token = this.localStorageService.getItem('tokenMl');
     let headers = new HttpHeaders();
     // headers = headers.set('content-type', 'multipart/form-data');
     headers = headers.set('Authorization', `Bearer ${token}`);
@@ -196,6 +222,7 @@ export class ProductsService {
             let index = categories.findIndex(
               (cat: Category) => cat.id === newItemsPrice.category_id
             );
+            console.log('Index', index);
             // // CAMBIAR POR ===
             if (index === -1) {
               if (!newCats.includes(newItemsPrice.category_id)) {
@@ -234,6 +261,7 @@ export class ProductsService {
           });
         });
         observer.next();
+        observer.complete();
       });
     });
     return newCategory$;

@@ -1,0 +1,8 @@
+<mat-form-field class="full-width control-sm" appearance="outline">
+  <mat-label>Título</mat-label>
+  <input (change)="change()" matInput type="text" [formControl]="title" />
+  <mat-error *ngIf="title?.hasError('required')">Campo requerido</mat-error>
+  <mat-error *ngIf="title?.hasError('maxlength')"
+    >Cantidad máxima {{ maxTitle }} caracteres</mat-error
+  >
+</mat-form-field>

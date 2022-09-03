@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { zip } from 'rxjs';
-import { AuthService } from './services/auth.service';
 import { SettingsService } from './services/settings.service';
-import { TokenService } from './services/token.service';
-import { UserMlService } from './services/user-ml.service';
+import { LocalStorageService } from './services/local-storage.service';
+import { UsersService } from './services/users.service';
+import { Store } from '@ngrx/store';
+import { loginSuccess } from './state/actions/login.actions';
 
 @Component({
   selector: 'app-root',
@@ -14,20 +15,25 @@ export class AppComponent implements OnInit {
   title = 'lab-store';
 
   constructor(
-    private authService: AuthService,
-    private tokenService: TokenService,
-    private userMlService: UserMlService,
-    private settingsService: SettingsService
+    private localStorageService: LocalStorageService,
+    private usersService: UsersService,
+    private settingsService: SettingsService,
+    private store: Store<any>
   ) {}
 
   ngOnInit() {
     // Verifico si existe un token para recargar el perfil
-    const token = this.tokenService.getItem('token');
+    const token = this.localStorageService.getItem('token');
+
     if (token) {
+      this.store.dispatch(
+        loginSuccess({ token: { access_token: token, loading: true } })
+      );
+
       // Necesitamos que se ejecute el subscribe
       zip(
-        this.authService.getProfile(),
-        this.userMlService.getApiUserMl(),
+        // this.usersService.getProfile(),
+        this.usersService.getApiUserMl(),
         this.settingsService.getSettings()
       ).subscribe();
     }

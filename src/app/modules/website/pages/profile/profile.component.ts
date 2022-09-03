@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/models/user.model';
-import { CustomerService } from 'src/app/services/customer.service';
 import { createCustomerDto, Customer } from 'src/app/models/customer.model';
 import { MyValidators } from 'src/app/utils/validators';
 import { ChangePasswordDialogComponent } from 'src/app/modules/website/components/change-password-dialog/change-password-dialog.component';
@@ -28,7 +27,6 @@ export class ProfileComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private customerService: CustomerService,
     private fb: FormBuilder,
     private usersService: UsersService,
     private message: MessageService,
@@ -50,10 +48,10 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.user$.subscribe((data) => {
+    this.usersService.user$.subscribe((data) => {
       this.user = data;
     });
-    this.customerService.getCustomer().subscribe((customer) => {
+    this.usersService.getCustomer().subscribe((customer) => {
       this.customer = customer;
       this.form.patchValue(customer);
     });
@@ -76,15 +74,13 @@ export class ProfileComponent implements OnInit {
       user_id: this.user!.id,
     };
     if (this.customer?.id) {
-      this.customerService
-        .updateCustomer(this.user!.id, data)
-        .subscribe((res) => {
-          this.message.showMsg('Perfil modificado', 'success');
-          this.loading = false;
-          this.router.navigate(['/home']);
-        });
+      this.usersService.updateCustomer(this.user!.id, data).subscribe((res) => {
+        this.message.showMsg('Perfil modificado', 'success');
+        this.loading = false;
+        this.router.navigate(['/home']);
+      });
     } else {
-      this.customerService.createCustomer(data).subscribe((res) => {
+      this.usersService.createCustomer(data).subscribe((res) => {
         this.message.showMsg('Perfil creado', 'success');
         this.loading = false;
         this.router.navigate(['/home']);

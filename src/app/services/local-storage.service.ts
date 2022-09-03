@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class TokenService {
+export class LocalStorageService {
   constructor() {}
 
-  saveItem(item: string, value: string) {
+  saveItem(item: string, value: any) {
     localStorage.setItem(item, value);
   }
 

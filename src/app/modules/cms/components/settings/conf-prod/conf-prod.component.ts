@@ -6,6 +6,7 @@ import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { SettingsService } from 'src/app/services/settings.service';
 import { MessageService } from 'src/app/services/message.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-conf-prod',
@@ -23,7 +24,8 @@ export class ConfProdComponent implements OnInit {
     private settingsService: SettingsService,
     private authService: AuthService,
     private fb: FormBuilder,
-    private message: MessageService
+    private message: MessageService,
+    private usersService: UsersService
   ) {
     this.form = this.fb.group({
       status: [''],
@@ -37,7 +39,7 @@ export class ConfProdComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.user$.subscribe((data) => {
+    this.usersService.user$.subscribe((data) => {
       this.user = data;
     });
 

@@ -1,3 +1,5 @@
+import { Category } from './category.model';
+
 /* ###################### ML ####################### */
 export interface ApiProduct {
   id: string;
@@ -21,8 +23,9 @@ export interface ApiProduct {
 }
 
 /* #################### LOCAL ####################### */
-export interface Product extends Omit<ApiProduct, 'permalink' | 'id'> {
+export interface Product extends Omit<ApiProduct, 'id'> {
   id: number;
+  category?: Category;
 }
 
 export interface CreateProductDto extends Omit<Product, 'id'> {

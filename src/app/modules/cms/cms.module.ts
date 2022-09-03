@@ -13,8 +13,9 @@ import { OrdersComponent } from './pages/orders/orders.component';
 // Components
 import { LayoutComponent } from './components/layout/layout.component';
 import { NavCmsComponent } from './components/nav-cms/nav-cms.component';
-import { ProductsComponent } from './pages/products/products.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
+import { ModalNewCategoryComponent } from './components/categories/modal-new-category/modal-new-category.component';
+import { ModalEditCategoryComponent } from './components/categories/modal-edit-category/modal-edit-category.component';
 
 @NgModule({
   declarations: [
@@ -24,8 +25,9 @@ import { CategoriesComponent } from './pages/categories/categories.component';
     UsersComponent,
     QuestionsComponent,
     OrdersComponent,
-    ProductsComponent,
     CategoriesComponent,
+    ModalNewCategoryComponent,
+    ModalEditCategoryComponent,
   ],
   imports: [CommonModule, CmsRoutingModule, SharedModule, MaterialModule],
 })

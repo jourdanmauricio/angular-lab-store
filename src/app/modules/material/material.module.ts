@@ -22,18 +22,17 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    // Material
     MatSliderModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatButtonModule,
-    // MatSnackBarModule,
     MatProgressSpinnerModule,
     MatMenuModule,
     MatTooltipModule,
@@ -48,15 +47,14 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatGridListModule,
   ],
   exports: [
-    // Material
     MatSliderModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatButtonModule,
-    // MatSnackBarModule,
     MatProgressSpinnerModule,
     MatMenuModule,
     MatTooltipModule,
@@ -71,6 +69,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatGridListModule,
   ],
 })
 export class MaterialModule {}

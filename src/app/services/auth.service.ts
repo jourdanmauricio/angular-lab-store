@@ -7,14 +7,12 @@ import {
 } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Auth, AuthChangePasswordDto } from '../models/auth.model';
-import { BehaviorSubject, catchError, switchMap, tap, throwError } from 'rxjs';
-import { TokenService } from './token.service';
-import { User } from 'src/app/models/user.model';
-import { apiToken } from '../interceptors/token.interceptor';
-import { UserMlService } from './user-ml.service';
+import { catchError, map, switchMap, tap, throwError } from 'rxjs';
+import { LocalStorageService } from './local-storage.service';
 import { AuthMl } from '../models/authMl.model';
 import { createUseMlDto } from '../models/userMl.model';
 import { SettingsService } from './settings.service';
+import { UsersService } from './users.service';
 
 @Injectable({
   providedIn: 'root',
@@ -25,33 +23,22 @@ export class AuthService {
   token = '';
   credentials!: AuthMl;
 
-  private user = new BehaviorSubject<User | null>(null);
-  user$ = this.user.asObservable();
-
   constructor(
     private http: HttpClient,
-    private tokenService: TokenService,
-    private userMlService: UserMlService,
+    private localStorageService: LocalStorageService,
+    private usersService: UsersService,
     private settingsService: SettingsService
   ) {}
 
   login(email: string, password: string) {
     return this.http
-      .post<Auth>(`${this.apiUrl}/auth/login`, { email, password })
+      .post<Auth>(`${this.apiUrl}/auth/login`, {
+        email,
+        password,
+      })
       .pipe(
         tap((response) => {
-          this.tokenService.saveItem('token', response.access_token);
-        })
-      );
-  }
-
-  getProfile() {
-    return this.http
-      .get<User>(`${this.apiUrl}/users/profile`, { context: apiToken('API') })
-      .pipe(
-        tap((user) => {
-          console.log('User', user);
-          this.user.next(user);
+          this.localStorageService.saveItem('token', response.access_token);
         })
       );
   }
@@ -59,8 +46,8 @@ export class AuthService {
   loginAndGetProfile(user: string, password: string) {
     return this.login(user, password)
       .pipe(
-        switchMap(() => this.getProfile()),
-        switchMap(() => this.userMlService.getApiUserMl()),
+        switchMap(() => this.usersService.getProfile()),
+        switchMap(() => this.usersService.getApiUserMl()),
         switchMap(() => this.settingsService.getSettings())
       )
       .pipe(
@@ -109,10 +96,10 @@ export class AuthService {
   }
 
   logout() {
-    this.tokenService.removeItem('token');
-    this.tokenService.removeItem('tokenMl');
-    this.tokenService.removeItem('refreshTokenMl');
-    this.user.next(null);
+    this.localStorageService.removeItem('token');
+    this.localStorageService.removeItem('tokenMl');
+    this.localStorageService.removeItem('refreshTokenMl');
+    // this.user.next(null);
   }
 
   /* ######################### ML ######################### */
@@ -146,7 +133,7 @@ export class AuthService {
             'Authorization',
             `Bearer ${this.credentials.access_token}`
           );
-          return this.userMlService.getMlUserMl(res.user_id);
+          return this.usersService.getMlUserMl(res.user_id);
         }),
         switchMap((resUserMl) => {
           if (nickname !== resUserMl.nickname) {
@@ -154,8 +141,11 @@ export class AuthService {
               () => 'El nickname no coincide con el usuario logueado en ML'
             );
           }
-          this.tokenService.saveItem('tokenMl', this.credentials.access_token);
-          this.tokenService.saveItem(
+          this.localStorageService.saveItem(
+            'tokenMl',
+            this.credentials.access_token
+          );
+          this.localStorageService.saveItem(
             'refreshTokenMl',
             this.credentials.refresh_token
           );
@@ -170,7 +160,7 @@ export class AuthService {
             refresh_token: this.credentials.refresh_token,
             site_id: resUserMl.site_id,
           };
-          return this.userMlService.createApiUserMl(userMl);
+          return this.usersService.createApiUserMl(userMl);
         })
       )
       .pipe(

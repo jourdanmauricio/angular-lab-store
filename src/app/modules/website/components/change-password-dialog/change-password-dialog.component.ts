@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MyValidators } from 'src/app/utils/validators';
 import { UsersService } from 'src/app/services/users.service';
-import { AuthService } from 'src/app/services/auth.service';
 import { UpdatePassDto, User } from 'src/app/models/user.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -23,7 +22,6 @@ export class ChangePasswordDialogComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private usersService: UsersService,
-    private authService: AuthService,
     public dialogRef: MatDialogRef<ChangePasswordDialogComponent>,
     private _snackBar: MatSnackBar
   ) {
@@ -40,7 +38,7 @@ export class ChangePasswordDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.user$.subscribe((data) => (this.user = data));
+    this.usersService.user$.subscribe((data) => (this.user = data));
   }
 
   changePassword() {

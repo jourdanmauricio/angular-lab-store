@@ -1,0 +1,9 @@
+<b>Loading... {{ loading$ | async | json }}</b>
+<mat-grid-list cols="4" rowHeight="80px">
+  <mat-grid-tile colspan="3" rowspan="1">
+    <app-title class="full-width"></app-title>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="1" rowspan="1">
+    <app-sku class="full-width"></app-sku>
+  </mat-grid-tile>
+</mat-grid-list>

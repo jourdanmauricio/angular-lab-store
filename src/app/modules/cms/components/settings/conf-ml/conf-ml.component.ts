@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
-import { UserMlService } from 'src/app/services/user-ml.service';
+import { UsersService } from 'src/app/services/users.service';
 import { UserMl } from 'src/app/models/userMl.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -16,12 +16,12 @@ export class ConfMlComponent implements OnInit {
   userMl: UserMl | null = null;
 
   constructor(
-    private userMlService: UserMlService,
+    private usersService: UsersService,
     private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
-    this.userMlService.getApiUserMl().subscribe({
+    this.usersService.getApiUserMl().subscribe({
       next: (userMl) => {
         this.userMl = userMl;
         this.nicknameField.setValue(userMl.nickname);
@@ -34,7 +34,7 @@ export class ConfMlComponent implements OnInit {
   }
 
   delMlUser() {
-    this.userMlService.deleteApiUserMl(this.userMl!.id).subscribe({
+    this.usersService.deleteApiUserMl(this.userMl!.id).subscribe({
       next: () => {
         this._snackBar.open('Usuario desvinculado', 'Cerrar', {
           duration: 3000,

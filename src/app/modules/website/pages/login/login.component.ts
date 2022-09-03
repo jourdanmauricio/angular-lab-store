@@ -3,8 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { UsersService } from 'src/app/services/users.service';
 import { MessageService } from 'src/app/services/message.service';
-import { TokenService } from 'src/app/services/token.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { Store } from '@ngrx/store';
+import { loginUser } from 'src/app/state/actions/login.actions';
 
 @Component({
   selector: 'app-login',
@@ -21,8 +24,10 @@ export class LoginComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private router: Router,
     private authService: AuthService,
-    private tokenService: TokenService,
-    private message: MessageService
+    private usersService: UsersService,
+    private localStorageService: LocalStorageService,
+    private message: MessageService,
+    private store: Store<any>
   ) {
     this.form = this.fb.group({
       email: ['admin@integriprod.com', [Validators.required, Validators.email]],
@@ -32,10 +37,10 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     // Verifico si existe un token para recargar el perfil
-    const token = this.tokenService.getItem('token');
+    const token = this.localStorageService.getItem('token');
     // Si hay Token se encuentra logueado, redirect
     if (token) {
-      this.authService.getProfile().subscribe((res) => {
+      this.usersService.getProfile().subscribe((res) => {
         if (res.role === 'admin' || res.role === 'superadmin') {
           this.router.navigate(['cms']);
         } else {
@@ -50,7 +55,10 @@ export class LoginComponent implements OnInit {
     const email = this.form.value.email;
     const password = this.form.value.password;
     console.log(email, password);
-    // dispatch acction
+    // dispatch action
+
+    this.store.dispatch(loginUser({ username: email, password: password }));
+
     this.authService.loginAndGetProfile(email, password).subscribe({
       next: (user) => {
         console.log('user', user);

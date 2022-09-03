@@ -1,0 +1,29 @@
+<div>
+  <div style="position: relative; text-align: center">
+    <div class="modal-btn-close">
+      <button mat-icon-button [mat-dialog-close]="false">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <h2 mat-dialog-title>Editar Categoría - {{ category.id }}</h2>
+  </div>
+  <mat-dialog-content>
+    <div>
+      <p>{{ category.full_name }}</p>
+      <mat-form-field class="control-sm full-width mt" appearance="outline">
+        <mat-label>Descripción Web</mat-label>
+        <input [formControl]="description_web" matInput placeholder="Ex. Mia" />
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+
+  <div>
+    <mat-dialog-actions class="actions mt" [align]="'end'">
+      <button mat-raised-button [mat-dialog-close]="false">Cancelar</button>
+      <button mat-raised-button color="primary" (click)="updateCategory()">
+        <!-- [mat-dialog-close]="true" -->
+        Modificar
+      </button>
+    </mat-dialog-actions>
+  </div>
+</div>

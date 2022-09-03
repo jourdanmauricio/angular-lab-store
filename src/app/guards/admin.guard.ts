@@ -6,15 +6,21 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { map } from 'rxjs';
+import { UsersService } from '../services/users.service';
+import { Store } from '@ngrx/store';
+import { selectUser } from '../state/selectors/user.selector';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private router: Router,
+    private usersService: UsersService,
+    private store: Store<any>
+  ) {}
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -23,7 +29,7 @@ export class AdminGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.authService.user$.pipe(
+    return this.store.select(selectUser).pipe(
       map((user) => {
         if (user?.role === 'admin' || user?.role === 'superadmin') {
           return true;

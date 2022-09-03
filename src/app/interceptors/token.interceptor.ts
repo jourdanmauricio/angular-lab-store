@@ -10,11 +10,9 @@ import {
   HttpHeaders,
 } from '@angular/common/http';
 import { catchError, Observable, tap, throwError } from 'rxjs';
-
-import { TokenService } from '../services/token.service';
 import { environment } from 'src/environments/environment';
-import { updateUserMlDto } from '../models/userMl.model';
-import { UserMlService } from '../services/user-ml.service';
+import { UsersService } from '../services/users.service';
+import { LocalStorageService } from '../services/local-storage.service';
 
 const TYPE_TOKEN = new HttpContextToken<string>(() => '');
 
@@ -29,9 +27,9 @@ export function apiToken(app: string) {
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   constructor(
-    private tokenService: TokenService,
+    private localStorageService: LocalStorageService,
     private http: HttpClient,
-    private userMlService: UserMlService
+    private usersService: UsersService
   ) {}
 
   intercept(
@@ -40,7 +38,7 @@ export class TokenInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const type = request.context.get(TYPE_TOKEN);
     if (type === 'token' || type === 'tokenMl') {
-      const token = this.tokenService.getItem(type);
+      const token = this.localStorageService.getItem(type);
       if (token) {
         const authReq = request.clone({
           headers: request.headers.set('Authorization', `Bearer ${token}`),
@@ -56,12 +54,13 @@ export class TokenInterceptor implements HttpInterceptor {
               err.error.message === 'Invalid token' ||
               err.error.message === 'expired_token'
             ) {
-              const refreshToken = this.tokenService.getItem('refreshTokenMl');
+              const refreshToken =
+                this.localStorageService.getItem('refreshTokenMl');
               console.log('ref', refreshToken);
 
               const data = {
                 grant_type: 'refresh_token',
-                client_id: environment.ML_APP_ID, // variables.mlAppId,
+                client_id: environment.ML_APP_ID,
                 client_secret: environment.ML_SECRET,
                 refresh_token: refreshToken,
               };
@@ -80,7 +79,7 @@ export class TokenInterceptor implements HttpInterceptor {
                   const id = res.user_id;
                   delete res.user_id;
 
-                  this.userMlService.updateUserMl(id, res).subscribe((res2) => {
+                  this.usersService.updateUserMl(id, res).subscribe((res2) => {
                     console.log('RES2', res2);
                     const authReq = request.clone({
                       headers: request.headers.set(

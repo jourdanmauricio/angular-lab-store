@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/models/user.model';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'nav-cms',
@@ -14,10 +15,14 @@ export class NavCmsComponent implements OnInit {
   counter = 0;
   profile: User | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private usersService: UsersService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.authService.user$.subscribe((data) => (this.profile = data));
+    this.usersService.user$.subscribe((data) => (this.profile = data));
   }
 
   toggleMenu() {
