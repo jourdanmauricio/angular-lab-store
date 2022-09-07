@@ -3,10 +3,15 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Picture } from 'src/app/models/picture.model';
 import { Settings } from 'src/app/models/setting.model';
 import { User } from 'src/app/models/user.model';
-import { AuthService } from 'src/app/services/auth.service';
 import { SettingsService } from 'src/app/services/settings.service';
 import { MessageService } from 'src/app/services/message.service';
-import { UsersService } from 'src/app/services/users.service';
+import { Store } from '@ngrx/store';
+import { getUser } from 'src/app/state/selectors/user.selector';
+import { getSettings } from 'src/app/state/selectors/settings.selectors';
+import { updateSettings } from 'src/app/state/actions/settings.actions';
+import { loading } from 'src/app/state/actions/application.actions';
+import { Observable } from 'rxjs';
+import { selectLoading } from 'src/app/state/selectors/application.selector';
 
 @Component({
   selector: 'app-conf-prod',
@@ -14,18 +19,17 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./conf-prod.component.scss'],
 })
 export class ConfProdComponent implements OnInit {
-  user!: User | null;
+  user: User | null = null;
   settings!: Settings;
   form: FormGroup;
-  loading = false;
+  loading$: Observable<any> = new Observable();
   pictures: Picture[] = [];
 
   constructor(
     private settingsService: SettingsService,
-    private authService: AuthService,
     private fb: FormBuilder,
     private message: MessageService,
-    private usersService: UsersService
+    private store: Store<any>
   ) {
     this.form = this.fb.group({
       status: [''],
@@ -39,11 +43,9 @@ export class ConfProdComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.usersService.user$.subscribe((data) => {
-      this.user = data;
-    });
-
-    this.settingsService.settings$.subscribe((data) => {
+    this.loading$ = this.store.select(selectLoading);
+    this.store.select(getUser).subscribe((user) => (this.user = user));
+    this.store.select(getSettings).subscribe((data) => {
       this.settings = data;
       this.form.patchValue(this.settings);
       this.pictures = JSON.parse(JSON.stringify(data.pictures));
@@ -55,7 +57,6 @@ export class ConfProdComponent implements OnInit {
   }
 
   delPicture(name: string) {
-    console.log('Delete Pic', name);
     const pics = JSON.parse(JSON.stringify(this.pictures));
     const index = pics.findIndex((pic: Picture) => pic.name === name);
     if (index !== -1) pics.splice(index, 1);
@@ -63,7 +64,6 @@ export class ConfProdComponent implements OnInit {
   }
 
   handleChange() {
-    this.loading = true;
     const data: Settings = {
       status: this.form.value.status,
       hintSku: this.form.value.hintSku,
@@ -74,12 +74,10 @@ export class ConfProdComponent implements OnInit {
       price_percent_web: this.form.value.price_percent_web,
     };
 
-    this.settingsService
-      .updateSettings(this.user!.id, data)
-      .subscribe((res) => {
-        this.message.showMsg('Configuración modificada', 'success');
-        this.loading = false;
-        // this.router.navigate(['/home']);
-      });
+    // Dispatch
+    this.store.dispatch(loading({ status: true }));
+    this.store.dispatch(
+      updateSettings({ user_id: this.user!.id, settings: data })
+    );
   }
 }

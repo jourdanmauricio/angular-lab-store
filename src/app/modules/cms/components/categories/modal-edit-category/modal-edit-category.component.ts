@@ -24,7 +24,6 @@ export class ModalEditCategoryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('this.data', this.data.description_web);
     this.category = this.data;
   }
 
@@ -39,6 +38,5 @@ export class ModalEditCategoryComponent implements OnInit {
       error: () =>
         this.message.showMsg('Error modificando la categoría', 'error'),
     });
-    console.log('update', this.description_web.value);
   }
 }

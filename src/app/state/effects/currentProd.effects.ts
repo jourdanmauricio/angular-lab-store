@@ -10,13 +10,19 @@ export class CurrentProdEffects {
     this.actions$.pipe(
       ofType('[Product Edit] Load currentProd'),
       switchMap((action: any) =>
-        // mergeMap(() =>
         this.productService.getProduct(action.id).pipe(
-          // this.productService.getProduct('288').pipe(
-          map((currentProd) => ({
-            type: '[Product Edit] Loaded success',
-            currentProd,
-          })),
+          map((currentProd) => {
+            return {
+              type: '[Product Edit] Loaded currentProd',
+              currentProd,
+            };
+          }),
+          // map((currentProd) => {
+          //   return {
+          //     type: '[Product Edit] Loaded success',
+          //     currentProd,
+          //   };
+          // }),
           catchError(() => EMPTY)
         )
       )

@@ -1,7 +1,20 @@
 import { createAction, props } from '@ngrx/store';
-import { User } from 'src/app/models/user.model';
+import { AuthState } from 'src/app/models/state/Auth.state';
+import { UserState } from 'src/app/models/state/User.state';
 
-export const getUser = createAction(
-  '[Login Page] Get User',
-  props<{ user: User }>()
+export const login = createAction(
+  '[Login Page] Login',
+  props<{ username: string; password: string }>()
 );
+
+export const setUser = createAction(
+  '[Login Page] Set User',
+  props<{ user: UserState }>()
+);
+
+export const setToken = createAction(
+  '[Login Page] Set token',
+  props<{ token: AuthState }>()
+);
+
+export const logout = createAction('[Login Page] Logout');

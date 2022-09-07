@@ -16,11 +16,18 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ROOT_REDUCERS } from './state/app.state';
 import { EffectsModule } from '@ngrx/effects';
 import { CurrentProdEffects } from './state/effects/currentProd.effects';
-import { LoginEffects } from './state/effects/login.effects';
 import { UserEffects } from './state/effects/user.effects';
+import { SettingsEffects } from './state/effects/settings.effects';
+import { ApplicationEffects } from './state/effects/application.effects';
+import { FilterCategoriesPipe } from './utils/pipes/filter-categories.pipe';
 
 @NgModule({
-  declarations: [AppComponent, NotFoundComponent, NavNotFoundComponent],
+  declarations: [
+    AppComponent,
+    NotFoundComponent,
+    NavNotFoundComponent,
+    FilterCategoriesPipe,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -30,8 +37,14 @@ import { UserEffects } from './state/effects/user.effects';
     StoreModule.forRoot(ROOT_REDUCERS),
     // StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     StoreDevtoolsModule.instrument({ name: 'TEST' }),
-    EffectsModule.forRoot([CurrentProdEffects, LoginEffects, UserEffects]),
+    EffectsModule.forRoot([
+      CurrentProdEffects,
+      UserEffects,
+      SettingsEffects,
+      ApplicationEffects,
+    ]),
   ],
+  exports: [FilterCategoriesPipe],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

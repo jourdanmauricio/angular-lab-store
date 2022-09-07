@@ -1,0 +1,12 @@
+<div class="mt">
+  <p>Selección: {{ full_path }}</p>
+
+  <mat-nav-list dense class="category-list">
+    <a mat-list-item *ngFor="let cat of categories" (click)="selectCat(cat)">
+      <span mat-line>{{ cat.id }} - {{ cat.name }}</span>
+
+      <i *ngIf="!selected" class="material-icons"> chevron_right</i>
+      <i *ngIf="selected" class="material-icons" style="color: teal"> check</i>
+    </a>
+  </mat-nav-list>
+</div>

@@ -4,7 +4,7 @@ import { SettingsService } from './services/settings.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { UsersService } from './services/users.service';
 import { Store } from '@ngrx/store';
-import { loginSuccess } from './state/actions/login.actions';
+import { setToken } from './state/actions/user.actions';
 
 @Component({
   selector: 'app-root',
@@ -26,15 +26,10 @@ export class AppComponent implements OnInit {
     const token = this.localStorageService.getItem('token');
 
     if (token) {
-      this.store.dispatch(
-        loginSuccess({ token: { access_token: token, loading: true } })
-      );
-
-      // Necesitamos que se ejecute el subscribe
+      this.store.dispatch(setToken({ token: { access_token: token } }));
       zip(
-        // this.usersService.getProfile(),
-        this.usersService.getApiUserMl(),
-        this.settingsService.getSettings()
+        this.usersService.getApiUserMl()
+        // this.settingsService.getSettings()
       ).subscribe();
     }
   }

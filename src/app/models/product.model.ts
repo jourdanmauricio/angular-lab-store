@@ -20,6 +20,7 @@ export interface ApiProduct {
   condition: string;
   seller_custom_field: string;
   description: string;
+  updated?: string[];
 }
 
 /* #################### LOCAL ####################### */

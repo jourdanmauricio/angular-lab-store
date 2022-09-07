@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
-import { UsersService } from 'src/app/services/users.service';
 import { MessageService } from 'src/app/services/message.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { Store } from '@ngrx/store';
-import { loginUser } from 'src/app/state/actions/login.actions';
+import { login, setToken } from 'src/app/state/actions/user.actions'; // loginSuccess
+import { loading } from 'src/app/state/actions/application.actions';
+import {
+  getErrorMessage,
+  selectLoading,
+} from 'src/app/state/selectors/application.selector';
+import { Observable } from 'rxjs';
+import { getUser } from 'src/app/state/selectors/user.selector';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -17,17 +21,15 @@ import { loginUser } from 'src/app/state/actions/login.actions';
 export class LoginComponent implements OnInit {
   form: FormGroup;
   hide = true;
-  loading = false;
+  loading$: Observable<boolean> = new Observable();
+  errorMessage: string = '';
 
   constructor(
     private fb: FormBuilder,
-    private _snackBar: MatSnackBar,
-    private router: Router,
-    private authService: AuthService,
-    private usersService: UsersService,
     private localStorageService: LocalStorageService,
     private message: MessageService,
-    private store: Store<any>
+    private store: Store<any>,
+    private router: Router
   ) {
     this.form = this.fb.group({
       email: ['admin@integriprod.com', [Validators.required, Validators.email]],
@@ -36,48 +38,33 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Verifico si existe un token para recargar el perfil
-    const token = this.localStorageService.getItem('token');
-    // Si hay Token se encuentra logueado, redirect
-    if (token) {
-      this.usersService.getProfile().subscribe((res) => {
-        if (res.role === 'admin' || res.role === 'superadmin') {
+    this.loading$ = this.store.select(selectLoading);
+    this.store.select(getErrorMessage).subscribe((error) => {
+      if (error.length > 0) this.message.showMsg(error, 'error');
+    });
+
+    this.store.select(getUser).subscribe((user) => {
+      if (user?.id) {
+        this.message.showMsg('Bienvenido!', 'success');
+        if (user!.role === 'admin' || user!.role === 'superadmin') {
           this.router.navigate(['cms']);
         } else {
           this.router.navigate(['home']);
         }
-      });
+      }
+    });
+
+    const token = this.localStorageService.getItem('token');
+    if (token) {
+      // this.store.dispatch(loginSuccess({ token: { access_token: token } }));
+      this.store.dispatch(setToken({ token: { access_token: token } }));
     }
   }
 
   login() {
-    this.loading = true;
     const email = this.form.value.email;
     const password = this.form.value.password;
-    console.log(email, password);
-    // dispatch action
-
-    this.store.dispatch(loginUser({ username: email, password: password }));
-
-    this.authService.loginAndGetProfile(email, password).subscribe({
-      next: (user) => {
-        console.log('user', user);
-        this.message.showMsg('Bienvenido!', 'info');
-        this.router.navigate(['home']);
-      },
-      error: () => {
-        this.error();
-      },
-    });
-  }
-
-  error() {
-    this._snackBar.open('Usuario o contraseña inválido', 'Cerrar', {
-      duration: 3000,
-      horizontalPosition: 'end',
-      verticalPosition: 'top',
-    });
-    this.loading = false;
-    this.form.reset();
+    this.store.dispatch(loading({ status: true }));
+    this.store.dispatch(login({ username: email, password: password }));
   }
 }

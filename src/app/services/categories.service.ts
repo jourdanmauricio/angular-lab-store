@@ -34,6 +34,12 @@ export class CategoriesService {
       .pipe(map((resCats) => resCats.results));
   }
 
+  getCategory(id: string) {
+    return this.http.get<any>(`${this.apiUrl}/categories/${id}`, {
+      context: apiToken('API'),
+    });
+  }
+
   createCategory(category: Category) {
     return this.http.post<Category>(`${this.apiUrl}/categories`, category, {
       context: apiToken('API'),
@@ -58,6 +64,10 @@ export class CategoriesService {
 
   /* ######################### ML ######################### */
 
+  getCategoriesPpalMl() {
+    return this.http.get<any>(`${this.apiUrlMl}/sites/MLA/categories`);
+  }
+
   getCategoryMl(id: string) {
     const newCategory$ = new Observable((observer) => {
       const category = this.http.get<any>(`${this.apiUrlMl}/categories/${id}`);
@@ -74,12 +84,14 @@ export class CategoriesService {
           full_name += index === 0 ? parent.name : ` / ${parent.name}`;
         });
 
+        console.log('RESULT', result[0]);
+
         const newCategory: Category = {
           id: result[0].id,
           name: result[0].name,
           full_name: full_name,
           path_from_root: result[0].path_from_root,
-          // children_categories: result[0].children_categories,
+          children_categories: result[0].children_categories,
           settings: result[0].settings,
           picture: result[0].picture,
           attributes: result[1],
@@ -126,14 +138,11 @@ export class CategoriesService {
 
   getAndCreateCategory(id: string) {
     return this.getCategoryMl(id).pipe(
-      switchMap(
-        (newCat) => this.createCategory(newCat as Category)
-        // .pipe(
-        //   catchError((err) => {
-        //     return of(err);
-        //   })
-        // )
-      )
+      map((category: any) => {
+        delete category.children_categories;
+        return category;
+      }),
+      switchMap((newCat: any) => this.createCategory(newCat as Category))
     );
   }
 }

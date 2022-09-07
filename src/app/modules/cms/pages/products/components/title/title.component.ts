@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { AppState } from 'src/app/state/app.state';
-import { selectCurrentProd } from 'src/app/state/selectors/currentProd.selector';
+import { updateCurrentProd } from 'src/app/state/actions/currentProd.actions';
+import { getCurrentProd } from 'src/app/state/selectors/currentProd.selector';
 
 @Component({
   selector: 'app-title',
@@ -17,22 +16,23 @@ export class TitleComponent implements OnInit {
     Validators.required,
     Validators.maxLength(this.maxTitle),
   ]);
-  currentProd$: Observable<any> = new Observable();
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<any>) {}
 
   ngOnInit(): void {
-    this.store.select(selectCurrentProd).subscribe((data) => {
-      if (data.currentProd.category) {
-        this.title.setValue(data.currentProd.title);
-        this.maxTitle = data.currentProd.category!.settings.max_title_length;
+    this.store.select(getCurrentProd).subscribe((data) => {
+      if (data.category) {
+        this.title.setValue(data.title);
+        this.maxTitle = data.category!.settings.max_title_length;
       }
     });
-    // this.currentProd$ = this.store.select(selectCurrentProd);
   }
 
   change() {
-    //console.log('Change ', this.title.value);
-    // this.productsService.updateCurrentProduct({ title: this.title.value });
+    this.store.dispatch(
+      updateCurrentProd({
+        property: { title: this.title.value },
+      })
+    );
   }
 }

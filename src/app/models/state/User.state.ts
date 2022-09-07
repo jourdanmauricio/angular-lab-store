@@ -1,6 +1,16 @@
-import { User } from '../user.model';
+// export interface UserState {
+//   user: {
+//     id: number;
+//     email: string;
+//     recovery_token: string;
+//     role: string;
+//   } | null;
+// }
 
 export interface UserState {
-  loading: boolean;
-  user: User;
+  id: number;
+  email: string;
+  recovery_token: string;
+  role: string;
+  // token: string;
 }

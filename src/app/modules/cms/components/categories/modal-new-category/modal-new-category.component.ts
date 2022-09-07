@@ -29,9 +29,6 @@ export class ModalNewCategoryComponent implements OnInit {
   searchPredictor(description: string) {
     const search = description.trim();
     if (search.length === 0) {
-      //   // currentCat = null;
-      //   // cat = null;
-      //   // results = [];
       return;
     }
 

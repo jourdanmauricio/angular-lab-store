@@ -3,7 +3,7 @@ export interface Category {
   name: string;
   full_name: string;
   path_from_root: PathFromRoot[];
-  // children_categories: string
+  children_categories?: [];
   picture: null;
   settings: Settings;
   attributes: CategoryAttribute[];

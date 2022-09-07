@@ -1,8 +1,10 @@
+<!-- <div *ngIf="loading$ | async" class="overlay">
+  <mat-spinner class="spinner" diameter="50"></mat-spinner>
+</div> -->
 <div class="login-container">
   <div class="login">
-    <mat-spinner *ngIf="loading" class="spinner" diameter="50"></mat-spinner>
-
-    <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="login()">
+    <!-- *ngIf="!(loading$ | async)" -->
+    <form [formGroup]="form" (ngSubmit)="login()">
       <img
         src="./assets/images/login_user.png"
         alt="Formualario Login"

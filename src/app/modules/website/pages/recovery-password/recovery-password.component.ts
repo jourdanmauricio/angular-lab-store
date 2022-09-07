@@ -48,7 +48,6 @@ export class RecoveryPasswordComponent implements OnInit {
 
   recovery() {
     this.loading = true;
-    console.log('recovery', this.form.value.email);
     this.authService.recoveryPassword(this.form.value.email).subscribe({
       next: () => {
         this._snackBar.open('Email enviado', 'Cerrar', {
@@ -70,7 +69,6 @@ export class RecoveryPasswordComponent implements OnInit {
   }
 
   changePassword() {
-    console.log('changePass', this.formChangePass);
     this.loading = true;
 
     const data: AuthChangePasswordDto = {

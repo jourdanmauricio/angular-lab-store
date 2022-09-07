@@ -1,20 +1,23 @@
 import { ActionReducerMap } from '@ngrx/store';
-import { CurrentProdState } from '../models/state/CurrentProd.state';
 import { UserState } from '../models/state/User.state';
-import { LoginState } from '../models/state/Login.state';
 import { currentProdReducer } from './reducers/currentProd.reducer';
-import { LoginReducer } from './reducers/login.reducer';
 import { UserReducer } from './reducers/user.reducer';
+import { ApplicationReducer } from './reducers/application.reducer';
+import { ApplicationState } from '../models/state/Application.state';
+import { SettingsState } from '../models/state/SettingsState.state';
+import { SettingsReducer } from './reducers/settings.reducer';
+import { Product } from '../models/product.model';
 
 export interface AppState {
-  currentProd: CurrentProdState;
+  currentProd: Product;
   user: UserState;
-  token: LoginState;
-  // products: ReadonlyArray<Product>
+  application: ApplicationState;
+  setttings: SettingsState;
 }
 
 export const ROOT_REDUCERS: ActionReducerMap<AppState> = {
   currentProd: currentProdReducer,
   user: UserReducer,
-  token: LoginReducer,
+  application: ApplicationReducer,
+  setttings: SettingsReducer,
 };

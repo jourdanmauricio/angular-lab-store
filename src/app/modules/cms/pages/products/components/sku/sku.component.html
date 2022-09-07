@@ -1,1 +1,5 @@
-<p>sku works!</p>
+<mat-form-field class="full-width control-sm" appearance="outline">
+  <mat-label>sku</mat-label>
+  <input (change)="change()" matInput type="text" [formControl]="sku" />
+  <mat-error *ngIf="sku?.hasError('required')">Campo requerido</mat-error>
+</mat-form-field>

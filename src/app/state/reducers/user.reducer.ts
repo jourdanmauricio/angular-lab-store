@@ -1,22 +1,17 @@
 import { createReducer, on } from '@ngrx/store';
 import { UserState } from 'src/app/models/state/User.state';
-import { loginSuccess, loginUser } from '../actions/login.actions';
-import { getUser } from '../actions/user.actions';
+import { logout } from '../actions/user.actions'; // loginSuccess
+import { setToken, setUser } from '../actions/user.actions';
 
-export const initialState: UserState = {
-  loading: false,
-  user: {
-    id: 0,
-    email: '',
-    password: '',
-    recovery_token: '',
-    role: '',
-    token: '',
-  },
-};
+export const initialState = {} as UserState;
+
 export const UserReducer = createReducer(
   initialState,
-  on(getUser, (state, { user }) => {
-    return { ...state, loading: false, user: user };
-  })
+  on(setUser, (state, { user }) => {
+    return { ...state, ...user };
+  }),
+  on(setToken, (state, { token }) => {
+    return { ...state, ...token };
+  }),
+  on(logout, () => initialState)
 );

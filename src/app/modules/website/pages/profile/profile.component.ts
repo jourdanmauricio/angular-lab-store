@@ -11,6 +11,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/modules/shared/components/confirm-dialog/confirm-dialog.component';
 import { ConfirmDialogData } from 'src/app/models/confirm-dialog-data.models';
 import { MessageService } from 'src/app/services/message.service';
+import { Store } from '@ngrx/store';
+import { getUser } from 'src/app/state/selectors/user.selector';
 
 @Component({
   selector: 'app-profile',
@@ -30,7 +32,8 @@ export class ProfileComponent implements OnInit {
     private fb: FormBuilder,
     private usersService: UsersService,
     private message: MessageService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private store: Store<any>
   ) {
     this.form = this.fb.group({
       name: ['', [Validators.required]],
@@ -48,9 +51,8 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.usersService.user$.subscribe((data) => {
-      this.user = data;
-    });
+    this.store.select(getUser).subscribe((user) => (this.user = user));
+
     this.usersService.getCustomer().subscribe((customer) => {
       this.customer = customer;
       this.form.patchValue(customer);
@@ -63,8 +65,6 @@ export class ProfileComponent implements OnInit {
 
   updateCustomer() {
     this.loading = true;
-    console.log('Update Form', this.form);
-    console.log('Customer_ID', this.customer?.id);
     const data: createCustomerDto = {
       name: this.form.value.name,
       last_name: this.form.value.last_name,
@@ -118,7 +118,6 @@ export class ProfileComponent implements OnInit {
       autoFocus: 'input',
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       console.log('result', result);
     });
   }

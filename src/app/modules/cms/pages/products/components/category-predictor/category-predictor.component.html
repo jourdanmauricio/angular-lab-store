@@ -1,0 +1,22 @@
+<div>
+  <mat-form-field class="control-sm full-width mt" appearance="outline">
+    <mat-label>Descripción</mat-label>
+    <input
+      #searchPred
+      (change)="predictor(searchPred.value)"
+      matInput
+      type="text"
+    />
+  </mat-form-field>
+</div>
+<div *ngIf="optionsCategories.length > 0">
+  <mat-selection-list dense #cats [multiple]="false">
+    <mat-list-option
+      (click)="selectCat(cats.selectedOptions.selected[0].value)"
+      *ngFor="let cat of optionsCategories"
+      [value]="cat.id"
+    >
+      {{ cat.id }} - {{ cat.name }}
+    </mat-list-option>
+  </mat-selection-list>
+</div>

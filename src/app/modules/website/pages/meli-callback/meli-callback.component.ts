@@ -27,7 +27,6 @@ export class MeliCallbackComponent implements OnInit {
       this.code = params['code'];
       this.state = params['state'];
     });
-    console.log(this.code, this.state);
     const nickname = this.state.split('-')[0];
 
     this.authService.createUserMl(this.code, nickname).subscribe({

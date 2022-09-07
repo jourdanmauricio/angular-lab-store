@@ -49,7 +49,6 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
-    console.log('Register', this.form);
     const data = {
       email: this.form.value.email,
       password: this.form.value.password,

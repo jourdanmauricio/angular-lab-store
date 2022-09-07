@@ -1,0 +1,19 @@
+<mat-form-field class="full-width control-sm mt" appearance="outline">
+  <mat-label>Filtrar categorías</mat-label>
+  <input
+    appearance="outline"
+    matInput
+    [formControl]="search"
+    placeholder="Filtrar categorías"
+    autocomplete="off"
+  />
+</mat-form-field>
+<mat-nav-list dense class="country-list">
+  <a mat-list-item *ngFor="let cat of $search | async" (click)="selectCat(cat)">
+    <span mat-line>{{ cat.id }} - {{ cat.full_name }}</span>
+    <i *ngIf="selected === cat.id" class="material-icons" style="color: teal"
+      >check</i
+    >
+    <!-- <i *ngIf="selected" class="material-icons"> check</i> -->
+  </a>
+</mat-nav-list>

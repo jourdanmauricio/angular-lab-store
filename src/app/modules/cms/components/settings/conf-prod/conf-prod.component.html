@@ -1,6 +1,10 @@
-<mat-spinner *ngIf="loading" class="spinner" diameter="50"></mat-spinner>
+<mat-spinner
+  *ngIf="loading$ | async"
+  class="spinner"
+  diameter="50"
+></mat-spinner>
 
-<div *ngIf="!loading">
+<div *ngIf="!(loading$ | async)">
   <div class="mt">
     <span>Productos</span>
   </div>

@@ -28,9 +28,6 @@ export class UsersService {
   private apiUrl = `${environment.API_URL}/api/v1`;
   private apiUrlMl = `${environment.API_URL_ML}`;
 
-  private user = new BehaviorSubject<User | null>(null);
-  user$ = this.user.asObservable();
-
   private userMl = new BehaviorSubject<UserMl | null>(null);
   userMl$ = this.userMl.asObservable();
 
@@ -98,7 +95,6 @@ export class UsersService {
       )
       .pipe(
         tap((response) => {
-          console.log('UserMl', response);
           this.localStorageService.saveItem('tokenMl', response.access_token);
           this.localStorageService.saveItem(
             'refreshTokenMl',
@@ -123,20 +119,17 @@ export class UsersService {
   }
 
   updateUserMl(id: number, data: updateUserMlDto) {
-    console.log('updateUserMl', data);
     return this.http
       .put<any>(`${this.apiUrl}/usersMl/${id}`, data, {
         context: apiToken('API'),
       })
       .pipe(
         tap((userMl) => {
-          console.log('user', userMl);
           this.userMl.next(userMl);
         })
       )
       .pipe(
         tap((response) => {
-          console.log('getApiUserMl', response);
           this.localStorageService.saveItem('tokenMl', response.access_token);
           this.localStorageService.saveItem(
             'refreshTokenMl',
@@ -153,7 +146,6 @@ export class UsersService {
       })
       .pipe(
         tap((response) => {
-          console.log('getApiUserMl', response);
           this.localStorageService.removeItem('tokenMl');
           this.localStorageService.removeItem('refreshTokenMl');
         })
@@ -194,14 +186,9 @@ export class UsersService {
   }
 
   getProfile() {
-    return this.http
-      .get<User>(`${this.apiUrl}/users/profile`, { context: apiToken('API') })
-      .pipe(
-        tap((user) => {
-          console.log('User', user);
-          this.user.next(user);
-        })
-      );
+    return this.http.get<User>(`${this.apiUrl}/users/profile`, {
+      context: apiToken('API'),
+    });
   }
 
   /* ######################### ML ######################### */

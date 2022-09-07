@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 import { map } from 'rxjs';
 import { UsersService } from '../services/users.service';
 import { Store } from '@ngrx/store';
-import { selectUser } from '../state/selectors/user.selector';
+import { getUser } from '../state/selectors/user.selector';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +29,7 @@ export class AdminGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.store.select(selectUser).pipe(
+    return this.store.select(getUser).pipe(
       map((user) => {
         if (user?.role === 'admin' || user?.role === 'superadmin') {
           return true;

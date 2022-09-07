@@ -26,7 +26,7 @@
       <a class="logo" href="">
         <img src="./assets/svg/logo_yard_sale.svg" alt="logo" />
       </a>
-      <ul *ngIf="profile?.role === 'admin' || profile?.role === 'superadmin'">
+      <ul *ngIf="user?.role === 'admin' || user?.role === 'superadmin'">
         <button [routerLink]="['/cms']">CMS</button>
       </ul>
       <!--
@@ -47,7 +47,7 @@
       </div>
 
       <div>
-        <div class="guest" *ngIf="!profile; else elseBlock">
+        <div class="guest" *ngIf="!(isAuthenticated$ | async); else elseBlock">
           <button
             (click)="login()"
             style="line-height: 1.2"
@@ -61,7 +61,7 @@
         <ng-template #elseBlock>
           <div class="account">
             <button
-              matTooltip="{{ profile?.email }}"
+              matTooltip="{{ user?.email }}"
               aria-label="Button that displays a tooltip when focused or hovered over"
               mat-icon-button
               [matMenuTriggerFor]="menu"
@@ -72,7 +72,6 @@
             <mat-menu #menu="matMenu">
               <button (click)="goProfile()" mat-menu-item>
                 <mat-icon>dialpad</mat-icon>
-                <!-- <a routerLink="/profile">{{ profile?.email }}</a> -->
                 <span>Profile</span>
               </button>
               <button mat-menu-item disabled>

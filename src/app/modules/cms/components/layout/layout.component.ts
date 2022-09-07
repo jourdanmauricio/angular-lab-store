@@ -14,7 +14,7 @@ export class LayoutComponent implements OnInit {
   showMenu: boolean = true;
   side: 'push' | 'over' | 'side' = 'side';
 
-  constructor(private usersService: UsersService) {}
+  constructor() {}
   ngOnInit(): void {
     //Total hack
     window.onresize = (e) => {

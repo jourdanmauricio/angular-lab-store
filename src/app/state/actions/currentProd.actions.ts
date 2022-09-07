@@ -7,6 +7,11 @@ export const loadCurrentProd = createAction(
 );
 
 export const loadedCurrentProd = createAction(
-  '[Product Edit] Loaded success',
+  '[Product Edit] Loaded currentProd',
   props<{ currentProd: Product }>()
+);
+
+export const updateCurrentProd = createAction(
+  '[Product Edit] Update currentProd',
+  props<{ property: any }>()
 );

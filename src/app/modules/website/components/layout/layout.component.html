@@ -1,3 +1,6 @@
+<div *ngIf="loading$ | async" class="overlay">
+  <mat-spinner class="spinner" diameter="50"></mat-spinner>
+</div>
 <app-nav-home></app-nav-home>
 <div style="padding: 20px">
   <router-outlet></router-outlet>

@@ -43,26 +43,6 @@ export class AuthService {
       );
   }
 
-  loginAndGetProfile(user: string, password: string) {
-    return this.login(user, password)
-      .pipe(
-        switchMap(() => this.usersService.getProfile()),
-        switchMap(() => this.usersService.getApiUserMl()),
-        switchMap(() => this.settingsService.getSettings())
-      )
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          if (error.status === HttpStatusCode.InternalServerError) {
-            return throwError(() => 'Algo fallo en el server');
-          }
-          if (error.status === HttpStatusCode.Unauthorized) {
-            return throwError(() => 'No estas autorizado');
-          }
-          return throwError(() => 'Ups algo salió mal');
-        })
-      );
-  }
-
   recoveryPassword(email: string) {
     return this.http
       .post<string>(`${this.apiUrl}/auth/recovery`, { email })
@@ -99,7 +79,6 @@ export class AuthService {
     this.localStorageService.removeItem('token');
     this.localStorageService.removeItem('tokenMl');
     this.localStorageService.removeItem('refreshTokenMl');
-    // this.user.next(null);
   }
 
   /* ######################### ML ######################### */

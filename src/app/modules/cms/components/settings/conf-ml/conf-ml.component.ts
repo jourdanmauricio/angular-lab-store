@@ -50,11 +50,9 @@ export class ConfMlComponent implements OnInit {
   }
 
   handleAuth() {
-    console.log('Handle', this.nicknameField.value);
     const state =
       this.nicknameField.value + '-' + Math.floor(Math.random() * 1000000);
     const uri = `https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=${environment.ML_APP_ID}&redirect_uri=${environment.FRONT_END_URI}/meli-callback&state=${state}`;
-    console.log('meli callback', uri);
     window.open(uri);
   }
 }

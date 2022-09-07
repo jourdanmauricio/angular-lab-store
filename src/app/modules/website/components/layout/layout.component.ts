@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { fadeInAnimation } from 'src/app/_animations';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { selectLoading } from 'src/app/state/selectors/application.selector';
 
 @Component({
   selector: 'app-layout',
@@ -9,7 +12,11 @@ import { fadeInAnimation } from 'src/app/_animations';
   host: { '[@fadeInAnimation]': '' },
 })
 export class LayoutComponent implements OnInit {
-  constructor() {}
+  loading$: Observable<boolean> = new Observable();
 
-  ngOnInit(): void {}
+  constructor(private store: Store<any>) {}
+
+  ngOnInit(): void {
+    this.loading$ = this.store.select(selectLoading);
+  }
 }

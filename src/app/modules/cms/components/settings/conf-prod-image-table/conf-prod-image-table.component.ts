@@ -70,8 +70,6 @@ export class ConfProdImageTableComponent implements AfterViewInit, OnInit {
 
   onFileSelected(event: any) {
     this.loading = true;
-    console.log('event', event);
-    console.log('fileinput', this.fileinput);
     let file = event.target.files[0];
     let formData = new FormData();
     formData.append('file', file);

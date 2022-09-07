@@ -2,10 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { fadeInAnimation } from 'src/app/_animations';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-// import { CategoriesService } from 'src/app/services/categories.service';
 import { User } from 'src/app/models/user.model';
-import { UsersService } from 'src/app/services/users.service';
-// import { Category } from 'src/app/models/category.model';
+import { Store } from '@ngrx/store';
+import {
+  isAuthenticated,
+  getUser,
+} from 'src/app/state/selectors/user.selector';
+import { Observable } from 'rxjs';
+import { logout } from 'src/app/state/actions/user.actions';
 
 @Component({
   selector: 'app-nav-home',
@@ -16,24 +20,19 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class NavHomeComponent implements OnInit {
   activeMenu = false;
-
   counter = 0;
-  profile: User | null = null;
-  // categories: Category[] = [];
+  user: User | null = null;
+  isAuthenticated$!: Observable<boolean>;
 
   constructor(
     private authService: AuthService,
-    private usersService: UsersService,
-    // private categoriesService: CategoriesService,
+    private store: Store<any>,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    // this.storeService.myCart$.subscribe((products) => {
-    //   this.counter = products.length;
-    // });
-    // this.getAllCategories();
-    this.usersService.user$.subscribe((data) => (this.profile = data));
+    this.store.select(getUser).subscribe((user) => (this.user = user));
+    this.isAuthenticated$ = this.store.select(isAuthenticated);
   }
 
   toggleMenu() {
@@ -45,18 +44,14 @@ export class NavHomeComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout();
-    this.profile = null;
-    this.router.navigate(['/home']);
+    // dispath logout
+    this.store.dispatch(logout());
+    // this.authService.logout();
+    // this.user = null; //    TODO: ACTION;
+    // this.router.navigate(['/home']);
   }
 
   goProfile() {
     this.router.navigate(['profile']);
   }
-
-  // getAllCategories() {
-  //   this.categoriesService
-  //     .getAll()
-  //     .subscribe((data) => (this.categories = data));
-  // }
 }

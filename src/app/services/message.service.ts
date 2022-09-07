@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
-  MatSnackBarModule,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { Store } from '@ngrx/store';
+import { errorMessage } from '../state/actions/application.actions';
 
 interface message {
   panelClass: 'snackbar-error' | 'snackbar-success' | 'snackbar-info';
@@ -20,7 +21,7 @@ export class MessageService {
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
-  constructor(private snackbar: MatSnackBar) {}
+  constructor(private snackbar: MatSnackBar, private store: Store) {}
 
   showMsg(msg: string, type: string, btn: string = 'cerrar') {
     let panelClass: message;
@@ -60,5 +61,6 @@ export class MessageService {
     }
 
     this.snackbar.open(msg, btn, panelClass);
+    this.store.dispatch(errorMessage({ message: '' }));
   }
 }

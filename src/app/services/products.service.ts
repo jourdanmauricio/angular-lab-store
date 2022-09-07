@@ -180,7 +180,6 @@ export class ProductsService {
   /* ####################### SERVICE ###################### */
 
   getMlAllProducts() {
-    console.log('Download');
     const newCategory$ = new Observable((observer) => {
       forkJoin([
         this.getMlProductsDetail(),
@@ -191,9 +190,6 @@ export class ProductsService {
         const mlProductsMl: ApiProduct[] = result[0];
         const categories: Category[] = result[1];
         const productsMl: ProductMl[] = result[2];
-        console.log('mlProductsMl', mlProductsMl);
-        console.log('cats', categories);
-        console.log('productsMl', productsMl);
         mlProductsMl.forEach((mlProd) => {
           const updMlProd: ProductMl = {
             id: mlProd.id,
@@ -222,8 +218,6 @@ export class ProductsService {
             let index = categories.findIndex(
               (cat: Category) => cat.id === newItemsPrice.category_id
             );
-            console.log('Index', index);
-            // // CAMBIAR POR ===
             if (index === -1) {
               if (!newCats.includes(newItemsPrice.category_id)) {
                 newCats.push(newItemsPrice.category_id);

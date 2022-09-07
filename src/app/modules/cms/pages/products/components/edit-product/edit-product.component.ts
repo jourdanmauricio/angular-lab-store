@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { loadCurrentProd } from 'src/app/state/actions/currentProd.actions';
 import { Observable, switchMap } from 'rxjs';
-import { selectLoading } from 'src/app/state/selectors/currentProd.selector';
 import { Product } from 'src/app/models/product.model';
+import { selectLoading } from 'src/app/state/selectors/application.selector';
 
 @Component({
   selector: 'app-edit-product',
