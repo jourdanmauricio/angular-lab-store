@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthChangePasswordDto } from '@models/auth.model';
+import { AuthChangePasswordDto } from '@models/index';
 import { AuthService } from 'app/services/auth.service';
 import { MyValidators } from 'app/utils/validators';
 

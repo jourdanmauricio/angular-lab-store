@@ -7,19 +7,15 @@ import {
 import { environment } from 'environments/environment';
 import { BehaviorSubject, catchError, switchMap, tap, throwError } from 'rxjs';
 
-import { CreateUserDto, UpdatePassDto, User } from '../models/user.model';
+import { CreateUserDto, UpdatePassDto, User } from '../models/index';
 import { LocalStorageService } from './local-storage.service';
-import { apiToken } from '../interceptors/token.interceptor';
-import {
-  createUseMlDto,
-  updateUserMlDto,
-  UserMl,
-} from '../models/userMl.model';
+import { apiToken } from '@core/interceptors/token.interceptor';
+import { createUseMlDto, updateUserMlDto, UserMl } from '../models/index';
 import {
   createCustomerDto,
   Customer,
   updateCustomerDto,
-} from '../models/customer.model';
+} from '../models/index';
 
 @Injectable({
   providedIn: 'root',

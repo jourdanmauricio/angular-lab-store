@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MyValidators } from 'app/utils/validators';
 import { UsersService } from 'app/services/users.service';
-import { UpdatePassDto, User } from '@models/user.model';
+import { UpdatePassDto, User } from '@models/index';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { getUser } from 'app/state/selectors/user.selector';

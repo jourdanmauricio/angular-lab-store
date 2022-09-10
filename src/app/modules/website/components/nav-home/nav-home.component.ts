@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { fadeInAnimation } from '@core/_animations';
 import { Router } from '@angular/router';
 import { AuthService } from 'app/services/auth.service';
-import { User } from '@models/user.model';
+import { User } from '@models/index';
 import { Store } from '@ngrx/store';
 import { isAuthenticated, getUser } from 'app/state/selectors/user.selector';
 import { Observable } from 'rxjs';

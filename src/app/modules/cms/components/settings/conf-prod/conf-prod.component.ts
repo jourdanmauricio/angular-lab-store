@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Picture } from '@models/picture.model';
-import { Settings } from '@models/setting.model';
-import { User } from '@models/user.model';
+import { Picture } from '@models/index';
+import { Settings } from '@models/index';
+import { User } from '@models/index';
 import { SettingsService } from 'app/services/settings.service';
 import { MessageService } from 'app/services/message.service';
 import { Store } from '@ngrx/store';

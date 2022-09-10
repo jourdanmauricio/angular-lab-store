@@ -1,12 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
-import { Product } from '@models/product.model';
-import { CurrentProdState } from '@models/state/CurrentProd.state';
+import { Product } from '@models/index';
 import {
   loadedCurrentProd,
   updateCurrentProd,
 } from '../actions/currentProd.actions';
 
-// export const initialState = {} as CurrentProdState;
 export const initialState = {} as Product;
 
 export const currentProdReducer = createReducer(

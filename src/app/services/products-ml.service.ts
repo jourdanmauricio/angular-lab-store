@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { apiToken } from '../interceptors/token.interceptor';
+import { apiToken } from '@core/interceptors/token.interceptor';
 import { environment } from 'environments/environment';
-import { ProductMl } from '../models/productML.model';
+import { ProductMl } from '../models/index';
 
 @Injectable({
   providedIn: 'root',

@@ -11,8 +11,9 @@ import {
 } from '@angular/common/http';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { environment } from 'environments/environment';
-import { UsersService } from '../services/users.service';
-import { LocalStorageService } from '../services/local-storage.service';
+import { UsersService } from 'app/services/users.service';
+
+import { LocalStorageService } from 'app/services/local-storage.service';
 
 const TYPE_TOKEN = new HttpContextToken<string>(() => '');
 
@@ -65,7 +66,7 @@ export class TokenInterceptor implements HttpInterceptor {
                 refresh_token: refreshToken,
               };
               let headers = new HttpHeaders();
-              headers = headers.set('content-type', 'application/json');
+              headers = headers.set('accept', 'application/json');
               headers = headers.set(
                 'content-type',
                 'application/x-www-form-urlencoded'

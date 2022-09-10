@@ -8,9 +8,9 @@ import {
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { map } from 'rxjs';
-import { UsersService } from '../services/users.service';
+import { UsersService } from 'app/services/users.service';
 import { Store } from '@ngrx/store';
-import { getUser } from '../state/selectors/user.selector';
+import { getUser } from 'app/state/selectors/user.selector';
 
 @Injectable({
   providedIn: 'root',

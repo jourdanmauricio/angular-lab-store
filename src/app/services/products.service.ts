@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { apiToken } from '../interceptors/token.interceptor';
+import { apiToken } from '@core/interceptors/token.interceptor';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
 import { environment } from 'environments/environment';
 // Models
-import { UserMl } from '../models/userMl.model';
-import { ApiProduct, CreateProductDto, Product } from '../models/product.model';
+import { UserMl } from '../models/index';
+import { ApiProduct, CreateProductDto, Product } from '../models/index';
 // Services
 import { ProductsMlService } from './products-ml.service';
 import { CategoriesService } from './categories.service';
 import { Category } from '../models/category.model';
-import { ProductMl } from '../models/productML.model';
+import { ProductMl } from '../models/index';
 import { LocalStorageService } from './local-storage.service';
 import { UsersService } from './users.service';
 
@@ -122,7 +122,7 @@ export class ProductsService {
             `${this.apiUrlMl}/items?ids=${items.splice(
               0,
               20
-            )}&attributes=id,attributes,title,price,category_id,title,thumbnail,listing_type_id,condition,available_quantity,sold_quantity,status,permalink,pictures,sale_terms,variations,start_time,seller_custom_field`,
+            )}&attributes=id,attributes,title,price,category_id,title,thumbnail,listing_type_id,condition,available_quantity,sold_quantity,status,permalink,pictures,sale_terms,variations,start_time,seller_custom_field&include_attributes=all`,
             {
               context: apiToken('ML'),
             }

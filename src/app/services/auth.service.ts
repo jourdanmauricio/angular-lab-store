@@ -6,11 +6,11 @@ import {
   HttpStatusCode,
 } from '@angular/common/http';
 import { environment } from 'environments/environment';
-import { Auth, AuthChangePasswordDto } from '../models/auth.model';
+import { Auth, AuthChangePasswordDto } from '../models/index';
 import { catchError, map, switchMap, tap, throwError } from 'rxjs';
 import { LocalStorageService } from './local-storage.service';
-import { AuthMl } from '../models/authMl.model';
-import { createUseMlDto } from '../models/userMl.model';
+import { AuthMl } from '../models/index';
+import { createUseMlDto } from '../models/index';
 import { SettingsService } from './settings.service';
 import { UsersService } from './users.service';
 

@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Category } from '@models/category.model';
+import { Category } from '@models/index';
 import { CategoriesService } from 'app/services/categories.service';
 
 @Component({

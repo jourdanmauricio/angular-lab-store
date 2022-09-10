@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Variation } from '@models/product.model';
+import { Variation } from '@models/index';
 import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
 
 @Component({

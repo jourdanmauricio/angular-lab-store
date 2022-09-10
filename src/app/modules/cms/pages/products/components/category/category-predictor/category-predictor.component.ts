@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Category } from '@models/category.model';
+import { Category } from '@models/index';
 import { optionsCat } from '@modules/cms/components/categories/modal-new-category/modal-new-category.component';
 import { CategoriesService } from 'app/services/categories.service';
 

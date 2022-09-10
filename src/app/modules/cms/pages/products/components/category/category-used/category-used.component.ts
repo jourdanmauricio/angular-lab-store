@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime, of, startWith, switchMap } from 'rxjs';
-import { Category } from '@models/category.model';
+import { Category } from '@models/index';
 import { CategoriesService } from 'app/services/categories.service';
 
 @Component({

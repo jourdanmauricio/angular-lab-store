@@ -1,19 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
-import { apiToken } from '../interceptors/token.interceptor';
-import { Category } from '../models/category.model';
-import {
-  catchError,
-  forkJoin,
-  map,
-  mergeMap,
-  Observable,
-  of,
-  scan,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { apiToken } from '@core/interceptors/token.interceptor';
+import { ApiBasicCategory, Category } from '@models/index';
+import { forkJoin, map, Observable, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +25,7 @@ export class CategoriesService {
   }
 
   getCategory(id: string) {
-    return this.http.get<any>(`${this.apiUrl}/categories/${id}`, {
+    return this.http.get<Category>(`${this.apiUrl}/categories/${id}`, {
       context: apiToken('API'),
     });
   }
@@ -65,7 +55,7 @@ export class CategoriesService {
   /* ######################### ML ######################### */
 
   getCategoriesPpalMl() {
-    return this.http.get<any>(`${this.apiUrlMl}/sites/MLA/categories`);
+    return this.http.get<any[]>(`${this.apiUrlMl}/sites/MLA/categories`);
   }
 
   getCategoryMl(id: string) {

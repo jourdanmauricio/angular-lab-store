@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
-import { apiToken } from '../interceptors/token.interceptor';
-import { Settings } from '../models/setting.model';
+import { apiToken } from '@core/interceptors/token.interceptor';
+import { Settings } from '../models/index';
 import { tap } from 'rxjs';
 
 @Injectable({

@@ -1,4 +1,4 @@
-import { Settings } from '../setting.model';
+import { Settings } from '../index';
 
 export interface SettingsState {
   settings: Settings;

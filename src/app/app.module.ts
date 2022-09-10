@@ -4,12 +4,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptor } from './interceptors/token.interceptor';
+import { TokenInterceptor } from '@core/interceptors/token.interceptor';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 /* Components */
 import { NotFoundComponent } from './not-found/not-found.component';
-import { NavNotFoundComponent } from './components/nav-not-found/nav-not-found.component';
+import { NavNotFoundComponent } from './not-found/nav-not-found/nav-not-found.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';

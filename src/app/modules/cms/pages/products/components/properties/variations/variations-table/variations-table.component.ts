@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CategoryAttribute } from '@models/category.model';
-import { AttributeCombination, Variation } from '@models/product.model';
+import { AttributeCombination, Variation } from '@models/index';
 import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
 
 @Component({

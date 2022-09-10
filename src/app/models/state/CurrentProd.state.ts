@@ -1,4 +1,4 @@
-import { Product } from './../product.model';
+import { Product } from './../index';
 
 export interface CurrentProdState {
   currentProd: Product;

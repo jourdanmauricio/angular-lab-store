@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Category } from '@models/category.model';
+import { Category } from '@models/index';
 import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
 import {
   MatDialog,
@@ -10,7 +10,7 @@ import {
 import { CategorySearchComponent } from './category-search/category-search.component';
 import { ModalNewCategoryComponent } from '@modules/cms/components/categories/modal-new-category/modal-new-category.component';
 import { updateCurrentProd } from 'app/state/actions/currentProd.actions';
-import { ConfirmDialogData } from '@models/confirm-dialog-data.models';
+import { ConfirmDialogData } from '@models/index';
 import { ConfirmDialogComponent } from '@modules/shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({

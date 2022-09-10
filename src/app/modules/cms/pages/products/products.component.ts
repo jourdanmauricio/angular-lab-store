@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductsService } from 'app/services/products.service';
 import { MessageService } from 'app/services/message.service';
-import { UserMl } from '@models/userMl.model';
+import { UserMl } from '@models/index';
 import { MatTableDataSource } from '@angular/material/table';
-import { Product } from '@models/product.model';
+import { Product } from '@models/index';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';

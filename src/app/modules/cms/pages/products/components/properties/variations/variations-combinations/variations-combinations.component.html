@@ -1,16 +1,16 @@
 <h2>Variaciones</h2>
 <div class="container">
   <!-- <form (submit)="createVariation($event)"> -->
-  <div class="row" *ngFor="let categoryVariation of attributes">
+  <div class="row" *ngFor="let attribute of attributes">
     <div class="col">
       <mat-form-field
-        *ngIf="!categoryVariation.hasOwnProperty('values')"
+        *ngIf="!attribute.hasOwnProperty('values')"
         class="full-width control-sm"
         appearance="outline"
       >
-        <mat-label>{{ categoryVariation.name }}</mat-label>
+        <mat-label>{{ attribute.name }}</mat-label>
         <input
-          (change)="handleCombinations($event, categoryVariation)"
+          (change)="handleCombinations($event, attribute)"
           matInput
           class="control-sm"
           type="text"
@@ -18,19 +18,17 @@
       </mat-form-field>
 
       <mat-form-field
-        *ngIf="categoryVariation.hasOwnProperty('values')"
+        *ngIf="attribute.hasOwnProperty('values')"
         class="control-sm full-width"
         appearance="outline"
       >
-        <mat-label>{{ categoryVariation.name }}</mat-label>
+        <mat-label>{{ attribute.name }}</mat-label>
         <mat-select
-          (selectionChange)="
-            handleCombinations($event.value, categoryVariation)
-          "
+          (selectionChange)="handleCombinations($event.value, attribute)"
           multiple
         >
           <mat-option
-            *ngFor="let value of categoryVariation.values"
+            *ngFor="let value of attribute.values"
             value="{{ value.id }}"
             >{{ value.name }}</mat-option
           >

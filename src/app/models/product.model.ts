@@ -13,7 +13,7 @@ export interface ApiProduct {
   status: string;
   available_quantity: number;
   start_time: Date;
-  pictures: Picture[];
+  pictures: ProdPicture[];
   category_id: string;
   price: number;
   sold_quantity: number;
@@ -61,7 +61,7 @@ export interface Value {
   struct: null;
 }
 
-export interface Picture {
+export interface ProdPicture {
   secure_url: string;
   size: string;
   max_size: string;

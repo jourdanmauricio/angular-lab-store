@@ -1,4 +1,4 @@
-import { Picture } from './picture.model';
+import { Picture } from './index';
 
 export interface Settings {
   status: string;

@@ -1,14 +1,20 @@
+export interface ApiBasicCategory {
+  id: string;
+  name: string;
+  total_items_in_this_category?: number;
+}
+
 export interface Category {
   id: string;
   name: string;
   full_name: string;
-  path_from_root: PathFromRoot[];
-  children_categories?: [];
-  picture: null;
-  settings: Settings;
+  path_from_root: ApiBasicCategory[];
+  children_categories?: ApiBasicCategory[];
+  picture: string | null;
+  settings: CatSettings;
   attributes: CategoryAttribute[];
   attributes_oblg: AttributesOblg;
-  description_web: null;
+  description_web: string | null;
 }
 
 export interface CategoryAttribute {
@@ -16,30 +22,17 @@ export interface CategoryAttribute {
   hint?: string;
   name: string;
   tags?: Tags;
-  values?: Value[];
+  values?: ValueAtrib[];
   hierarchy?: Hierarchy;
   relevance?: number;
   value_type?: ValueType;
   value_max_length?: number;
-  attribute_group_id?: AttributeGroupID;
-  attribute_group_name?: AttributeGroupName;
+  attribute_group_id?: string;
+  attribute_group_name?: string;
   default_unit?: string;
-  allowed_units?: PathFromRoot[];
+  allowed_units?: ApiBasicCategory[];
   type?: string;
   tooltip?: string;
-}
-
-export interface PathFromRoot {
-  id: string;
-  name: string;
-}
-
-export enum AttributeGroupID {
-  Others = 'OTHERS',
-}
-
-export enum AttributeGroupName {
-  Otros = 'Otros',
 }
 
 export enum Hierarchy {
@@ -70,7 +63,7 @@ export enum ValueType {
   String = 'string',
 }
 
-export interface Value {
+export interface ValueAtrib {
   id: string;
   name: string;
   metadata?: Metadata;
@@ -97,7 +90,7 @@ export interface ComponentElement {
   component: ComponentEnum;
   ui_config: ComponentUIConfig;
   attributes: ComponentAttribute[];
-  unified_units: PathFromRoot[];
+  unified_units: ApiBasicCategory[];
   default_unified_unit_id?: string;
 }
 
@@ -105,12 +98,12 @@ export interface ComponentAttribute {
   id: string;
   name: string;
   tags: Tag[];
-  values?: Value[];
+  values?: ValueAtrib[];
   hierarchy: Hierarchy;
   relevance: number;
   value_type: ValueType;
   value_max_length?: number;
-  units?: PathFromRoot[];
+  units?: ApiBasicCategory[];
   default_unit_id?: string;
 }
 
@@ -143,7 +136,7 @@ export interface ComponentUIConfig {
 
 export interface GroupUIConfig {}
 
-export interface Settings {
+export interface CatSettings {
   tags: any[];
   price: string;
   stock: string;

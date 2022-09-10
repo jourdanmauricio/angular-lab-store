@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { loadCurrentProd } from 'app/state/actions/currentProd.actions';
 import { Observable, switchMap } from 'rxjs';
-import { Product } from '@models/product.model';
+import { Product } from '@models/index';
 import { selectLoading } from 'app/state/selectors/application.selector';
 
 @Component({
