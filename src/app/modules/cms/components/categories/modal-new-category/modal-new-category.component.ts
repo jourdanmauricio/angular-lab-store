@@ -1,8 +1,8 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { CategoriesService } from 'src/app/services/categories.service';
-import { MessageService } from 'src/app/services/message.service';
+import { CategoriesService } from 'app/services/categories.service';
+import { MessageService } from 'app/services/message.service';
 
 export interface optionsCat {
   id: string;

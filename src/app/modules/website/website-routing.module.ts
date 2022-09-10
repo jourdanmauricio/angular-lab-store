@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { LoginComponent } from 'src/app/modules/website/pages/login/login.component';
+import { LoginComponent } from '@modules/website/pages/login/login.component';
 import { MeliCallbackComponent } from './pages/meli-callback/meli-callback.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { LayoutComponent } from './components/layout/layout.component';

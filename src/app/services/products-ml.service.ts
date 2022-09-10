@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { apiToken } from '../interceptors/token.interceptor';
-import { environment } from 'src/environments/environment';
+import { environment } from 'environments/environment';
 import { ProductMl } from '../models/productML.model';
 
 @Injectable({

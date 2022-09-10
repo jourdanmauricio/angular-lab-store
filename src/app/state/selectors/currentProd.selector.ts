@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { CurrentProdState } from 'src/app/models/state/CurrentProd.state';
+import { CurrentProdState } from '@models/state/CurrentProd.state';
 import { AppState } from '../app.state';
 
 export const getCurrentProd = (state: AppState) => state.currentProd;

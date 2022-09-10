@@ -1,0 +1,33 @@
+<div style="position: relative; text-align: center">
+  <div class="modal-btn-close">
+    <button mat-icon-button [mat-dialog-close]="false">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <h2 mat-dialog-title>Agregar atributo personalizado</h2>
+</div>
+<hr />
+<div mat-dialog-content>
+  <mat-form-field class="full-width control-sm" appearance="outline">
+    <mat-label>Atributo</mat-label>
+    <input matInput class="control-sm" type="text" [formControl]="attribute" />
+    <!-- (change)="change()" -->
+    <mat-error *ngIf="attribute?.hasError('required')"
+      >Campo requerido</mat-error
+    >
+  </mat-form-field>
+</div>
+<hr />
+<div mat-dialog-actions class="actions" [align]="'end'">
+  <button mat-raised-button [mat-dialog-close]="false">Cancelar</button>
+  <button
+    disabled="{{ attribute.invalid }}"
+    (click)="addAtrib()"
+    mat-raised-button
+    color="primary"
+    [mat-dialog-close]="true"
+  >
+    Agregar
+  </button>
+</div>

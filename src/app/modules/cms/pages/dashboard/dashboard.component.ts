@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { fadeInAnimation } from 'src/app/_animations';
+import { fadeInAnimation } from '@core/_animations';
 
 @Component({
   selector: 'app-dashboard',

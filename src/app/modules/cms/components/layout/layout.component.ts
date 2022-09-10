@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { fadeInAnimation } from 'src/app/_animations';
-import { UsersService } from 'src/app/services/users.service';
+import { fadeInAnimation } from '@core/_animations';
 
 @Component({
   selector: 'app-layout',

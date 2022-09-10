@@ -4,7 +4,7 @@ import {
   HttpErrorResponse,
   HttpStatusCode,
 } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from 'environments/environment';
 import { BehaviorSubject, catchError, switchMap, tap, throwError } from 'rxjs';
 
 import { CreateUserDto, UpdatePassDto, User } from '../models/user.model';

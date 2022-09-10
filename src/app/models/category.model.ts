@@ -15,14 +15,14 @@ export interface CategoryAttribute {
   id: string;
   hint?: string;
   name: string;
-  tags: Tags;
+  tags?: Tags;
   values?: Value[];
-  hierarchy: Hierarchy;
-  relevance: number;
-  value_type: ValueType;
+  hierarchy?: Hierarchy;
+  relevance?: number;
+  value_type?: ValueType;
   value_max_length?: number;
-  attribute_group_id: AttributeGroupID;
-  attribute_group_name: AttributeGroupName;
+  attribute_group_id?: AttributeGroupID;
+  attribute_group_name?: AttributeGroupName;
   default_unit?: string;
   allowed_units?: PathFromRoot[];
   type?: string;
@@ -58,6 +58,7 @@ export interface Tags {
   variation_attribute?: boolean;
   hidden?: boolean;
   read_only?: boolean;
+  custom?: boolean;
 }
 
 export enum ValueType {

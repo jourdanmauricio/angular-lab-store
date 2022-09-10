@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthChangePasswordDto } from 'src/app/models/auth.model';
-import { AuthService } from 'src/app/services/auth.service';
-import { MyValidators } from 'src/app/utils/validators';
+import { AuthChangePasswordDto } from '@models/auth.model';
+import { AuthService } from 'app/services/auth.service';
+import { MyValidators } from 'app/utils/validators';
 
 @Component({
   selector: 'app-recovery-password',

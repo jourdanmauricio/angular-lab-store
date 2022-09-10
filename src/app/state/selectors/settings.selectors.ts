@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { SettingsState } from 'src/app/models/state/SettingsState.state';
+import { SettingsState } from '@models/state/SettingsState.state';
 import { AppState } from '../app.state';
 
 export const globalSettings = (state: AppState) => state.setttings;

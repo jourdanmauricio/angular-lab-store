@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { getUser } from 'src/app/state/selectors/user.selector';
-import { logout } from 'src/app/state/actions/user.actions';
+import { getUser } from 'app/state/selectors/user.selector';
+import { logout } from 'app/state/actions/user.actions';
 
 @Component({
   selector: 'nav-cms',

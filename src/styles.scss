@@ -49,6 +49,9 @@ input:-webkit-autofill:active {
   margin-top: 1rem;
 }
 
+.ml {
+  margin-left: 1rem;
+}
 .spinner {
   margin-left: auto;
   margin-right: auto;
@@ -87,6 +90,81 @@ input:-webkit-autofill:active {
   cursor: pointer;
 }
 
+.responsive-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+/* Zebra striping */
+.responsive-table tr:nth-of-type(odd) {
+  background: #eee;
+}
+.responsive-table th {
+  background: #333;
+  color: white;
+  font-weight: normal;
+}
+.responsive-table td,
+.responsive-table th {
+  font-size: 14px;
+  padding: 2px 6px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+@media only screen and (max-width: 1024px),
+  (min-device-width: 320px) and (max-device-width: 1024px) /* Force table to not be like tables anymore */ {
+  .responsive-table table,
+  .responsive-table thead,
+  .responsive-table tbody,
+  .responsive-table th,
+  .responsive-table td,
+  .responsive-table tr {
+    display: block;
+  }
+
+  .responsive-table {
+    width: 50%;
+    /* max-width: 1024px; */
+    min-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  .responsive-table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .responsive-table tr {
+    border: 1px solid #888;
+    margin-top: 20px;
+    border-radius: 10px;
+  }
+
+  .responsive-table td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #888;
+    position: relative;
+    padding-left: 30%;
+    min-height: 27.5px;
+  }
+
+  .responsive-table td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 25%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: left;
+  }
+}
+
 /************* Material ***************/
 /* Reuducir el alto de mat-form-field */
 .control-sm {
@@ -96,9 +174,9 @@ input:-webkit-autofill:active {
   .mat-form-field-label-wrapper {
     top: -1.5em;
   }
-  // .mat-form-field-wrapper {
-  // padding-bottom: 0;
-  // }
+  .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
   &.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float
     .mat-form-field-label {
     transform: translateY(-1.1em) scale(0.75);

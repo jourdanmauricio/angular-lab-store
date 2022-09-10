@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { SettingsState } from 'src/app/models/state/SettingsState.state';
+import { SettingsState } from '@models/state/SettingsState.state';
 import { loadedSettings } from '../actions/settings.actions';
 import { logout } from '../actions/user.actions';
 

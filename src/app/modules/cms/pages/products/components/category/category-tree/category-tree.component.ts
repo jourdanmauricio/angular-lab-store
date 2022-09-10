@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Category } from 'src/app/models/category.model';
-import { CategoriesService } from 'src/app/services/categories.service';
+import { Category } from '@models/category.model';
+import { CategoriesService } from 'app/services/categories.service';
 
 @Component({
   selector: 'app-category-tree',

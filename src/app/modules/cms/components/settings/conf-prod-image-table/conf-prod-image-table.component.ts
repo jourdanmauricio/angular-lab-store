@@ -12,9 +12,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { map } from 'rxjs';
-import { Picture } from 'src/app/models/picture.model';
-import { ProductsService } from 'src/app/services/products.service';
-import { MessageService } from 'src/app/services/message.service';
+import { Picture } from '@models/picture.model';
+import { ProductsService } from 'app/services/products.service';
+import { MessageService } from 'app/services/message.service';
 
 @Component({
   selector: 'app-conf-prod-image-table',

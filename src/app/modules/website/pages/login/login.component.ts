@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'src/app/services/message.service';
-import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { MessageService } from 'app/services/message.service';
+import { LocalStorageService } from 'app/services/local-storage.service';
 import { Store } from '@ngrx/store';
-import { login, setToken } from 'src/app/state/actions/user.actions'; // loginSuccess
-import { loading } from 'src/app/state/actions/application.actions';
+import { login, setToken } from 'app/state/actions/user.actions'; // loginSuccess
+import { loading } from 'app/state/actions/application.actions';
 import {
   getErrorMessage,
   selectLoading,
-} from 'src/app/state/selectors/application.selector';
+} from 'app/state/selectors/application.selector';
 import { Observable } from 'rxjs';
-import { getUser } from 'src/app/state/selectors/user.selector';
+import { getUser } from 'app/state/selectors/user.selector';
 import { Router } from '@angular/router';
 
 @Component({

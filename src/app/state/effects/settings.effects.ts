@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, Observable } from 'rxjs';
 import { map, catchError, switchMap, startWith, tap } from 'rxjs/operators';
-import { SettingsService } from 'src/app/services/settings.service';
+import { SettingsService } from 'app/services/settings.service';
 import { Store } from '@ngrx/store';
 import { loading } from '../actions/application.actions';
 

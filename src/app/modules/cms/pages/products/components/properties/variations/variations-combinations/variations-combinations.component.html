@@ -1,0 +1,83 @@
+<h2>Variaciones</h2>
+<div class="container">
+  <!-- <form (submit)="createVariation($event)"> -->
+  <div class="row" *ngFor="let categoryVariation of attributes">
+    <div class="col">
+      <mat-form-field
+        *ngIf="!categoryVariation.hasOwnProperty('values')"
+        class="full-width control-sm"
+        appearance="outline"
+      >
+        <mat-label>{{ categoryVariation.name }}</mat-label>
+        <input
+          (change)="handleCombinations($event, categoryVariation)"
+          matInput
+          class="control-sm"
+          type="text"
+        />
+      </mat-form-field>
+
+      <mat-form-field
+        *ngIf="categoryVariation.hasOwnProperty('values')"
+        class="control-sm full-width"
+        appearance="outline"
+      >
+        <mat-label>{{ categoryVariation.name }}</mat-label>
+        <mat-select
+          (selectionChange)="
+            handleCombinations($event.value, categoryVariation)
+          "
+          multiple
+        >
+          <mat-option
+            *ngFor="let value of categoryVariation.values"
+            value="{{ value.id }}"
+            >{{ value.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row mt-2 justify-content-end">
+    <div class="col-sm-auto">
+      <button
+        *ngIf="!customAttribute"
+        (click)="onAddAttrib()"
+        type="button"
+        [disabled]="variations.length > 0"
+        mat-raised-button
+        class="full-width"
+        color="primary"
+      >
+        Agregar Atributo
+      </button>
+      <button
+        *ngIf="customAttribute"
+        (click)="onDelAttrib()"
+        type="button"
+        mat-raised-button
+        class="full-width"
+        color="primary"
+      >
+        Eliminar Atributo
+      </button>
+    </div>
+    <div class="col-sm-auto mt-2 mt-sm-0">
+      <button
+        type="button"
+        (click)="createVariation()"
+        mat-raised-button
+        class="full-width"
+        color="primary"
+      >
+        Crear variación
+      </button>
+    </div>
+  </div>
+  <!-- </form> -->
+</div>
+
+<div class="mt-4">
+  <app-variations-table></app-variations-table>
+</div>

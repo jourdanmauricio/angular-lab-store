@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthMl } from 'src/app/models/authMl.model';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthMl } from '@models/authMl.model';
+import { AuthService } from 'app/services/auth.service';
 
 @Component({
   selector: 'app-meli-callback',

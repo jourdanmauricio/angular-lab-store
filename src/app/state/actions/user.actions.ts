@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { AuthState } from 'src/app/models/state/Auth.state';
-import { UserState } from 'src/app/models/state/User.state';
+import { AuthState } from '@models/state/Auth.state';
+import { UserState } from '@models/state/User.state';
 
 export const login = createAction(
   '[Login Page] Login',

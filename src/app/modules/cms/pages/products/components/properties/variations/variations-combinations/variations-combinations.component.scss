@@ -1,0 +1,17 @@
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  button {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 40em) {
+  .actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+}

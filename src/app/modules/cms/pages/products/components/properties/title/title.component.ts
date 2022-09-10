@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { updateCurrentProd } from 'src/app/state/actions/currentProd.actions';
-import { getCurrentProd } from 'src/app/state/selectors/currentProd.selector';
+import { updateCurrentProd } from 'app/state/actions/currentProd.actions';
+import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
 
 @Component({
   selector: 'app-title',

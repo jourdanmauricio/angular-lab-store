@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { fadeInAnimation } from 'src/app/_animations';
+import { fadeInAnimation } from '@core/_animations';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { selectLoading } from 'src/app/state/selectors/application.selector';
+import { selectLoading } from 'app/state/selectors/application.selector';
 
 @Component({
   selector: 'app-layout',

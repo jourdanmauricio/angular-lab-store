@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { loadCurrentProd } from 'src/app/state/actions/currentProd.actions';
+import { loadCurrentProd } from 'app/state/actions/currentProd.actions';
 import { Observable, switchMap } from 'rxjs';
-import { Product } from 'src/app/models/product.model';
-import { selectLoading } from 'src/app/state/selectors/application.selector';
+import { Product } from '@models/product.model';
+import { selectLoading } from 'app/state/selectors/application.selector';
 
 @Component({
   selector: 'app-edit-product',
@@ -32,8 +32,5 @@ export class EditProductComponent implements OnInit {
         })
       )
       .subscribe();
-
-    // const product = this.localStorageService.getItem('currentProd');
-    // if (product) this.productsService.setProduct(JSON.parse(product!));
   }
 }

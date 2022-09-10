@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Picture } from 'src/app/models/picture.model';
-import { Settings } from 'src/app/models/setting.model';
-import { User } from 'src/app/models/user.model';
-import { SettingsService } from 'src/app/services/settings.service';
-import { MessageService } from 'src/app/services/message.service';
+import { Picture } from '@models/picture.model';
+import { Settings } from '@models/setting.model';
+import { User } from '@models/user.model';
+import { SettingsService } from 'app/services/settings.service';
+import { MessageService } from 'app/services/message.service';
 import { Store } from '@ngrx/store';
-import { getUser } from 'src/app/state/selectors/user.selector';
-import { getSettings } from 'src/app/state/selectors/settings.selectors';
-import { updateSettings } from 'src/app/state/actions/settings.actions';
-import { loading } from 'src/app/state/actions/application.actions';
+import { getUser } from 'app/state/selectors/user.selector';
+import { getSettings } from 'app/state/selectors/settings.selectors';
+import { updateSettings } from 'app/state/actions/settings.actions';
+import { loading } from 'app/state/actions/application.actions';
 import { Observable } from 'rxjs';
-import { selectLoading } from 'src/app/state/selectors/application.selector';
+import { selectLoading } from 'app/state/selectors/application.selector';
 
 @Component({
   selector: 'app-conf-prod',

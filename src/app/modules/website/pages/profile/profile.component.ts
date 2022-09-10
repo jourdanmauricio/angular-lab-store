@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
-import { User } from 'src/app/models/user.model';
-import { createCustomerDto, Customer } from 'src/app/models/customer.model';
-import { MyValidators } from 'src/app/utils/validators';
-import { ChangePasswordDialogComponent } from 'src/app/modules/website/components/change-password-dialog/change-password-dialog.component';
-import { UsersService } from 'src/app/services/users.service';
+import { AuthService } from 'app/services/auth.service';
+import { User } from '@models/user.model';
+import { createCustomerDto, Customer } from '@models/customer.model';
+import { MyValidators } from 'app/utils/validators';
+import { ChangePasswordDialogComponent } from '@modules/website/components/change-password-dialog/change-password-dialog.component';
+import { UsersService } from 'app/services/users.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from 'src/app/modules/shared/components/confirm-dialog/confirm-dialog.component';
-import { ConfirmDialogData } from 'src/app/models/confirm-dialog-data.models';
-import { MessageService } from 'src/app/services/message.service';
+import { ConfirmDialogComponent } from '@modules/shared/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogData } from '@models/confirm-dialog-data.models';
+import { MessageService } from 'app/services/message.service';
 import { Store } from '@ngrx/store';
-import { getUser } from 'src/app/state/selectors/user.selector';
+import { getUser } from 'app/state/selectors/user.selector';
 
 @Component({
   selector: 'app-profile',

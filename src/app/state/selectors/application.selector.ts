@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { AppState } from '../app.state';
-import { ApplicationState } from 'src/app/models/state/Application.state';
+import { ApplicationState } from '@models/state/Application.state';
 
 export const selectApplication = (state: AppState) => state.application;
 

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { MyValidators } from 'src/app/utils/validators';
-import { UsersService } from 'src/app/services/users.service';
-import { UpdatePassDto, User } from 'src/app/models/user.model';
+import { MyValidators } from 'app/utils/validators';
+import { UsersService } from 'app/services/users.service';
+import { UpdatePassDto, User } from '@models/user.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
-import { getUser } from 'src/app/state/selectors/user.selector';
+import { getUser } from 'app/state/selectors/user.selector';
 
 @Component({
   selector: 'app-change-password-dialog',

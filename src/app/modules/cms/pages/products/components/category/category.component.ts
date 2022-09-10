@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Category } from 'src/app/models/category.model';
-import { getCurrentProd } from 'src/app/state/selectors/currentProd.selector';
+import { Category } from '@models/category.model';
+import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
 import {
   MatDialog,
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { CategorySearchComponent } from '../category-search/category-search.component';
-import { ModalNewCategoryComponent } from 'src/app/modules/cms/components/categories/modal-new-category/modal-new-category.component';
-import { updateCurrentProd } from 'src/app/state/actions/currentProd.actions';
-import { ConfirmDialogData } from 'src/app/models/confirm-dialog-data.models';
-import { ConfirmDialogComponent } from 'src/app/modules/shared/components/confirm-dialog/confirm-dialog.component';
+import { CategorySearchComponent } from './category-search/category-search.component';
+import { ModalNewCategoryComponent } from '@modules/cms/components/categories/modal-new-category/modal-new-category.component';
+import { updateCurrentProd } from 'app/state/actions/currentProd.actions';
+import { ConfirmDialogData } from '@models/confirm-dialog-data.models';
+import { ConfirmDialogComponent } from '@modules/shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-category',

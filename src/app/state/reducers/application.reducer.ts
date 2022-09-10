@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { ApplicationState } from 'src/app/models/state/Application.state';
+import { ApplicationState } from '@models/state/Application.state';
 import {
   errorMessage,
   loading,

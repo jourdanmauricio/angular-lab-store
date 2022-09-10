@@ -3,13 +3,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Category } from 'src/app/models/category.model';
-import { CategoriesService } from 'src/app/services/categories.service';
+import { Category } from '@models/category.model';
+import { CategoriesService } from 'app/services/categories.service';
 import { ModalNewCategoryComponent } from '../../components/categories/modal-new-category/modal-new-category.component';
-import { MessageService } from 'src/app/services/message.service';
+import { MessageService } from 'app/services/message.service';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { ConfirmDialogData } from 'src/app/models/confirm-dialog-data.models';
-import { ConfirmDialogComponent } from 'src/app/modules/shared/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogData } from '@models/confirm-dialog-data.models';
+import { ConfirmDialogComponent } from '@modules/shared/components/confirm-dialog/confirm-dialog.component';
 import { ModalEditCategoryComponent } from '../../components/categories/modal-edit-category/modal-edit-category.component';
 
 @Component({

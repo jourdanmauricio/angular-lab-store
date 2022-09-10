@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { fadeInAnimation } from 'src/app/_animations';
+import { fadeInAnimation } from '@core/_animations';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
-import { User } from 'src/app/models/user.model';
+import { AuthService } from 'app/services/auth.service';
+import { User } from '@models/user.model';
 import { Store } from '@ngrx/store';
-import {
-  isAuthenticated,
-  getUser,
-} from 'src/app/state/selectors/user.selector';
+import { isAuthenticated, getUser } from 'app/state/selectors/user.selector';
 import { Observable } from 'rxjs';
-import { logout } from 'src/app/state/actions/user.actions';
+import { logout } from 'app/state/actions/user.actions';
 
 @Component({
   selector: 'app-nav-home',

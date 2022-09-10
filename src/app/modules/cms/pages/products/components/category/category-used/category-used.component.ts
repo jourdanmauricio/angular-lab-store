@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime, of, startWith, switchMap } from 'rxjs';
-import { Category } from 'src/app/models/category.model';
-import { CategoriesService } from 'src/app/services/categories.service';
+import { Category } from '@models/category.model';
+import { CategoriesService } from 'app/services/categories.service';
 
 @Component({
   selector: 'app-category-used',

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, Observable, of, pipe } from 'rxjs';
 import { map, catchError, switchMap, tap, startWith } from 'rxjs/operators';
-import { UsersService } from 'src/app/services/users.service';
+import { UsersService } from 'app/services/users.service';
 import { Store } from '@ngrx/store';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from 'app/services/auth.service';
 import { Router } from '@angular/router';
 import { errorMessage, loading } from '../actions/application.actions';
 

@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { apiToken } from '../interceptors/token.interceptor';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { environment } from 'environments/environment';
 // Models
 import { UserMl } from '../models/userMl.model';
 import { ApiProduct, CreateProductDto, Product } from '../models/product.model';

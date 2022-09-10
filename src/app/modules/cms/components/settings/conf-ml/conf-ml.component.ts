@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { environment } from 'src/environments/environment';
-import { UsersService } from 'src/app/services/users.service';
-import { UserMl } from 'src/app/models/userMl.model';
+import { environment } from 'environments/environment';
+import { UsersService } from 'app/services/users.service';
+import { UserMl } from '@models/userMl.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({

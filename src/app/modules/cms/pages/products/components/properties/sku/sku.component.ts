@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductsService } from 'src/app/services/products.service';
 import { Store } from '@ngrx/store';
-import { updateCurrentProd } from 'src/app/state/actions/currentProd.actions';
-import { getCurrentProd } from 'src/app/state/selectors/currentProd.selector';
+import { updateCurrentProd } from 'app/state/actions/currentProd.actions';
+import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -11,21 +10,14 @@ import { FormControl, Validators } from '@angular/forms';
   styleUrls: ['./sku.component.scss'],
 })
 export class SkuComponent implements OnInit {
-  sku = new FormControl('', [
-    Validators.required,
-    // Validators.maxLength(this.maxTitle),
-  ]);
+  sku = new FormControl('', [Validators.required]);
 
-  constructor(
-    private productsService: ProductsService,
-    private store: Store<any>
-  ) {}
+  constructor(private store: Store<any>) {}
 
   ngOnInit(): void {
     this.store.select(getCurrentProd).subscribe((data) => {
       if (data.category) {
         this.sku.setValue(data.seller_custom_field);
-        // this.maxTitle = data.category!.settings.max_title_length;
       }
     });
   }

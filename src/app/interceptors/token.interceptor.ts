@@ -10,7 +10,7 @@ import {
   HttpHeaders,
 } from '@angular/common/http';
 import { catchError, Observable, tap, throwError } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { environment } from 'environments/environment';
 import { UsersService } from '../services/users.service';
 import { LocalStorageService } from '../services/local-storage.service';
 

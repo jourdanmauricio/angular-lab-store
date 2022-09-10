@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { Product } from 'src/app/models/product.model';
-import { CurrentProdState } from 'src/app/models/state/CurrentProd.state';
+import { Product } from '@models/product.model';
+import { CurrentProdState } from '@models/state/CurrentProd.state';
 import {
   loadedCurrentProd,
   updateCurrentProd,

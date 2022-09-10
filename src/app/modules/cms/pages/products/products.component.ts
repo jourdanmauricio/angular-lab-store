@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ProductsService } from 'src/app/services/products.service';
-import { MessageService } from 'src/app/services/message.service';
-import { UserMl } from 'src/app/models/userMl.model';
+import { ProductsService } from 'app/services/products.service';
+import { MessageService } from 'app/services/message.service';
+import { UserMl } from '@models/userMl.model';
 import { MatTableDataSource } from '@angular/material/table';
-import { Product } from 'src/app/models/product.model';
+import { Product } from '@models/product.model';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -15,7 +15,7 @@ import {
   animate,
 } from '@angular/animations';
 import { Router } from '@angular/router';
-import { UsersService } from 'src/app/services/users.service';
+import { UsersService } from 'app/services/users.service';
 
 @Component({
   selector: 'app-products',

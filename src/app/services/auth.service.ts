@@ -5,7 +5,7 @@ import {
   HttpHeaders,
   HttpStatusCode,
 } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from 'environments/environment';
 import { Auth, AuthChangePasswordDto } from '../models/auth.model';
 import { catchError, map, switchMap, tap, throwError } from 'rxjs';
 import { LocalStorageService } from './local-storage.service';

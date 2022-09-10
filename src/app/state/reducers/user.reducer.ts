@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { UserState } from 'src/app/models/state/User.state';
+import { UserState } from '@models/state/User.state';
 import { logout } from '../actions/user.actions'; // loginSuccess
 import { setToken, setUser } from '../actions/user.actions';
 
