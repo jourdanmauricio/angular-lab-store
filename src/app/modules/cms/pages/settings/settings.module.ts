@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SettingsRoutingModule } from './settings-routing.module';
 
 // Shared Modules
-import { SharedModule } from '../../../shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import { MaterialModule } from '../../../material/material.module';
 
 import { SettingsComponent } from './settings.component';
@@ -19,6 +19,6 @@ import { ConfProdImageTableComponent } from '../../components/settings/conf-prod
     ConfProdComponent,
     ConfProdImageTableComponent,
   ],
-  imports: [CommonModule, SettingsRoutingModule, SharedModule, MaterialModule],
+  imports: [CommonModule, SettingsRoutingModule, MaterialModule, SharedModule], //
 })
 export class SettingsModule {}

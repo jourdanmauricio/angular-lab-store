@@ -19,16 +19,12 @@ import { CurrentProdEffects } from './state/effects/currentProd.effects';
 import { UserEffects } from './state/effects/user.effects';
 import { SettingsEffects } from './state/effects/settings.effects';
 import { ApplicationEffects } from './state/effects/application.effects';
-import { FilterCategoriesPipe } from './utils/pipes/filter-categories.pipe';
+// import { SharedModule } from './shared/shared.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NotFoundComponent,
-    NavNotFoundComponent,
-    FilterCategoriesPipe,
-  ],
+  declarations: [AppComponent, NotFoundComponent, NavNotFoundComponent],
   imports: [
+    // SharedModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -44,7 +40,7 @@ import { FilterCategoriesPipe } from './utils/pipes/filter-categories.pipe';
       ApplicationEffects,
     ]),
   ],
-  exports: [FilterCategoriesPipe],
+  // exports: [FilterCategoriesPipe],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

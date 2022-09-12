@@ -9,7 +9,7 @@ import { ModalNewCategoryComponent } from '../../components/categories/modal-new
 import { MessageService } from 'app/services/message.service';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ConfirmDialogData } from '@models/index';
-import { ConfirmDialogComponent } from '@modules/shared/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component';
 import { ModalEditCategoryComponent } from '../../components/categories/modal-edit-category/modal-edit-category.component';
 
 @Component({

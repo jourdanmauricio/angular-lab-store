@@ -46,6 +46,7 @@ export class UserEffects {
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType('[Login Page] Set token'),
+      switchMap(() => this.usersService.getApiUserMl()),
       switchMap(() => this.usersService.getProfile()),
       map((user) => ({
         type: '[Login Page] Set User',

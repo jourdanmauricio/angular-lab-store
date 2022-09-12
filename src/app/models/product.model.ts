@@ -29,7 +29,7 @@ export interface Product extends Omit<ApiProduct, 'id'> {
   category?: Category;
 }
 
-export interface CreateProductDto extends Omit<Product, 'id'> {
+export interface CreateProductDto extends Omit<Product, 'id' | 'permalink'> {
   // ml_id: string;
 }
 

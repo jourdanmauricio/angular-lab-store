@@ -1,4 +1,5 @@
-import { Variation } from '@models/index';
+import { Category, Variation } from '@models/index';
+import { IAttribComb } from '@models/ui/IAttribComb.model';
 
 /**
  * Generate next Sku for variations
@@ -77,3 +78,62 @@ const f = (a: any, b: any) =>
  */
 export const cartesian: any = (a: any, b: any, ...c: any) =>
   b ? cartesian(f(a, b), ...c) : a;
+
+/**
+ * get the list of different attributes that are part of the combination in variations or in the category with allow_variations
+ * @param variations variations product
+ * @param category Categoría del producto
+ * @returns list of attributes
+ */
+export function getAttribsComb(variations: Variation[], category: Category) {
+  let attribs: IAttribComb[] = [];
+  console.log('calc atrib');
+
+  let attribsVarCat = category?.attributes
+    .filter((attribute) => attribute.tags?.hasOwnProperty('allow_variations'))
+    .map(
+      (el) =>
+        ({
+          id: el.id,
+          name: el.name,
+          source: 'category',
+          active: false,
+          values: el.values,
+        } as IAttribComb)
+    );
+
+  if (variations.length > 0) {
+    variations[0].attribute_combinations.forEach((atrib) => {
+      let atribComb: IAttribComb;
+      let found = attribsVarCat.find((cat) => cat.id === atrib.id);
+      if (found) {
+        atribComb = {
+          id: atrib.id ? atrib.id : atrib.name.toUpperCase(),
+          name: atrib.name,
+          active: true,
+          source: 'product',
+          values: found.values,
+        };
+      } else {
+        atribComb = {
+          id: atrib.id ? atrib.id : atrib.name.toUpperCase(),
+          name: atrib.name,
+          active: true,
+          source: 'custom',
+        };
+      }
+      attribs.push(atribComb);
+    });
+  }
+
+  attribsVarCat.forEach((cat) => {
+    let index = attribs.findIndex((prod) => prod.id === cat.id);
+    if (index === -1) {
+      if (variations.length === 0) cat.active = true;
+      attribs.push(cat);
+    }
+  });
+
+  console.log('attributes', attribs);
+  return attribs;
+}

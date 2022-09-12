@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CmsRoutingModule } from './cms-routing.module';
 
 // Shared Modules
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import { MaterialModule } from '../material/material.module';
 // Pages
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -29,6 +29,6 @@ import { ModalEditCategoryComponent } from './components/categories/modal-edit-c
     ModalNewCategoryComponent,
     ModalEditCategoryComponent,
   ],
-  imports: [CommonModule, CmsRoutingModule, SharedModule, MaterialModule],
+  imports: [CommonModule, CmsRoutingModule, MaterialModule, SharedModule], //
 })
 export class CmsModule {}

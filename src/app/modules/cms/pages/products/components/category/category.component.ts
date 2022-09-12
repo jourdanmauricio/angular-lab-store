@@ -11,7 +11,7 @@ import { CategorySearchComponent } from './category-search/category-search.compo
 import { ModalNewCategoryComponent } from '@modules/cms/components/categories/modal-new-category/modal-new-category.component';
 import { updateCurrentProd } from 'app/state/actions/currentProd.actions';
 import { ConfirmDialogData } from '@models/index';
-import { ConfirmDialogComponent } from '@modules/shared/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-category',

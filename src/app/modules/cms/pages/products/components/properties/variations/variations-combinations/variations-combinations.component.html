@@ -1,70 +1,95 @@
-<h2>Variaciones</h2>
-<div class="container">
-  <!-- <form (submit)="createVariation($event)"> -->
-  <div class="row" *ngFor="let attribute of attributes">
-    <div class="col">
-      <mat-form-field
-        *ngIf="!attribute.hasOwnProperty('values')"
-        class="full-width control-sm"
-        appearance="outline"
-      >
-        <mat-label>{{ attribute.name }}</mat-label>
-        <input
-          (change)="handleCombinations($event, attribute)"
-          matInput
-          class="control-sm"
-          type="text"
-        />
-      </mat-form-field>
+<h2 class="mt-4 text-center">Atributos de las variaciones</h2>
 
-      <mat-form-field
-        *ngIf="attribute.hasOwnProperty('values')"
-        class="control-sm full-width"
-        appearance="outline"
-      >
-        <mat-label>{{ attribute.name }}</mat-label>
-        <mat-select
-          (selectionChange)="handleCombinations($event.value, attribute)"
-          multiple
+<form
+  [formGroup]="attributesForm"
+  #formDirective="ngForm"
+  (submit)="createVariation(formDirective)"
+>
+  <div>
+    <div class="row" *ngFor="let attrib of attributes; let i = index">
+      <div class="col">
+        <!-- input -->
+        <mat-form-field
+          *ngIf="!attrib.hasOwnProperty('values')"
+          class="full-width control-sm"
+          appearance="outline"
         >
-          <mat-option
-            *ngFor="let value of attribute.values"
-            value="{{ value.id }}"
-            >{{ value.name }}</mat-option
+          <mat-label>
+            <span *ngIf="attrib.source === 'custom'"
+              >Atributo personalizado:
+            </span>
+            {{ attrib.name }}</mat-label
           >
-        </mat-select>
-      </mat-form-field>
+          <input
+            [formControlName]="attrib.id"
+            *ngIf="!attrib.hasOwnProperty('values')"
+            matInput
+            type="text"
+          />
+          <mat-error *ngIf="getAtrribError(attrib.id)">
+            Campo requerido
+          </mat-error>
+        </mat-form-field>
+        <!-- select -->
+        <mat-form-field
+          class="control-sm full-width"
+          *ngIf="attrib.hasOwnProperty('values')"
+          appearance="outline"
+        >
+          <mat-label> {{ attrib.name }}</mat-label>
+          <mat-select [formControlName]="attrib.id" multiple>
+            <mat-option
+              *ngFor="let value of attrib.values | orderBy: 'name'"
+              value="{{ value.id }}"
+              >{{ value.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="getAtrribError(attrib.id)?.hasError('required')">
+            Campo requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
   </div>
 
-  <div class="row mt-2 justify-content-end">
-    <div class="col-sm-auto">
-      <button
-        *ngIf="!customAttribute"
-        (click)="onAddAttrib()"
-        type="button"
-        [disabled]="variations.length > 0"
-        mat-raised-button
-        class="full-width"
-        color="primary"
-      >
-        Agregar Atributo
-      </button>
-      <button
-        *ngIf="customAttribute"
-        (click)="onDelAttrib()"
-        type="button"
-        mat-raised-button
-        class="full-width"
-        color="primary"
-      >
-        Eliminar Atributo
-      </button>
+  <div class="row mt-2 justify-content-between">
+    <div class="col-12 col-md-6">
+      <div class="row">
+        <div class="col-12 col-md-6 mt-2">
+          <button
+            (click)="onAddAttrib()"
+            type="button"
+            [disabled]="customAttribute || variations.length > 0"
+            mat-raised-button
+            class="full-width"
+            color="primary"
+          >
+            Agregar Atributo
+          </button>
+        </div>
+        <div class="col-12 col-md-6 mt-2">
+          <button
+            (click)="onDelAttrib()"
+            [disabled]="
+              !(customAttribute && attributes.length > 0) ||
+              variations.length > 0
+            "
+            type="button"
+            mat-raised-button
+            class="full-width"
+            color="primary"
+          >
+            Eliminar Atributo
+          </button>
+        </div>
+      </div>
     </div>
-    <div class="col-sm-auto mt-2 mt-sm-0">
+    {{ attributesForm.valid }}
+    <div class="col-12 col-md-3 mt-2">
+      <!-- [disabled]="!attributesForm.valid" -->
+
       <button
-        type="button"
-        (click)="createVariation()"
+        type="submit"
         mat-raised-button
         class="full-width"
         color="primary"
@@ -73,9 +98,4 @@
       </button>
     </div>
   </div>
-  <!-- </form> -->
-</div>
-
-<div class="mt-4">
-  <app-variations-table></app-variations-table>
-</div>
+</form>

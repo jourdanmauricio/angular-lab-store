@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { CategoryAttribute } from '@models/category.model';
 import { AttributeCombination, Variation } from '@models/index';
 import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
+import { updateCurrentProd } from 'app/state/actions/currentProd.actions';
 
 @Component({
   selector: 'app-variations-table',
@@ -19,7 +20,7 @@ export class VariationsTableComponent implements OnInit {
   ngOnInit(): void {
     this.store.select(getCurrentProd).subscribe((data) => {
       if (data.variations && data.category) {
-        this.variations = data.variations;
+        this.variations = JSON.parse(JSON.stringify(data.variations));
         this.attributes = data.category?.attributes.filter((attribute) =>
           attribute.tags?.hasOwnProperty('allow_variations')
         );
@@ -45,5 +46,15 @@ export class VariationsTableComponent implements OnInit {
       }
     }
     return sku;
+  }
+
+  delVar(id: number | string) {
+    const index = this.variations.findIndex((vari) => vari.id === id);
+    this.variations.splice(index, 1);
+    this.store.dispatch(
+      updateCurrentProd({
+        property: { variations: this.variations },
+      })
+    );
   }
 }

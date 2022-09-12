@@ -7,7 +7,21 @@ import { AddCustomAttribComponent } from '../add-custom-attrib/add-custom-attrib
 import { MessageService } from 'app/services/message.service';
 import { MatDialog } from '@angular/material/dialog';
 import { updateCurrentProd } from 'app/state/actions/currentProd.actions';
-import { newVarSku, isNewVariation, cartesian } from 'app/utils/functions';
+import {
+  newVarSku,
+  isNewVariation,
+  cartesian,
+  getAttribsComb,
+} from 'app/utils/functions';
+import { IAttribComb } from '@models/index';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  Validators,
+} from '@angular/forms';
 
 export interface AttribComb {
   [key: string]: AttributeCombination[];
@@ -22,44 +36,56 @@ export class VariationsCombinationsComponent implements OnInit {
   seller_custom_field!: string;
   price!: number;
   variations: Variation[] = [];
-  attributes: CategoryAttribute[] = [];
-  customAttribute: CategoryAttribute | null = null;
+  attributes: IAttribComb[] = [];
+  customAttribute = false;
   category!: Category;
   attributesComb!: AttribComb;
+
+  attributesForm: FormGroup;
+  // control: FormArray;
+  private fb: FormBuilder;
 
   constructor(
     private store: Store<any>,
     public dialog: MatDialog,
     private messageService: MessageService
-  ) {}
+  ) {
+    this.fb = new FormBuilder();
+    this.attributesForm = this.fb.group({});
+  }
 
   ngOnInit(): void {
+    this.getData();
+  }
+
+  getAtrribError(field: string) {
+    return this.attributesForm.get(field);
+  }
+
+  getData() {
     this.store.select(getCurrentProd).subscribe((data) => {
       if (data.category) {
         this.category = data.category;
-        this.variations = data.variations;
+        this.variations = JSON.parse(JSON.stringify(data.variations));
         this.seller_custom_field = data.seller_custom_field;
         this.price = data.price;
-        if (data.variations.length === 0) {
-          this.attributes = data.category?.attributes.filter((attribute) =>
-            attribute.tags?.hasOwnProperty('allow_variations')
-          );
+
+        this.attributes = getAttribsComb(this.variations, this.category);
+
+        let obj: { [k: string]: any } = {};
+        this.attributes.forEach(
+          (atrib) =>
+            (obj[atrib.id] = new FormControl(
+              { value: '', disabled: !atrib.active },
+              Validators.required
+            ))
+        );
+
+        if (this.variations.length === 0) {
+          this.customAttribute = false;
         }
-      }
-      if (this.variations.length > 0) {
-        this.variations[0].attribute_combinations.forEach((atrib) => {
-          let index = this.attributes.findIndex(
-            (atrib2) => atrib2.id === atrib.id
-          );
-          console.log('index', index);
-          if (index === -1) {
-            if (atrib.values) delete atrib.values;
-            console.log('atrib.values!!!!!!!!!!!', atrib.values);
-            this.customAttribute = atrib;
-            this.attributes.push(atrib);
-          }
-        });
-        console.log('Attributes', this.attributes);
+
+        this.attributesForm = this.fb.group(obj);
       }
     });
   }
@@ -70,79 +96,87 @@ export class VariationsCombinationsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('--------------------------');
-      console.log('New attribute: ', result);
       if (result) {
-        this.customAttribute = {
+        let index = this.attributes.findIndex(
+          (attrib) => attrib.id === result.toUpperCase()
+        );
+        if (index !== -1) {
+          this.messageService.showMsg('El atributo ya existe', 'error');
+          return;
+        }
+        let attribute: IAttribComb = {
           id: result.toUpperCase(),
           name: result,
-          tags: { custom: true },
+          active: true,
+          source: 'custom',
         };
-        this.attributes = [...this.attributes, this.customAttribute];
+
+        this.attributes.push(attribute);
+
+        let obj: { [k: string]: any } = {};
+        this.attributes.forEach(
+          (atrib) =>
+            (obj[atrib.id] = [
+              { value: '', disabled: !atrib.active },
+              Validators.required,
+            ])
+        );
+        this.attributesForm = this.fb.group(obj);
+        this.customAttribute = true;
       }
     });
-    console.log('Attributes: ', this.attributes);
-    console.log('--------------------------');
   }
 
   onDelAttrib() {
     console.log('Delete Attribute');
     console.log('--------------------------');
-    this.customAttribute = null;
-    this.attributes = this.category.attributes.filter((attribute) =>
-      attribute.tags?.hasOwnProperty('allow_variations')
-    );
+    this.customAttribute = false;
+    let index = this.attributes.findIndex((attr) => attr.source === 'custom');
+    this.attributes.splice(index, 1);
+    // this.attributes = this.category.attributes.filter((attribute) =>
+    //  attribute.tags?.hasOwnProperty('allow_variations')
+    // );
     console.log('Attributes: ', this.attributes);
     console.log('--------------------------');
   }
 
-  handleCombinations(e: Event, categoryVariation: CategoryAttribute) {
-    console.log('event', e);
-    let attributes: AttributeCombination[] = [];
-    if (e.target) {
-      attributes.push({
-        id: categoryVariation.id,
-        name: categoryVariation.name,
-        value_name: (e.target as HTMLTextAreaElement).value,
-      });
-      this.attributesComb[categoryVariation.id] = attributes;
-      console.log('Input');
-    } else {
-      console.log('Select');
-      Array.prototype.forEach.call(e, function (option) {
-        const found = categoryVariation.values?.find(
-          (value) => value.id === option
-        );
-        if (found) {
-          attributes.push({
-            id: option,
-            name: categoryVariation.name,
-            value_id: option,
-            value_name: found.name,
-          });
-        }
-      });
-      if (this.attributesComb) {
-        this.attributesComb[categoryVariation.id] = attributes;
-      } else {
-        this.attributesComb = {
-          [categoryVariation.id]: attributes,
-        };
-      }
-    }
-  }
+  createVariation(formDirective: FormGroupDirective) {
+    if (!this.attributesForm.valid) return;
 
-  createVariation() {
-    // console.log('Event', e);
-    //////////////////////////////////////////////////
-    let values = Object.values(this.attributesComb);
+    let attributes: AttributeCombination[] = [];
+    let attributeCombinations: AttributeCombination[][] = [];
+
+    this.attributes.forEach((attrib) => {
+      let value_name = this.attributesForm.value[attrib.id];
+      if (typeof value_name === 'string') {
+        attributes.push({
+          id: attrib.id,
+          name: attrib.name,
+          value_name: value_name,
+        });
+      } else {
+        value_name.forEach((val: string) => {
+          const found = attrib.values.find((value: any) => value.id === val);
+          if (found) {
+            attributes.push({
+              id: attrib.id,
+              name: attrib.name,
+              value_name: found.name,
+              value_id: val,
+            });
+          }
+        });
+      }
+      attributeCombinations.push(attributes);
+      attributes = [];
+    });
 
     let output = [];
 
-    if (values.length > 1) {
-      output = cartesian(...values);
+    if (attributeCombinations.length > 1) {
+      output = cartesian(...attributeCombinations);
     } else {
-      values[0].forEach((value) => output.push([value]));
+      attributeCombinations[0].forEach((value) => output.push([value]));
     }
 
     const redudeArray = (arr: AttributeCombination[]) =>
@@ -196,9 +230,8 @@ export class VariationsCombinationsComponent implements OnInit {
         })
       );
     newVariations = [];
-    // (e.target as HTMLFormElement).reset();
-    // this.form.reset('', { emitEvent: false });
 
-    // this.form.reset();
+    this.attributesForm.reset();
+    formDirective.resetForm();
   }
 }

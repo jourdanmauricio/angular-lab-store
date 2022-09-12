@@ -76,7 +76,7 @@ export class ProductsService {
       title: data.title,
       seller_custom_field: data.seller_custom_field,
       price: data.price,
-      permalink: data.permalink,
+      // permalink: data.permalink,
       available_quantity: data.available_quantity,
       sold_quantity: data.sold_quantity,
       status: data.status,

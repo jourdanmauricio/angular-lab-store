@@ -1,3 +1,4 @@
+<h2 class="mt-4 text-center">Variaciones</h2>
 <table *ngIf="variations.length > 0" class="responsive-table">
   <thead>
     <th>Id</th>
@@ -11,7 +12,6 @@
   <tbody *ngIf="variations.length > 0">
     <tr *ngFor="let variation of variations">
       <td>{{ variation.id }}</td>
-      <!-- || "" -->
       <td>
         <mat-form-field
           style="max-width: 150px"
@@ -19,9 +19,7 @@
           appearance="outline"
         >
           <mat-label>SKU</mat-label>
-          <!-- (change)="changeName()" -->
           <input matInput type="text" [value]="sku(variation.id)" />
-          <!-- [formControl]="imageName" -->
         </mat-form-field>
       </td>
       <td *ngFor="let comb of variation.attribute_combinations">
@@ -34,13 +32,11 @@
           appearance="outline"
         >
           <mat-label>Cantidad</mat-label>
-          <!-- (change)="changeName()" -->
           <input
             matInput
             type="number"
             [value]="variation.available_quantity"
           />
-          <!-- [formControl]="imageName" -->
         </mat-form-field>
       </td>
       <td>
@@ -50,7 +46,7 @@
         <button mat-icon-button matSuffix>
           <mat-icon style="color: teal">photo</mat-icon>
         </button>
-        <button mat-icon-button matSuffix>
+        <button (click)="delVar(variation.id)" mat-icon-button matSuffix>
           <mat-icon style="color: red">delete</mat-icon>
         </button>
       </td>

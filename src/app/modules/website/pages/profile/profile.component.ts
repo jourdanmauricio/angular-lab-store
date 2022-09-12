@@ -8,7 +8,7 @@ import { MyValidators } from 'app/utils/validators';
 import { ChangePasswordDialogComponent } from '@modules/website/components/change-password-dialog/change-password-dialog.component';
 import { UsersService } from 'app/services/users.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '@modules/shared/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component';
 import { ConfirmDialogData } from '@models/index';
 import { MessageService } from 'app/services/message.service';
 import { Store } from '@ngrx/store';

@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 
 /* Forms */
 import { ReactiveFormsModule } from '@angular/forms';
-
-import { MaterialModule } from '../material/material.module';
+import { MaterialModule } from '@modules/material/material.module';
 
 // Components
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import * as fromPipes from './pipes';
 
 @NgModule({
-  declarations: [ConfirmDialogComponent],
+  declarations: [ConfirmDialogComponent, ...fromPipes.pipes],
   imports: [
     CommonModule,
     // Forms
@@ -20,6 +20,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
   exports: [
     // Forms
     ReactiveFormsModule,
+    ...fromPipes.pipes,
   ],
 })
 export class SharedModule {}

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { WebsiteRoutingModule } from './website-routing.module';
 
 // Shared Modules
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import { MaterialModule } from '../material/material.module';
 // Pages
 import { HomeComponent } from './pages/home/home.component';
@@ -29,6 +29,6 @@ import { ChangePasswordDialogComponent } from './components/change-password-dial
     ProfileComponent,
     NavHomeComponent,
   ],
-  imports: [WebsiteRoutingModule, CommonModule, SharedModule, MaterialModule], // , MaterialModule
+  imports: [WebsiteRoutingModule, CommonModule, MaterialModule, SharedModule], //
 })
 export class WebsiteModule {}

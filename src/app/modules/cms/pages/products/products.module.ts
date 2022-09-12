@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ProductsRoutingModule } from './products-routing.module';
 
 // Shared Modules
-import { SharedModule } from '../../../shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import { MaterialModule } from '../../../material/material.module';
 
 import { ProductsComponent } from './products.component';
@@ -20,7 +20,6 @@ import { VariationsComponent } from './components/properties/variations/variatio
 import { VariationsCombinationsComponent } from './components/properties/variations/variations-combinations/variations-combinations.component';
 import { AddCustomAttribComponent } from './components/properties/variations/add-custom-attrib/add-custom-attrib.component';
 import { VariationsTableComponent } from './components/properties/variations/variations-table/variations-table.component';
-// import { AppModule } from 'src/app/app.module';
 
 @NgModule({
   declarations: [
@@ -39,12 +38,6 @@ import { VariationsTableComponent } from './components/properties/variations/var
     AddCustomAttribComponent,
     VariationsTableComponent,
   ],
-  imports: [
-    CommonModule,
-    ProductsRoutingModule,
-    SharedModule,
-    MaterialModule,
-    // AppModule,
-  ],
+  imports: [CommonModule, ProductsRoutingModule, SharedModule, MaterialModule],
 })
 export class ProductsModule {}
