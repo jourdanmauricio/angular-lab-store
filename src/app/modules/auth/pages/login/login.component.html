@@ -1,0 +1,57 @@
+<div class="login-container">
+  <div class="login">
+    <form [formGroup]="form" (ngSubmit)="login()">
+      <img
+        src="./assets/images/login_user.png"
+        alt="Formualario Login"
+        width="40%"
+      />
+      <h1>Login</h1>
+
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="text" formControlName="email" />
+        <mat-icon matSuffix>person</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Contraseña</mat-label>
+        <input
+          autocomplete="off"
+          matInput
+          [type]="hide ? 'password' : 'text'"
+          formControlName="password"
+        />
+        <button
+          style="border: none; background: beige"
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <div class="control-rigth">
+        <a routerLink="/auth/recovery-password">Reestablecer contraseña</a>
+      </div>
+
+      <br />
+      <button
+        [disabled]="form.invalid"
+        class="full-width"
+        type="submit"
+        mat-raised-button
+        color="primary"
+      >
+        Login
+      </button>
+      <br />
+      <br />
+
+      ¿No tienes cuenta? <a routerLink="/auth/register">Registrarse</a>
+    </form>
+  </div>
+</div>

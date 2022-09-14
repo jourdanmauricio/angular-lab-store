@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
+
 import { LayoutComponent } from './components/layout/layout.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { UsersComponent } from './pages/users/users.component';
 import { QuestionsComponent } from './pages/questions/questions.component';
 import { OrdersComponent } from './pages/orders/orders.component';
-import { ProductsComponent } from './pages/products/products.component';
-import { CategoriesComponent } from './pages/categories/categories.component';
 
 const routes: Routes = [
   {
@@ -25,9 +24,7 @@ const routes: Routes = [
       {
         path: 'settings',
         loadChildren: () =>
-          import('./pages/settings/settings.module').then(
-            (m) => m.SettingsModule
-          ),
+          import('./settings/settings.module').then((m) => m.SettingsModule),
       },
       {
         path: 'users',
@@ -35,14 +32,15 @@ const routes: Routes = [
       },
       {
         path: 'categories',
-        component: CategoriesComponent,
+        loadChildren: () =>
+          import('./categories/categories.module').then(
+            (m) => m.CategoriesModule
+          ),
       },
       {
         path: 'products',
         loadChildren: () =>
-          import('./pages/products/products.module').then(
-            (m) => m.ProductsModule
-          ),
+          import('./products/products.module').then((m) => m.ProductsModule),
       },
       {
         path: 'questions',

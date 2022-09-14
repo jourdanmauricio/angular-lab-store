@@ -3,24 +3,27 @@ import { CommonModule } from '@angular/common';
 
 /* Forms */
 import { ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from '@modules/material/material.module';
 
 // Components
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import * as fromPipes from './pipes';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [ConfirmDialogComponent, ...fromPipes.pipes],
   imports: [
     CommonModule,
-    // Forms
     ReactiveFormsModule,
-    MaterialModule,
+    // Material
+    MatDialogModule,
+    MatIconModule,
   ],
   exports: [
     // Forms
     ReactiveFormsModule,
     ...fromPipes.pipes,
   ],
+  providers: [],
 })
 export class SharedModule {}

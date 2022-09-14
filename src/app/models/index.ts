@@ -10,3 +10,4 @@ export * from './setting.model';
 export * from './user.model';
 export * from './userMl.model';
 export * from './ui/IAttribComb.model';
+export * from './ui/IOptionsCat.model';

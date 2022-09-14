@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptor } from '@core/interceptors/token.interceptor';
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from './app-routing.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { CoreModule } from '@core/core.module';
+
 /* Components */
+import { AppComponent } from './app.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { NavNotFoundComponent } from './not-found/nav-not-found/nav-not-found.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -19,19 +18,18 @@ import { CurrentProdEffects } from './state/effects/currentProd.effects';
 import { UserEffects } from './state/effects/user.effects';
 import { SettingsEffects } from './state/effects/settings.effects';
 import { ApplicationEffects } from './state/effects/application.effects';
-// import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent, NotFoundComponent, NavNotFoundComponent],
   imports: [
-    // SharedModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    HttpClientModule,
+    FlexLayoutModule,
+
+    CoreModule,
     MatSnackBarModule,
     StoreModule.forRoot(ROOT_REDUCERS),
-    // StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     StoreDevtoolsModule.instrument({ name: 'TEST' }),
     EffectsModule.forRoot([
       CurrentProdEffects,
@@ -40,15 +38,7 @@ import { ApplicationEffects } from './state/effects/application.effects';
       ApplicationEffects,
     ]),
   ],
-  // exports: [FilterCategoriesPipe],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true,
-    },
-    MatSnackBarModule,
-  ],
+  providers: [MatSnackBarModule],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

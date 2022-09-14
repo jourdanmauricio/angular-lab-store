@@ -4,7 +4,7 @@ import { CmsRoutingModule } from './cms-routing.module';
 
 // Shared Modules
 import { SharedModule } from '@shared/shared.module';
-import { MaterialModule } from '../material/material.module';
+import { MaterialModule } from '@modules/material/material.module';
 // Pages
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { UsersComponent } from './pages/users/users.component';
@@ -13,9 +13,6 @@ import { OrdersComponent } from './pages/orders/orders.component';
 // Components
 import { LayoutComponent } from './components/layout/layout.component';
 import { NavCmsComponent } from './components/nav-cms/nav-cms.component';
-import { CategoriesComponent } from './pages/categories/categories.component';
-import { ModalNewCategoryComponent } from './components/categories/modal-new-category/modal-new-category.component';
-import { ModalEditCategoryComponent } from './components/categories/modal-edit-category/modal-edit-category.component';
 
 @NgModule({
   declarations: [
@@ -25,9 +22,6 @@ import { ModalEditCategoryComponent } from './components/categories/modal-edit-c
     UsersComponent,
     QuestionsComponent,
     OrdersComponent,
-    CategoriesComponent,
-    ModalNewCategoryComponent,
-    ModalEditCategoryComponent,
   ],
   imports: [CommonModule, CmsRoutingModule, MaterialModule, SharedModule], //
 })

@@ -1,0 +1,20 @@
+<div fxLayout="row" fxLayoutGap.gt-xs="30px" fxLayout.xs="column">
+  <mat-form-field fxFlex="75" class="control-sm" appearance="outline">
+    <mat-label>Categoría</mat-label>
+    <input matInput type="text" readonly [value]="category?.full_name" />
+  </mat-form-field>
+
+  <mat-form-field fxFlex="25" class="control-sm" appearance="outline">
+    <mat-label>Cat Id</mat-label>
+    <input matInput type="text" readonly [value]="category?.id" />
+
+    <button
+      (click)="seachCategory()"
+      mat-icon-button
+      matSuffix
+      aria-label="Example icon-button with a heart icon"
+    >
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
+</div>

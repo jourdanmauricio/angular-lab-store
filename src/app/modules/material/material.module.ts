@@ -1,6 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
 /* Material */
 import { MatSliderModule } from '@angular/material/slider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -23,52 +21,31 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatGridListModule } from '@angular/material/grid-list';
 
+const MaterialComponents = [
+  MatButtonModule,
+  MatCheckboxModule,
+  MatDialogModule,
+  MatDividerModule,
+  MatCardModule,
+  MatFormFieldModule,
+  MatGridListModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatPaginatorModule,
+  MatProgressSpinnerModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatSliderModule,
+  MatSortModule,
+  MatTooltipModule,
+  MatTableModule,
+  MatTabsModule,
+];
+
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    MatSliderModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatButtonModule,
-    MatProgressSpinnerModule,
-    MatMenuModule,
-    MatTooltipModule,
-    MatSidenavModule,
-    MatDividerModule,
-    MatListModule,
-    MatSelectModule,
-    MatCardModule,
-    MatDialogModule,
-    MatTabsModule,
-    MatCheckboxModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatGridListModule,
-  ],
-  exports: [
-    MatSliderModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatButtonModule,
-    MatProgressSpinnerModule,
-    MatMenuModule,
-    MatTooltipModule,
-    MatSidenavModule,
-    MatDividerModule,
-    MatListModule,
-    MatSelectModule,
-    MatCardModule,
-    MatDialogModule,
-    MatTabsModule,
-    MatCheckboxModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatGridListModule,
-  ],
+  imports: [MaterialComponents],
+  exports: [MaterialComponents],
 })
 export class MaterialModule {}

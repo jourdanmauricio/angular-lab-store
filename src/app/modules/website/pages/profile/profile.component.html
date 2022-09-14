@@ -1,6 +1,7 @@
-<mat-spinner *ngIf="loading" class="spinner" diameter="50"></mat-spinner>
+<!-- <mat-spinner *ngIf="loading" class="spinner" diameter="50"></mat-spinner> -->
+<!-- class="container-profile" -->
 
-<div *ngIf="user" class="container-profile">
+<div *ngIf="user" class="flex-container">
   <h1>Datos de la cuenta</h1>
   <p>{{ user.email }}</p>
   <div>
@@ -10,63 +11,144 @@
   <mat-spinner *ngIf="loading" class="spinner" diameter="50"></mat-spinner>
 
   <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="updateCustomer()">
-    <div class="container-grid mt">
-      <mat-form-field class="control-sm item" appearance="outline">
-        <mat-label>Nombres</mat-label>
-        <input matInput type="text" formControlName="name" />
-        <mat-error *ngIf="nameValue?.hasError('required')">
-          Campo requerido
-        </mat-error>
-        <mat-error *ngIf="nameValue?.hasError('pattern')">
-          Ingresa letras, no admite números ni caracteres especiales
-        </mat-error>
-      </mat-form-field>
+    <div fxLayout="column" class="mt">
+      <div fxLayout="row" fxLayoutGap.gt-xs="30px" fxLayout.xs="column">
+        <mat-form-field fxFlex class="control-sm" appearance="outline">
+          <mat-label>Nombres</mat-label>
+          <input matInput type="text" formControlName="name" />
+          <mat-error *ngIf="nameValue?.hasError('required')">
+            Campo requerido
+          </mat-error>
+          <mat-error *ngIf="nameValue?.hasError('pattern')">
+            Ingresa letras, no admite números ni caracteres especiales
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex class="control-sm" appearance="outline">
+          <mat-label>Apellido</mat-label>
+          <input matInput type="text" formControlName="last_name" />
+          <mat-error *ngIf="lastNameValue?.hasError('required')">
+            Campo requerido
+          </mat-error>
+          <mat-error *ngIf="nameValue?.hasError('pattern')">
+            Ingresa letras, no admite números ni caracteres especiales
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap.gt-xs="30px" fxLayout.xs="column">
+        <mat-form-field fxFlex class="control-sm item" appearance="outline">
+          <mat-label>Tipo de documento</mat-label>
+          <mat-select formControlName="document_type">
+            <mat-option *ngFor="let type of documentTypes" [value]="type">
+              {{ type }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="documenTypeValue?.hasError('required')">
+            Campo requerido
+          </mat-error>
+          <mat-error
+            *ngIf="documenTypeValue?.hasError('document_type_invalid')"
+          >
+            Tipo de documento inválido
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field class="control-sm item" appearance="outline">
-        <mat-label>Apellido</mat-label>
-        <input matInput type="text" formControlName="last_name" />
-        <mat-error *ngIf="lastNameValue?.hasError('required')">
-          Campo requerido
-        </mat-error>
-        <mat-error *ngIf="nameValue?.hasError('pattern')">
-          Ingresa letras, no admite números ni caracteres especiales
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field class="control-sm item" appearance="outline">
-        <mat-label>Tipo de documento</mat-label>
-        <mat-select formControlName="document_type">
-          <mat-option *ngFor="let type of documentTypes" [value]="type">
-            {{ type }}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="documenTypeValue?.hasError('required')">
-          Campo requerido
-        </mat-error>
-        <mat-error *ngIf="documenTypeValue?.hasError('document_type_invalid')">
-          Tipo de documento inválido
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field class="control-sm item" appearance="outline">
-        <mat-label>Nro documento</mat-label>
-        <input matInput type="text" formControlName="document_number" />
-        <mat-error *ngIf="documentNumberValue?.hasError('required')">
-          Campo requerido
-        </mat-error>
-        <mat-error *ngIf="documentNumberValue?.hasError('pattern')">
-          Ingresa solo números
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field class="control-sm item" appearance="outline">
-        <mat-label>Teléfono</mat-label>
-        <input matInput type="text" formControlName="phone" />
-        <mat-error *ngIf="phoneValue?.hasError('required')">
-          Campo requerido
-        </mat-error>
-      </mat-form-field>
+        <mat-form-field fxFlex class="control-sm item" appearance="outline">
+          <mat-label>Nro documento</mat-label>
+          <input matInput type="text" formControlName="document_number" />
+          <mat-error *ngIf="documentNumberValue?.hasError('required')">
+            Campo requerido
+          </mat-error>
+          <mat-error *ngIf="documentNumberValue?.hasError('pattern')">
+            Ingresa solo números
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div
+        fxLayout="row"
+        fxLayoutGap.gt-xs="30px"
+        fxLayout.xs="column"
+        style="width: 48.2%"
+      >
+        <mat-form-field class="control-sm item" appearance="outline">
+          <mat-label>Teléfono</mat-label>
+          <input matInput type="text" formControlName="phone" />
+          <mat-error *ngIf="phoneValue?.hasError('required')">
+            Campo requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
+
+    <!-- <div class="flex-container">
+      <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutGap.gt-xs="25px">
+        <mat-form-field fxFlex="50%" class="control-sm" appearance="outline">
+          <mat-label>Nombres</mat-label>
+          <input matInput type="text" formControlName="name" />
+          <mat-error *ngIf="nameValue?.hasError('required')">
+            Campo requerido
+          </mat-error>
+          <mat-error *ngIf="nameValue?.hasError('pattern')">
+            Ingresa letras, no admite números ni caracteres especiales
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex="50%" class="control-sm" appearance="outline">
+          <mat-label>Apellido</mat-label>
+          <input matInput type="text" formControlName="last_name" />
+          <mat-error *ngIf="lastNameValue?.hasError('required')">
+            Campo requerido
+          </mat-error>
+          <mat-error *ngIf="nameValue?.hasError('pattern')">
+            Ingresa letras, no admite números ni caracteres especiales
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field
+          fxFlex="45%"
+          class="control-sm item"
+          appearance="outline"
+        >
+          <mat-label>Tipo de documento</mat-label>
+          <mat-select formControlName="document_type">
+            <mat-option *ngFor="let type of documentTypes" [value]="type">
+              {{ type }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="documenTypeValue?.hasError('required')">
+            Campo requerido
+          </mat-error>
+          <mat-error
+            *ngIf="documenTypeValue?.hasError('document_type_invalid')"
+          >
+            Tipo de documento inválido
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field
+          fxFlex="45%"
+          class="control-sm item"
+          appearance="outline"
+        >
+          <mat-label>Nro documento</mat-label>
+          <input matInput type="text" formControlName="document_number" />
+          <mat-error *ngIf="documentNumberValue?.hasError('required')">
+            Campo requerido
+          </mat-error>
+          <mat-error *ngIf="documentNumberValue?.hasError('pattern')">
+            Ingresa solo números
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field
+          fxFlex="calc(50%-25px)"
+          class="control-sm"
+          appearance="outline"
+        >
+          <mat-label>Teléfono</mat-label>
+          <input matInput type="text" formControlName="phone" />
+          <mat-error *ngIf="phoneValue?.hasError('required')">
+            Campo requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div> -->
 
     <div>
       <mat-divider></mat-divider>
@@ -92,21 +174,19 @@
       <button mat-raised-button color="primary" type="submit">Modificar</button>
     </div>
   </form>
-
-  <div *ngIf="user.role === 'admin' || user.role === 'superadmin'">
-    <div class="mt">
-      <mat-divider></mat-divider>
-    </div>
-    <div class="admin mt">
-      <p>Role: {{ user.role }}</p>
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="administration()"
-        *ngIf="user.role === 'admin' || user.role === 'superadmin'"
-      >
-        Administración
-      </button>
-    </div>
+  <div *ngIf="user.role === 'admin' || user.role === 'superadmin'"></div>
+  <div class="mt">
+    <mat-divider></mat-divider>
+  </div>
+  <div class="admin mt">
+    <p>Role: {{ user.role }}</p>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="administration()"
+      *ngIf="user.role === 'admin' || user.role === 'superadmin'"
+    >
+      Administración
+    </button>
   </div>
 </div>
