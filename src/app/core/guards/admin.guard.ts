@@ -7,9 +7,9 @@ import {
 } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { UsersService } from 'app/services/users.service';
 import { Store } from '@ngxs/store';
 import { AuthState } from 'app/store/auth/auth.state';
+import { ROLES } from '@core/constants/enums';
 
 @Injectable({
   providedIn: 'root',
@@ -46,7 +46,7 @@ export class AdminGuard implements CanActivate {
     | Promise<boolean | UrlTree> {
     return this.store.select(AuthState.role).pipe(
       map((role) => {
-        if (role === 'admin' || role === 'superadmin') {
+        if (role === ROLES.ADMIN || role === ROLES.SUPERADMIN) {
           return true;
         } else {
           this.router.navigate(['/home']);

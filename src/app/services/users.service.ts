@@ -98,14 +98,6 @@ export class UsersService {
             response.refresh_token
           );
         })
-      )
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          if (error.status === HttpStatusCode.NotFound) {
-            return throwError(() => 'Not found');
-          }
-          return throwError(() => error);
-        })
       );
   }
 

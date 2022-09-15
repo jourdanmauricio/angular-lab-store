@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from 'app/services/auth.service';
 import { User } from '@models/index';
 import { createCustomerDto, Customer } from '@models/index';
 import { MyValidators } from 'app/utils/validators';
@@ -13,11 +12,8 @@ import { ConfirmDialogData } from '@models/index';
 import { MessageService } from 'app/services/message.service';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-// import { UserState } from 'app/store/user/user.state';
-// import { UserStateModel } from 'app/store/user/user.actions';
 import { AuthStateModel, Logout } from 'app/store/auth/auth.actions';
 import { AuthState } from 'app/store/auth/auth.state';
-// import { getUser } from 'app/state/selectors/user.selector';
 
 @Component({
   selector: 'app-profile',
@@ -32,7 +28,6 @@ export class ProfileComponent implements OnInit {
   loading = false;
 
   constructor(
-    private authService: AuthService,
     private router: Router,
     private fb: FormBuilder,
     private usersService: UsersService,

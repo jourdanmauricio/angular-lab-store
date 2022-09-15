@@ -40,12 +40,7 @@ export class NavHomeComponent implements OnInit {
   }
 
   logout() {
-    // dispath logout
     this.store.dispatch(new Logout());
-    // this.store.dispatch(logout());
-    // this.authService.logout();
-    // this.user = null; //    TODO: ACTION;
-    // this.router.navigate(['/home']);
   }
 
   goProfile() {

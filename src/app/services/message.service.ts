@@ -27,7 +27,6 @@ export class MessageService {
     let panelClass: message;
     switch (type) {
       case 'error':
-        console.log('ERRROR MESSAGE');
         panelClass = {
           duration: 1500,
           panelClass: 'snackbar-error',

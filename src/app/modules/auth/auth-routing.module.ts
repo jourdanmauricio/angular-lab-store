@@ -18,11 +18,6 @@ const routes: Routes = [
         path: 'login',
         component: LoginComponent,
       },
-      // {
-      //   path: 'profile',
-      //   // canActivate: [AuthGuard],
-      //   component: ProfileComponent,
-      // },
       {
         path: 'register',
         // canDeactivate: [ExitGuard],

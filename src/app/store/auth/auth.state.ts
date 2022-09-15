@@ -4,6 +4,7 @@ import {
   LoginRequestAttempt,
   LoginRequestSuccess,
   Logout,
+  UserMlRequest,
   UserRequest,
 } from './auth.actions';
 import { AuthService } from 'app/services/auth.service';
@@ -11,10 +12,12 @@ import { Injectable } from '@angular/core';
 import { SetLoading } from '../application/application.actions';
 import { MessageService } from 'app/services/message.service';
 import { LocalStorageService } from 'app/services/local-storage.service';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, mergeMap, of, tap } from 'rxjs';
 import { UsersService } from 'app/services/users.service';
 import { SettingsRequest, SettingsReset } from '../settings/settings.actions';
 import { Router } from '@angular/router';
+import { ROLES } from '@core/constants/enums';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
 @State<AuthStateModel>({
   name: 'auth',
@@ -23,6 +26,10 @@ import { Router } from '@angular/router';
     id: null,
     email: null,
     role: null,
+    ml_id: null,
+    nickname: null,
+    access_token: null,
+    refresh_token: null,
   },
 })
 @Injectable()
@@ -42,7 +49,7 @@ export class AuthState {
   }
 
   @Selector()
-  static role(state: AuthStateModel): string | null | undefined {
+  static role(state: AuthStateModel): ROLES | null {
     return state.role;
   }
 
@@ -55,7 +62,7 @@ export class AuthState {
     return this.authService
       .login(action.payload.email, action.payload.password)
       .pipe(
-        tap(() => this.messageService.showMsg('Bievenido!!!', 'success')),
+        tap(() => this.messageService.showMsg('Bienvenido!!!', 'success')),
         mergeMap((token) =>
           ctx.dispatch(new LoginRequestSuccess(token.access_token))
         ),
@@ -97,13 +104,41 @@ export class AuthState {
           role: user.role,
         });
       }),
-      tap(() => this.store.dispatch(new SettingsRequest())),
+      tap(() => ctx.dispatch(new UserMlRequest())),
       catchError((err) => {
         this.store.dispatch(new SetLoading(false));
         this.messageService.showMsg(
           'Error obteniendo datos del usuario',
           'error'
         );
+        return of(err);
+      })
+    );
+  }
+
+  @Action(UserMlRequest)
+  userMlRequest(ctx: StateContext<AuthStateModel>) {
+    this.store.dispatch(new SetLoading(true));
+    return this.userService.getApiUserMl().pipe(
+      tap((userMl) => {
+        const state = ctx.getState();
+        ctx.setState({
+          ...state,
+          ml_id: userMl.id,
+          nickname: userMl.nickname,
+          access_token: userMl.access_token,
+          refresh_token: userMl.refresh_token,
+        });
+      }),
+      tap(() => this.store.dispatch(new SettingsRequest())),
+      catchError((err: HttpErrorResponse) => {
+        this.store.dispatch(new SetLoading(false));
+        if (err.status !== HttpStatusCode.NotFound) {
+          this.messageService.showMsg(
+            'Error obteniendo datos del usuario',
+            'error'
+          );
+        }
         return of(err);
       })
     );
@@ -121,6 +156,10 @@ export class AuthState {
       id: null,
       email: null,
       role: null,
+      ml_id: null,
+      nickname: null,
+      access_token: null,
+      refresh_token: null,
     });
     ctx.dispatch(new SettingsReset());
     this.router.navigate(['/home']);
