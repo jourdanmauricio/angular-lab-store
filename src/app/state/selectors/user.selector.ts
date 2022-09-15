@@ -1,9 +1,9 @@
-import { createSelector } from '@ngrx/store';
-import { UserState } from '@models/state/User.state';
-import { AppState } from '../app.state';
+// import { createSelector } from '@ngrx/store';
+// import { UserState } from '@models/state/User.state';
+// import { AppState } from '../app.state';
 
-export const getUser = (state: AppState) => state.user;
+// export const getUser = (state: AppState) => state.user;
 
-export const isAuthenticated = createSelector(getUser, (state: UserState) =>
-  state.id ? true : false
-);
+// export const isAuthenticated = createSelector(getUser, (state: UserState) =>
+//   state.id ? true : false
+// );

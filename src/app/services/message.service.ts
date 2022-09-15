@@ -4,8 +4,8 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
-import { Store } from '@ngrx/store';
-import { errorMessage } from '../state/actions/application.actions';
+import { Store } from '@ngxs/store';
+// import { errorMessage } from '../state/actions/application.actions';
 
 interface message {
   panelClass: 'snackbar-error' | 'snackbar-success' | 'snackbar-info';
@@ -21,14 +21,15 @@ export class MessageService {
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
-  constructor(private snackbar: MatSnackBar, private store: Store) {}
+  constructor(private snackbar: MatSnackBar) {}
 
   showMsg(msg: string, type: string, btn: string = 'cerrar') {
     let panelClass: message;
     switch (type) {
       case 'error':
+        console.log('ERRROR MESSAGE');
         panelClass = {
-          duration: 2500,
+          duration: 1500,
           panelClass: 'snackbar-error',
           horizontalPosition: this.horizontalPosition,
           verticalPosition: this.verticalPosition,
@@ -61,6 +62,6 @@ export class MessageService {
     }
 
     this.snackbar.open(msg, btn, panelClass);
-    this.store.dispatch(errorMessage({ message: '' }));
+    // this.store.dispatch(errorMessage({ message: '' }));
   }
 }

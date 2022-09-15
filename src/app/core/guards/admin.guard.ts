@@ -5,33 +5,48 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { map } from 'rxjs';
 import { UsersService } from 'app/services/users.service';
-import { Store } from '@ngrx/store';
-import { getUser } from 'app/state/selectors/user.selector';
+import { Store } from '@ngxs/store';
+import { AuthState } from 'app/store/auth/auth.state';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminGuard implements CanActivate {
-  constructor(
-    private router: Router,
-    private usersService: UsersService,
-    private store: Store<any>
-  ) {}
+  constructor(private router: Router, private store: Store) {}
+
+  // canActivate(
+  //   route: ActivatedRouteSnapshot,
+  //   state: RouterStateSnapshot
+  // ):
+  //   | Observable<boolean | UrlTree>
+  //   | Promise<boolean | UrlTree>
+  //   | boolean
+  //   | UrlTree {
+  // return this.store.select(getUser).pipe(
+  //   map((user) => {
+  //     if (user?.role === 'admin' || user?.role === 'superadmin') {
+  //       return true;
+  //     } else {
+  //       this.router.navigate(['/home']);
+  //       return false;
+  //     }
+  //   })
+  // );
+  // }
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ):
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree>
     | boolean
-    | UrlTree {
-    return this.store.select(getUser).pipe(
-      map((user) => {
-        if (user?.role === 'admin' || user?.role === 'superadmin') {
+    | UrlTree
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree> {
+    return this.store.select(AuthState.role).pipe(
+      map((role) => {
+        if (role === 'admin' || role === 'superadmin') {
           return true;
         } else {
           this.router.navigate(['/home']);

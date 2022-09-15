@@ -11,8 +11,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component';
 import { ConfirmDialogData } from '@models/index';
 import { MessageService } from 'app/services/message.service';
-import { Store } from '@ngrx/store';
-import { getUser } from 'app/state/selectors/user.selector';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+// import { UserState } from 'app/store/user/user.state';
+// import { UserStateModel } from 'app/store/user/user.actions';
+import { AuthStateModel, Logout } from 'app/store/auth/auth.actions';
+import { AuthState } from 'app/store/auth/auth.state';
+// import { getUser } from 'app/state/selectors/user.selector';
 
 @Component({
   selector: 'app-profile',
@@ -33,7 +38,7 @@ export class ProfileComponent implements OnInit {
     private usersService: UsersService,
     private message: MessageService,
     public dialog: MatDialog,
-    private store: Store<any>
+    private store: Store
   ) {
     this.form = this.fb.group({
       name: ['', [Validators.required]],
@@ -50,12 +55,18 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.store.select(getUser).subscribe((user) => (this.user = user));
+  @Select(AuthState) user$!: Observable<AuthStateModel>;
 
-    this.usersService.getCustomer().subscribe((customer) => {
-      this.customer = customer;
-      this.form.patchValue(customer);
+  ngOnInit(): void {
+    this.usersService.getCustomer().subscribe({
+      next: (customer) => {
+        this.customer = customer;
+        console.log('Customer', customer);
+        this.form.patchValue(customer);
+      },
+      error: (err) => {
+        console.log('Err', err);
+      },
     });
   }
 
@@ -105,7 +116,8 @@ export class ProfileComponent implements OnInit {
     dialogRef.afterClosed().subscribe((confirm) => {
       if (confirm) {
         this.usersService.delete(this.user!.id).subscribe(() => {
-          this.authService.logout();
+          // this.authService.logout();
+          this.store.dispatch(new Logout());
           this.router.navigate(['/home']);
         });
       }

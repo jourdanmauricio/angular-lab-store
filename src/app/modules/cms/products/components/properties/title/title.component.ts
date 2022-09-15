@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { updateCurrentProd } from 'app/state/actions/currentProd.actions';
-import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
+import { Store } from '@ngxs/store';
+// import { updateCurrentProd } from 'app/state/actions/currentProd.actions';
+// import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
 
 @Component({
   selector: 'app-title',
@@ -17,22 +17,22 @@ export class TitleComponent implements OnInit {
     Validators.maxLength(this.maxTitle),
   ]);
 
-  constructor(private store: Store<any>) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store.select(getCurrentProd).subscribe((data) => {
-      if (data.category) {
-        this.title.setValue(data.title);
-        this.maxTitle = data.category!.settings.max_title_length;
-      }
-    });
+    // this.store.select(getCurrentProd).subscribe((data) => {
+    //   if (data.category) {
+    //     this.title.setValue(data.title);
+    //     this.maxTitle = data.category!.settings.max_title_length;
+    //   }
+    // });
   }
 
   change() {
-    this.store.dispatch(
-      updateCurrentProd({
-        property: { title: this.title.value },
-      })
-    );
+    // this.store.dispatch(
+    //   updateCurrentProd({
+    //     property: { title: this.title.value },
+    //   })
+    // );
   }
 }

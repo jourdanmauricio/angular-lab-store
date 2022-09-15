@@ -1,8 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { getUser } from 'app/state/selectors/user.selector';
-import { logout } from 'app/state/actions/user.actions';
+import { Store } from '@ngxs/store';
+import { Logout } from 'app/store/auth/auth.actions';
 
 @Component({
   selector: 'nav-cms',
@@ -15,10 +14,10 @@ export class NavCmsComponent implements OnInit {
   counter = 0;
   email: string | undefined = undefined;
 
-  constructor(private router: Router, private store: Store<any>) {}
+  constructor(private router: Router, private store: Store) {}
 
   ngOnInit(): void {
-    this.store.select(getUser).subscribe((user) => (this.email = user?.email));
+    // this.store.select(getUser).subscribe((user) => (this.email = user?.email));
   }
 
   toggleMenu() {
@@ -26,7 +25,7 @@ export class NavCmsComponent implements OnInit {
   }
 
   logout() {
-    this.store.dispatch(logout());
+    this.store.dispatch(new Logout());
     this.router.navigate(['/login']);
   }
 

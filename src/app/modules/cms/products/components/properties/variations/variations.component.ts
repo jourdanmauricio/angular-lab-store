@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store } from '@ngxs/store';
 import { Variation } from '@models/index';
-import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
+// import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
 
 @Component({
   selector: 'app-variations',
@@ -11,13 +11,12 @@ import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
 export class VariationsComponent implements OnInit {
   variations: Variation[] = [];
 
-  constructor(private store: Store<any>) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store
-      .select(getCurrentProd)
-      .subscribe((data) => (this.variations = data.variations));
-
-    console.log('Variations', this.variations);
+    // this.store
+    //   .select(getCurrentProd)
+    //   .subscribe((data) => (this.variations = data.variations));
+    // console.log('Variations', this.variations);
   }
 }

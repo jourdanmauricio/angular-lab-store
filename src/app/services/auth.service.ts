@@ -13,6 +13,7 @@ import { AuthMl } from '../models/index';
 import { createUseMlDto } from '../models/index';
 import { SettingsService } from './settings.service';
 import { UsersService } from './users.service';
+import { IAuth } from '@models/state/IAuth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,16 +32,15 @@ export class AuthService {
   ) {}
 
   login(email: string, password: string) {
-    return this.http
-      .post<Auth>(`${this.apiUrl}/auth/login`, {
-        email,
-        password,
-      })
-      .pipe(
-        tap((response) => {
-          this.localStorageService.saveItem('token', response.access_token);
-        })
-      );
+    return this.http.post<IAuth>(`${this.apiUrl}/auth/login`, {
+      email,
+      password,
+    });
+    // .pipe(
+    //   tap((response) => {
+    //     this.localStorageService.saveItem('token', response.access_token);
+    //   })
+    // );
   }
 
   recoveryPassword(email: string) {
@@ -75,11 +75,11 @@ export class AuthService {
       );
   }
 
-  logout() {
-    this.localStorageService.removeItem('token');
-    this.localStorageService.removeItem('tokenMl');
-    this.localStorageService.removeItem('refreshTokenMl');
-  }
+  // logout() {
+  //   this.localStorageService.removeItem('token');
+  //   this.localStorageService.removeItem('tokenMl');
+  //   this.localStorageService.removeItem('refreshTokenMl');
+  // }
 
   /* ######################### ML ######################### */
 

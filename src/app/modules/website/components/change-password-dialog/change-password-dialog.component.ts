@@ -5,8 +5,8 @@ import { MyValidators } from 'app/utils/validators';
 import { UsersService } from 'app/services/users.service';
 import { UpdatePassDto, User } from '@models/index';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Store } from '@ngrx/store';
-import { getUser } from 'app/state/selectors/user.selector';
+import { Store } from '@ngxs/store';
+// import { getUser } from 'app/state/selectors/user.selector';
 
 @Component({
   selector: 'app-change-password-dialog',
@@ -26,7 +26,7 @@ export class ChangePasswordDialogComponent implements OnInit {
     private usersService: UsersService,
     public dialogRef: MatDialogRef<ChangePasswordDialogComponent>,
     private _snackBar: MatSnackBar,
-    private store: Store<any>
+    private store: Store
   ) {
     this.form = this.fb.group(
       {
@@ -41,7 +41,7 @@ export class ChangePasswordDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.select(getUser).subscribe((user) => (this.user = user));
+    // this.store.select(getUser).subscribe((user) => (this.user = user));
   }
 
   changePassword() {

@@ -4,6 +4,7 @@ import { environment } from 'environments/environment';
 import { apiToken } from '@core/interceptors/token.interceptor';
 import { Settings } from '../models/index';
 import { tap } from 'rxjs';
+import { SettingsStateModel } from 'app/store/settings/settings.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,7 @@ export class SettingsService {
   constructor(private http: HttpClient) {}
 
   getSettings() {
-    return this.http.get<Settings>(`${this.apiUrl}/settings`, {
+    return this.http.get<SettingsStateModel>(`${this.apiUrl}/settings`, {
       context: apiToken('API'),
     });
   }

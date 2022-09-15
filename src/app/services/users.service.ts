@@ -16,6 +16,7 @@ import {
   Customer,
   updateCustomerDto,
 } from '../models/index';
+import { AuthStateModel } from 'app/store/auth/auth.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -182,7 +183,7 @@ export class UsersService {
   }
 
   getProfile() {
-    return this.http.get<User>(`${this.apiUrl}/users/profile`, {
+    return this.http.get<AuthStateModel>(`${this.apiUrl}/users/profile`, {
       context: apiToken('API'),
     });
   }

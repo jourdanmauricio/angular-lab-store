@@ -4,20 +4,20 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CoreModule } from '@core/core.module';
+import { HttpClientModule } from '@angular/common/http';
 
 /* Components */
 import { AppComponent } from './app.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { NavNotFoundComponent } from './not-found/nav-not-found/nav-not-found.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { ROOT_REDUCERS } from './state/app.state';
-import { EffectsModule } from '@ngrx/effects';
-import { CurrentProdEffects } from './state/effects/currentProd.effects';
-import { UserEffects } from './state/effects/user.effects';
-import { SettingsEffects } from './state/effects/settings.effects';
-import { ApplicationEffects } from './state/effects/application.effects';
+
+import { NgxsModule } from '@ngxs/store';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { AuthState } from './store/auth/auth.state';
+import { ApplicationState } from './store/application/application.state';
+import { SettingsState } from './store/settings/settings.state';
 
 @NgModule({
   declarations: [AppComponent, NotFoundComponent, NavNotFoundComponent],
@@ -29,14 +29,12 @@ import { ApplicationEffects } from './state/effects/application.effects';
 
     CoreModule,
     MatSnackBarModule,
-    StoreModule.forRoot(ROOT_REDUCERS),
-    StoreDevtoolsModule.instrument({ name: 'TEST' }),
-    EffectsModule.forRoot([
-      CurrentProdEffects,
-      UserEffects,
-      SettingsEffects,
-      ApplicationEffects,
-    ]),
+    NgxsModule.forRoot([AuthState, ApplicationState, SettingsState], {
+      developmentMode: true,
+    }),
+    NgxsReduxDevtoolsPluginModule.forRoot(),
+    NgxsLoggerPluginModule.forRoot(),
+    HttpClientModule,
   ],
   providers: [MatSnackBarModule],
   bootstrap: [AppComponent],

@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store } from '@ngxs/store';
 import { CategoryAttribute } from '@models/category.model';
 import { Variation } from '@models/index';
-import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
-import { updateCurrentProd } from 'app/state/actions/currentProd.actions';
+// import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
+// import { updateCurrentProd } from 'app/state/actions/currentProd.actions';
 
 @Component({
   selector: 'app-variations-table',
@@ -15,17 +15,17 @@ export class VariationsTableComponent implements OnInit {
   variations: Variation[] = [];
   attributes: CategoryAttribute[] = [];
   atribProdVariations: string[] = [];
-  constructor(private store: Store<any>) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store.select(getCurrentProd).subscribe((data) => {
-      if (data.variations && data.category) {
-        this.variations = JSON.parse(JSON.stringify(data.variations));
-        this.attributes = data.category?.attributes.filter((attribute) =>
-          attribute.tags?.hasOwnProperty('allow_variations')
-        );
-      }
-    });
+    // this.store.select(getCurrentProd).subscribe((data) => {
+    //   if (data.variations && data.category) {
+    //     this.variations = JSON.parse(JSON.stringify(data.variations));
+    //     this.attributes = data.category?.attributes.filter((attribute) =>
+    //       attribute.tags?.hasOwnProperty('allow_variations')
+    //     );
+    //   }
+    // });
   }
 
   combAttributes() {
@@ -51,10 +51,10 @@ export class VariationsTableComponent implements OnInit {
   delVar(id: number | string) {
     const index = this.variations.findIndex((vari) => vari.id === id);
     this.variations.splice(index, 1);
-    this.store.dispatch(
-      updateCurrentProd({
-        property: { variations: this.variations },
-      })
-    );
+    // this.store.dispatch(
+    //   updateCurrentProd({
+    //     property: { variations: this.variations },
+    //   })
+    // );
   }
 }

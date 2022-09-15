@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store } from '@ngxs/store';
 import { Category } from '@models/index';
-import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
+// import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
 import { MatDialog } from '@angular/material/dialog';
 import { CategorySearchComponent } from './category-search/category-search.component';
-import { updateCurrentProd } from 'app/state/actions/currentProd.actions';
+// import { updateCurrentProd } from 'app/state/actions/currentProd.actions';
 import { ConfirmDialogData } from '@models/index';
 import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component';
 
@@ -16,14 +16,14 @@ import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confir
 export class CategoryComponent implements OnInit {
   category?: Category;
 
-  constructor(private store: Store<any>, public dialog: MatDialog) {}
+  constructor(private store: Store, public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.store.select(getCurrentProd).subscribe((data) => {
-      if (data.category) {
-        this.category = data.category;
-      }
-    });
+    // this.store.select(getCurrentProd).subscribe((data) => {
+    //   if (data.category) {
+    //     this.category = data.category;
+    //   }
+    // });
   }
 
   seachCategory() {
@@ -51,16 +51,16 @@ export class CategoryComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((confirm) => {
           if (confirm) {
-            this.store.dispatch(
-              updateCurrentProd({
-                property: { category: result },
-              })
-            );
-            this.store.dispatch(
-              updateCurrentProd({
-                property: { category_id: result.id },
-              })
-            );
+            // this.store.dispatch(
+            //   updateCurrentProd({
+            //     property: { category: result },
+            //   })
+            // );
+            // this.store.dispatch(
+            //   updateCurrentProd({
+            //     property: { category_id: result.id },
+            //   })
+            // );
           }
         });
       }

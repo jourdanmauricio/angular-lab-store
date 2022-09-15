@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { loadCurrentProd } from 'app/state/actions/currentProd.actions';
+import { Store } from '@ngxs/store';
+// import { loadCurrentProd } from 'app/state/actions/currentProd.actions';
 import { Observable, switchMap } from 'rxjs';
 import { Product } from '@models/index';
-import { selectLoading } from 'app/state/selectors/application.selector';
+// import { selectLoading } from 'app/state/selectors/application.selector';
 
 @Component({
   selector: 'app-edit-product',
@@ -16,21 +16,20 @@ export class EditProductComponent implements OnInit {
   loading$: Observable<any> = new Observable();
   currentProd!: Product;
 
-  constructor(private route: ActivatedRoute, private store: Store<any>) {}
+  constructor(private route: ActivatedRoute, private store: Store) {}
 
   ngOnInit(): void {
-    this.loading$ = this.store.select(selectLoading);
-
-    this.route.paramMap
-      .pipe(
-        switchMap((params) => {
-          this.currentProdId = params.get('id');
-          if (this.currentProdId) {
-            this.store.dispatch(loadCurrentProd({ id: this.currentProdId }));
-          }
-          return [];
-        })
-      )
-      .subscribe();
+    //   this.loading$ = this.store.select(selectLoading);
+    //   this.route.paramMap
+    //     .pipe(
+    //       switchMap((params) => {
+    //         this.currentProdId = params.get('id');
+    //         if (this.currentProdId) {
+    //           this.store.dispatch(loadCurrentProd({ id: this.currentProdId }));
+    //         }
+    //         return [];
+    //       })
+    //     )
+    //     .subscribe();
   }
 }

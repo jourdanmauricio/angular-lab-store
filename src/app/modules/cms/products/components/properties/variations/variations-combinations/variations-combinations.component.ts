@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store } from '@ngxs/store';
 import { Category, CategoryAttribute } from '@models/category.model';
 import { AttributeCombination, Variation } from '@models/index';
-import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
+// import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
 import { AddCustomAttribComponent } from '../add-custom-attrib/add-custom-attrib.component';
 import { MessageService } from 'app/services/message.service';
 import { MatDialog } from '@angular/material/dialog';
-import { updateCurrentProd } from 'app/state/actions/currentProd.actions';
+// import { updateCurrentProd } from 'app/state/actions/currentProd.actions';
 import {
   newVarSku,
   isNewVariation,
@@ -46,7 +46,7 @@ export class VariationsCombinationsComponent implements OnInit {
   private fb: FormBuilder;
 
   constructor(
-    private store: Store<any>,
+    private store: Store,
     public dialog: MatDialog,
     private messageService: MessageService
   ) {
@@ -55,7 +55,7 @@ export class VariationsCombinationsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getData();
+    //this.getData();
   }
 
   getAtrribError(field: string) {
@@ -63,31 +63,27 @@ export class VariationsCombinationsComponent implements OnInit {
   }
 
   getData() {
-    this.store.select(getCurrentProd).subscribe((data) => {
-      if (data.category) {
-        this.category = data.category;
-        this.variations = JSON.parse(JSON.stringify(data.variations));
-        this.seller_custom_field = data.seller_custom_field;
-        this.price = data.price;
-
-        this.attributes = getAttribsComb(this.variations, this.category);
-
-        let obj: { [k: string]: any } = {};
-        this.attributes.forEach(
-          (atrib) =>
-            (obj[atrib.id] = new FormControl(
-              { value: '', disabled: !atrib.active },
-              Validators.required
-            ))
-        );
-
-        if (this.variations.length === 0) {
-          this.customAttribute = false;
-        }
-
-        this.attributesForm = this.fb.group(obj);
-      }
-    });
+    // this.store.select(getCurrentProd).subscribe((data) => {
+    //   if (data.category) {
+    //     this.category = data.category;
+    //     this.variations = JSON.parse(JSON.stringify(data.variations));
+    //     this.seller_custom_field = data.seller_custom_field;
+    //     this.price = data.price;
+    //     this.attributes = getAttribsComb(this.variations, this.category);
+    //     let obj: { [k: string]: any } = {};
+    //     this.attributes.forEach(
+    //       (atrib) =>
+    //         (obj[atrib.id] = new FormControl(
+    //           { value: '', disabled: !atrib.active },
+    //           Validators.required
+    //         ))
+    //     );
+    //     if (this.variations.length === 0) {
+    //       this.customAttribute = false;
+    //     }
+    //     this.attributesForm = this.fb.group(obj);
+    //   }
+    // });
   }
 
   onAddAttrib() {
@@ -224,12 +220,12 @@ export class VariationsCombinationsComponent implements OnInit {
       this.messageService.showMsg(`${exists} variaciones existen`, 'error');
 
     if (newVariations.length > 0)
-      this.store.dispatch(
-        updateCurrentProd({
-          property: { variations: [...this.variations, ...newVariations] },
-        })
-      );
-    newVariations = [];
+      // this.store.dispatch(
+      //   updateCurrentProd({
+      //     property: { variations: [...this.variations, ...newVariations] },
+      //   })
+      // );
+      newVariations = [];
 
     this.attributesForm.reset();
     formDirective.resetForm();

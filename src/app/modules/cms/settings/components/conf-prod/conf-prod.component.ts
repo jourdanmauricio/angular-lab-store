@@ -5,13 +5,13 @@ import { Settings } from '@models/index';
 import { User } from '@models/index';
 import { SettingsService } from 'app/services/settings.service';
 import { MessageService } from 'app/services/message.service';
-import { Store } from '@ngrx/store';
-import { getUser } from 'app/state/selectors/user.selector';
-import { getSettings } from 'app/state/selectors/settings.selectors';
-import { updateSettings } from 'app/state/actions/settings.actions';
-import { loading } from 'app/state/actions/application.actions';
+import { Store } from '@ngxs/store';
+// import { getUser } from 'app/state/selectors/user.selector';
+// import { getSettings } from 'app/state/selectors/settings.selectors';
+// import { updateSettings } from 'app/state/actions/settings.actions';
+// import { loading } from 'app/state/actions/application.actions';
 import { Observable } from 'rxjs';
-import { selectLoading } from 'app/state/selectors/application.selector';
+// import { selectLoading } from 'app/state/selectors/application.selector';
 
 @Component({
   selector: 'app-conf-prod',
@@ -29,7 +29,7 @@ export class ConfProdComponent implements OnInit {
     private settingsService: SettingsService,
     private fb: FormBuilder,
     private message: MessageService,
-    private store: Store<any>
+    private store: Store
   ) {
     this.form = this.fb.group({
       status: [''],
@@ -43,13 +43,13 @@ export class ConfProdComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loading$ = this.store.select(selectLoading);
-    this.store.select(getUser).subscribe((user) => (this.user = user));
-    this.store.select(getSettings).subscribe((data) => {
-      this.settings = data;
-      this.form.patchValue(this.settings);
-      this.pictures = JSON.parse(JSON.stringify(data.pictures));
-    });
+    // this.loading$ = this.store.select(selectLoading);
+    // this.store.select(getUser).subscribe((user) => (this.user = user));
+    // this.store.select(getSettings).subscribe((data) => {
+    //   this.settings = data;
+    //   this.form.patchValue(this.settings);
+    //   this.pictures = JSON.parse(JSON.stringify(data.pictures));
+    // });
   }
 
   addPicture(picture: Picture) {
@@ -75,9 +75,9 @@ export class ConfProdComponent implements OnInit {
     };
 
     // Dispatch
-    this.store.dispatch(loading({ status: true }));
-    this.store.dispatch(
-      updateSettings({ user_id: this.user!.id, settings: data })
-    );
+    // this.store.dispatch(loading({ status: true }));
+    // this.store.dispatch(
+    //   updateSettings({ user_id: this.user!.id, settings: data })
+    // );
   }
 }

@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { fadeInAnimation } from '@core/_animations';
 import { Router } from '@angular/router';
 import { AuthService } from 'app/services/auth.service';
-import { User } from '@models/index';
-import { Store } from '@ngrx/store';
-import { isAuthenticated, getUser } from 'app/state/selectors/user.selector';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { logout } from 'app/state/actions/user.actions';
+// import { UserState } from 'app/store/user/user.state';
+// import { UserStateModel } from 'app/store/user/user.actions';
+import { AuthStateModel, Logout } from 'app/store/auth/auth.actions';
+import { AuthState } from 'app/store/auth/auth.state';
 
 @Component({
   selector: 'app-nav-home',
@@ -18,19 +19,17 @@ import { logout } from 'app/state/actions/user.actions';
 export class NavHomeComponent implements OnInit {
   activeMenu = false;
   counter = 0;
-  user: User | null = null;
-  isAuthenticated$!: Observable<boolean>;
 
   constructor(
     private authService: AuthService,
-    private store: Store<any>,
+    private store: Store,
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.store.select(getUser).subscribe((user) => (this.user = user));
-    this.isAuthenticated$ = this.store.select(isAuthenticated);
-  }
+  @Select(AuthState) user$!: Observable<AuthStateModel>;
+  @Select(AuthState.isAuthenticated) isAuthenticated$!: Observable<boolean>;
+
+  ngOnInit(): void {}
 
   toggleMenu() {
     this.activeMenu = !this.activeMenu;
@@ -42,7 +41,8 @@ export class NavHomeComponent implements OnInit {
 
   logout() {
     // dispath logout
-    this.store.dispatch(logout());
+    this.store.dispatch(new Logout());
+    // this.store.dispatch(logout());
     // this.authService.logout();
     // this.user = null; //    TODO: ACTION;
     // this.router.navigate(['/home']);

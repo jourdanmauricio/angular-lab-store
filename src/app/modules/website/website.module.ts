@@ -20,6 +20,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatDialogModule,
     MatDividerModule,
     MatIconModule,
+    MatInputModule,
     MatFormFieldModule,
     MatMenuModule,
     MatProgressSpinnerModule,
