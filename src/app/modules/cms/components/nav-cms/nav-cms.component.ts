@@ -1,7 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngxs/store';
-import { Logout } from 'app/store/auth/auth.actions';
+import { Select, Store } from '@ngxs/store';
+import { AuthStateModel, Logout } from 'app/store/auth/auth.actions';
+import { AuthState } from 'app/store/auth/auth.state';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'nav-cms',
@@ -12,13 +14,11 @@ export class NavCmsComponent implements OnInit {
   @Output() menu = new EventEmitter();
 
   counter = 0;
-  email: string | undefined = undefined;
+  @Select(AuthState) user$!: Observable<AuthStateModel>;
 
   constructor(private router: Router, private store: Store) {}
 
-  ngOnInit(): void {
-    // this.store.select(getUser).subscribe((user) => (this.email = user?.email));
-  }
+  ngOnInit(): void {}
 
   toggleMenu() {
     this.menu.emit();

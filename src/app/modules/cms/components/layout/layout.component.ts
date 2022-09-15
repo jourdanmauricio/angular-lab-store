@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { fadeInAnimation } from '@core/_animations';
+import { Select } from '@ngxs/store';
+import { ApplicationState } from 'app/store/application/application.state';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-layout',
@@ -21,6 +24,8 @@ export class LayoutComponent implements OnInit {
     };
     this.checkMenu();
   }
+
+  @Select(ApplicationState.isLoading) isLoading$!: Observable<boolean>;
 
   onToggleMenu() {
     this.showMenu = !this.showMenu;

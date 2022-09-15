@@ -1,17 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Picture } from '@models/index';
-import { Settings } from '@models/index';
-import { User } from '@models/index';
-import { SettingsService } from 'app/services/settings.service';
-import { MessageService } from 'app/services/message.service';
 import { Store } from '@ngxs/store';
-// import { getUser } from 'app/state/selectors/user.selector';
-// import { getSettings } from 'app/state/selectors/settings.selectors';
-// import { updateSettings } from 'app/state/actions/settings.actions';
-// import { loading } from 'app/state/actions/application.actions';
 import { Observable } from 'rxjs';
-// import { selectLoading } from 'app/state/selectors/application.selector';
+import { SettingsState } from 'app/store/settings/settings.state';
+import {
+  SettingsStateModel,
+  SettingsUpdate,
+} from 'app/store/settings/settings.actions';
+import { AuthState } from 'app/store/auth/auth.state';
+import { AuthStateModel } from 'app/store/auth/auth.actions';
 
 @Component({
   selector: 'app-conf-prod',
@@ -19,18 +17,13 @@ import { Observable } from 'rxjs';
   styleUrls: ['./conf-prod.component.scss'],
 })
 export class ConfProdComponent implements OnInit {
-  user: User | null = null;
-  settings!: Settings;
+  user!: AuthStateModel;
+  settings!: SettingsState;
   form: FormGroup;
   loading$: Observable<any> = new Observable();
   pictures: Picture[] = [];
 
-  constructor(
-    private settingsService: SettingsService,
-    private fb: FormBuilder,
-    private message: MessageService,
-    private store: Store
-  ) {
+  constructor(private fb: FormBuilder, private store: Store) {
     this.form = this.fb.group({
       status: [''],
       listing_type_id: [''],
@@ -43,13 +36,13 @@ export class ConfProdComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.loading$ = this.store.select(selectLoading);
-    // this.store.select(getUser).subscribe((user) => (this.user = user));
-    // this.store.select(getSettings).subscribe((data) => {
-    //   this.settings = data;
-    //   this.form.patchValue(this.settings);
-    //   this.pictures = JSON.parse(JSON.stringify(data.pictures));
-    // });
+    this.store.select(SettingsState).subscribe((settings) => {
+      this.form.patchValue(settings);
+      this.pictures = JSON.parse(JSON.stringify(settings.pictures));
+    });
+    this.store.select(AuthState).subscribe((user) => {
+      this.user = user;
+    });
   }
 
   addPicture(picture: Picture) {
@@ -64,7 +57,7 @@ export class ConfProdComponent implements OnInit {
   }
 
   handleChange() {
-    const data: Settings = {
+    const data: SettingsStateModel = {
       status: this.form.value.status,
       hintSku: this.form.value.hintSku,
       pictures: this.pictures,
@@ -75,9 +68,10 @@ export class ConfProdComponent implements OnInit {
     };
 
     // Dispatch
-    // this.store.dispatch(loading({ status: true }));
-    // this.store.dispatch(
-    //   updateSettings({ user_id: this.user!.id, settings: data })
-    // );
+    console.log('this.user.id', this.user.id);
+    if (this.user.id !== null)
+      this.store
+        .dispatch(new SettingsUpdate({ userId: this.user.id, settings: data }))
+        .subscribe();
   }
 }

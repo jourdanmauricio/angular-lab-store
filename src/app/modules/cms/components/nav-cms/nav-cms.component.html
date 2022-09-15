@@ -64,7 +64,7 @@
       <mat-menu #menu="matMenu">
         <button (click)="goProfile()" mat-menu-item>
           <mat-icon>dialpad</mat-icon>
-          <span>{{ email }}</span>
+          <span>{{ (user$ | async)?.email }}</span>
         </button>
         <button mat-menu-item disabled>
           <mat-icon>voicemail</mat-icon>

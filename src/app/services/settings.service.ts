@@ -19,7 +19,7 @@ export class SettingsService {
     });
   }
 
-  updateSettings(id: number, data: Settings) {
+  updateSettings(id: number, data: SettingsStateModel) {
     let settings = { setting: data };
     return this.http
       .put<Settings>(`${this.apiUrl}/settings/${id}`, settings, {

@@ -1,14 +1,15 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Action, State, StateContext, Store } from '@ngxs/store';
+import { Action, Select, State, StateContext, Store } from '@ngxs/store';
 import { MessageService } from 'app/services/message.service';
 import { SettingsService } from 'app/services/settings.service';
-import { catchError, of, tap } from 'rxjs';
+import { catchError, Observable, of, tap } from 'rxjs';
 import { SetLoading } from '../application/application.actions';
 import {
   SettingsRequest,
   SettingsReset,
   SettingsStateModel,
+  SettingsUpdate,
 } from './settings.actions';
 
 @State<SettingsStateModel>({
@@ -46,6 +47,38 @@ export class SettingsState {
         return of(err);
       })
     );
+  }
+
+  @Action(SettingsUpdate)
+  settingsUpdate(
+    ctx: StateContext<SettingsStateModel>,
+    { payload }: SettingsUpdate
+  ) {
+    this.store.dispatch(new SetLoading(true));
+    console.log('payload.userId', payload.userId);
+    return this.settingsService
+      .updateSettings(payload.userId, payload.settings)
+      .pipe(
+        tap(() =>
+          this.messageService.showMsg('Configuración Modificada', 'success')
+        ),
+        tap(() => this.store.dispatch(new SetLoading(false))),
+        tap((settings) => {
+          const state = ctx.getState();
+          ctx.setState({
+            ...state,
+            ...payload.settings,
+          });
+        }),
+        catchError((err) => {
+          this.store.dispatch(new SetLoading(false));
+          this.messageService.showMsg(
+            'Error modificando la configuración',
+            'error'
+          );
+          return of(err);
+        })
+      );
   }
 
   @Action(SettingsReset)
