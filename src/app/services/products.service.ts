@@ -14,6 +14,7 @@ import { Category } from '../models/category.model';
 import { ProductMl } from '../models/index';
 import { LocalStorageService } from './local-storage.service';
 import { UsersService } from './users.service';
+import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
 
 @Injectable({
   providedIn: 'root',
@@ -64,7 +65,7 @@ export class ProductsService {
   }
 
   getProduct(id: string) {
-    return this.http.get<any>(`${this.apiUrl}/products/${id}`, {
+    return this.http.get<CurrentProdState>(`${this.apiUrl}/products/${id}`, {
       context: apiToken('API'),
     });
   }

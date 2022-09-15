@@ -126,6 +126,8 @@ export function getAttribsComb(variations: Variation[], category: Category) {
     });
   }
 
+  console.log('calc atrib2', category);
+
   attribsVarCat.forEach((cat) => {
     let index = attribs.findIndex((prod) => prod.id === cat.id);
     if (index === -1) {

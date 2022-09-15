@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Category, CategoryAttribute } from '@models/category.model';
+import { Category } from '@models/category.model';
 import { AttributeCombination, Variation } from '@models/index';
-// import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
 import { AddCustomAttribComponent } from '../add-custom-attrib/add-custom-attrib.component';
 import { MessageService } from 'app/services/message.service';
 import { MatDialog } from '@angular/material/dialog';
-// import { updateCurrentProd } from 'app/state/actions/currentProd.actions';
 import {
   newVarSku,
   isNewVariation,
@@ -15,13 +13,14 @@ import {
 } from 'app/utils/functions';
 import { IAttribComb } from '@models/index';
 import {
-  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
+import { CurrentProdUpdate } from 'app/store/currentProd/currentProd.actions';
 
 export interface AttribComb {
   [key: string]: AttributeCombination[];
@@ -42,7 +41,6 @@ export class VariationsCombinationsComponent implements OnInit {
   attributesComb!: AttribComb;
 
   attributesForm: FormGroup;
-  // control: FormArray;
   private fb: FormBuilder;
 
   constructor(
@@ -55,7 +53,7 @@ export class VariationsCombinationsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.getData();
+    this.getData();
   }
 
   getAtrribError(field: string) {
@@ -63,27 +61,30 @@ export class VariationsCombinationsComponent implements OnInit {
   }
 
   getData() {
-    // this.store.select(getCurrentProd).subscribe((data) => {
-    //   if (data.category) {
-    //     this.category = data.category;
-    //     this.variations = JSON.parse(JSON.stringify(data.variations));
-    //     this.seller_custom_field = data.seller_custom_field;
-    //     this.price = data.price;
-    //     this.attributes = getAttribsComb(this.variations, this.category);
-    //     let obj: { [k: string]: any } = {};
-    //     this.attributes.forEach(
-    //       (atrib) =>
-    //         (obj[atrib.id] = new FormControl(
-    //           { value: '', disabled: !atrib.active },
-    //           Validators.required
-    //         ))
-    //     );
-    //     if (this.variations.length === 0) {
-    //       this.customAttribute = false;
-    //     }
-    //     this.attributesForm = this.fb.group(obj);
-    //   }
-    // });
+    this.store.select(CurrentProdState.currentProd).subscribe((prod) => {
+      if (prod.variations)
+        this.variations = JSON.parse(JSON.stringify(prod.variations));
+      if (prod.category) {
+        this.category = prod.category;
+        this.attributes = getAttribsComb(this.variations, this.category);
+      }
+      if (prod.seller_custom_field)
+        this.seller_custom_field = prod.seller_custom_field;
+      if (prod.price) this.price = prod.price;
+
+      let obj: { [k: string]: any } = {};
+      this.attributes.forEach(
+        (atrib) =>
+          (obj[atrib.id] = new FormControl(
+            { value: '', disabled: !atrib.active },
+            Validators.required
+          ))
+      );
+      if (this.variations.length === 0) {
+        this.customAttribute = false;
+      }
+      this.attributesForm = this.fb.group(obj);
+    });
   }
 
   onAddAttrib() {
@@ -129,9 +130,9 @@ export class VariationsCombinationsComponent implements OnInit {
     this.customAttribute = false;
     let index = this.attributes.findIndex((attr) => attr.source === 'custom');
     this.attributes.splice(index, 1);
-    // this.attributes = this.category.attributes.filter((attribute) =>
-    //  attribute.tags?.hasOwnProperty('allow_variations')
-    // );
+    this.attributes = this.category.attributes.filter((attribute) =>
+      attribute.tags?.hasOwnProperty('allow_variations')
+    ) as IAttribComb[];
     console.log('Attributes: ', this.attributes);
     console.log('--------------------------');
   }
@@ -143,28 +144,31 @@ export class VariationsCombinationsComponent implements OnInit {
     let attributeCombinations: AttributeCombination[][] = [];
 
     this.attributes.forEach((attrib) => {
-      let value_name = this.attributesForm.value[attrib.id];
-      if (typeof value_name === 'string') {
-        attributes.push({
-          id: attrib.id,
-          name: attrib.name,
-          value_name: value_name,
-        });
-      } else {
-        value_name.forEach((val: string) => {
-          const found = attrib.values.find((value: any) => value.id === val);
-          if (found) {
-            attributes.push({
-              id: attrib.id,
-              name: attrib.name,
-              value_name: found.name,
-              value_id: val,
-            });
-          }
-        });
+      if (attrib.active === true) {
+        let value_name = this.attributesForm.value[attrib.id];
+        console.log('typeof value_name', typeof value_name);
+        if (typeof value_name === 'string') {
+          attributes.push({
+            id: attrib.id,
+            name: attrib.name,
+            value_name: value_name,
+          });
+        } else {
+          value_name.forEach((val: string) => {
+            const found = attrib.values.find((value: any) => value.id === val);
+            if (found) {
+              attributes.push({
+                id: attrib.id,
+                name: attrib.name,
+                value_name: found.name,
+                value_id: val,
+              });
+            }
+          });
+        }
+        attributeCombinations.push(attributes);
+        attributes = [];
       }
-      attributeCombinations.push(attributes);
-      attributes = [];
     });
 
     let output = [];
@@ -220,12 +224,14 @@ export class VariationsCombinationsComponent implements OnInit {
       this.messageService.showMsg(`${exists} variaciones existen`, 'error');
 
     if (newVariations.length > 0)
-      // this.store.dispatch(
-      //   updateCurrentProd({
-      //     property: { variations: [...this.variations, ...newVariations] },
-      //   })
-      // );
-      newVariations = [];
+      this.store.dispatch(
+        new CurrentProdUpdate({
+          property: 'variations',
+          value: [...this.variations, ...newVariations],
+        })
+      );
+
+    newVariations = [];
 
     this.attributesForm.reset();
     formDirective.resetForm();

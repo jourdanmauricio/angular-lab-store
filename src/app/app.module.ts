@@ -18,6 +18,7 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { AuthState } from './store/auth/auth.state';
 import { ApplicationState } from './store/application/application.state';
 import { SettingsState } from './store/settings/settings.state';
+import { CurrentProdState } from './store/currentProd/currentProd.state';
 
 @NgModule({
   declarations: [AppComponent, NotFoundComponent, NavNotFoundComponent],
@@ -29,9 +30,12 @@ import { SettingsState } from './store/settings/settings.state';
 
     CoreModule,
     MatSnackBarModule,
-    NgxsModule.forRoot([AuthState, ApplicationState, SettingsState], {
-      developmentMode: true,
-    }),
+    NgxsModule.forRoot(
+      [AuthState, ApplicationState, SettingsState, CurrentProdState],
+      {
+        developmentMode: true,
+      }
+    ),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
     HttpClientModule,

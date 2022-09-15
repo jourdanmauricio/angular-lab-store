@@ -8,10 +8,12 @@ import {
 
 @State<ApplicationStateModel>({
   name: 'application',
-  defaults: {
-    loading: false,
-    // message: '',
-  },
+  // defaults: {
+  //   app: null,
+  //   // loading: false,
+  //   // message: '',
+  // },
+  // children: [ApplicationState],
 })
 @Injectable()
 export class ApplicationState {
@@ -22,7 +24,8 @@ export class ApplicationState {
     const state = ctx.getState();
     ctx.setState({
       ...state,
-      loading: action.loading,
+      app: { loading: action.loading },
+      // loading: action.loading
     });
   }
 
@@ -37,6 +40,6 @@ export class ApplicationState {
 
   @Selector()
   static isLoading(state: ApplicationStateModel): boolean {
-    return state.loading;
+    return state.app ? state.app.loading : false;
   }
 }

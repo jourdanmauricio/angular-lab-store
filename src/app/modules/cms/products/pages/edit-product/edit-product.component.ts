@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
-// import { loadCurrentProd } from 'app/state/actions/currentProd.actions';
 import { Observable, switchMap } from 'rxjs';
 import { Product } from '@models/index';
-// import { selectLoading } from 'app/state/selectors/application.selector';
+import { CurrentProdRequest } from 'app/store/currentProd/currentProd.actions';
 
 @Component({
   selector: 'app-edit-product',
@@ -19,6 +18,23 @@ export class EditProductComponent implements OnInit {
   constructor(private route: ActivatedRoute, private store: Store) {}
 
   ngOnInit(): void {
+    this.route.paramMap
+      .pipe(
+        switchMap((params) => {
+          this.currentProdId = params.get('id');
+          if (this.currentProdId) {
+            this.store.dispatch(
+              new CurrentProdRequest({
+                action: 'edit',
+                prod: this.currentProdId,
+              })
+            );
+          }
+          return [];
+        })
+      )
+      .subscribe();
+
     //   this.loading$ = this.store.select(selectLoading);
     //   this.route.paramMap
     //     .pipe(

@@ -9,6 +9,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import * as fromPipes from './pipes';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [ConfirmDialogComponent, ...fromPipes.pipes],
@@ -16,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
     CommonModule,
     ReactiveFormsModule,
     // Material
+    MatButtonModule,
     MatDialogModule,
     MatIconModule,
   ],

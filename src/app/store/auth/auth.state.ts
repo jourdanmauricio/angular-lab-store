@@ -53,6 +53,11 @@ export class AuthState {
     return state.role;
   }
 
+  @Selector()
+  static id(state: AuthStateModel): number | null {
+    return state.id;
+  }
+
   @Action(LoginRequestAttempt)
   async loginRequestAttempt(
     ctx: StateContext<AuthStateModel>,

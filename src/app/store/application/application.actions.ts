@@ -1,5 +1,10 @@
-export interface ApplicationStateModel {
+export interface Application {
   loading: boolean;
+  // message: string;
+}
+
+export interface ApplicationStateModel {
+  app: Application | null;
   // message: string;
 }
 

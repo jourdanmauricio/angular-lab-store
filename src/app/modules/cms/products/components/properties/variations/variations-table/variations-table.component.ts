@@ -2,8 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { CategoryAttribute } from '@models/category.model';
 import { Variation } from '@models/index';
-// import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
-// import { updateCurrentProd } from 'app/state/actions/currentProd.actions';
+import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
+import { CurrentProdUpdate } from 'app/store/currentProd/currentProd.actions';
 
 @Component({
   selector: 'app-variations-table',
@@ -11,21 +11,20 @@ import { Variation } from '@models/index';
   styleUrls: ['./variations-table.component.scss'],
 })
 export class VariationsTableComponent implements OnInit {
-  // @Input() combAttributes: CategoryAttribute[] = [];
   variations: Variation[] = [];
   attributes: CategoryAttribute[] = [];
   atribProdVariations: string[] = [];
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    // this.store.select(getCurrentProd).subscribe((data) => {
-    //   if (data.variations && data.category) {
-    //     this.variations = JSON.parse(JSON.stringify(data.variations));
-    //     this.attributes = data.category?.attributes.filter((attribute) =>
-    //       attribute.tags?.hasOwnProperty('allow_variations')
-    //     );
-    //   }
-    // });
+    this.store.select(CurrentProdState.currentProd).subscribe((prod) => {
+      if (prod.variations)
+        this.variations = JSON.parse(JSON.stringify(prod.variations));
+      if (prod.category)
+        this.attributes = prod.category.attributes.filter((attribute) =>
+          attribute.tags?.hasOwnProperty('allow_variations')
+        );
+    });
   }
 
   combAttributes() {
@@ -50,11 +49,14 @@ export class VariationsTableComponent implements OnInit {
 
   delVar(id: number | string) {
     const index = this.variations.findIndex((vari) => vari.id === id);
+
     this.variations.splice(index, 1);
-    // this.store.dispatch(
-    //   updateCurrentProd({
-    //     property: { variations: this.variations },
-    //   })
-    // );
+
+    this.store.dispatch(
+      new CurrentProdUpdate({
+        property: 'variations',
+        value: this.variations,
+      })
+    );
   }
 }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-// import { updateCurrentProd } from 'app/state/actions/currentProd.actions';
-// import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
 import { FormControl, Validators } from '@angular/forms';
+import { CurrentProdUpdate } from 'app/store/currentProd/currentProd.actions';
+import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
 
 @Component({
   selector: 'app-sku',
@@ -15,18 +15,17 @@ export class SkuComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    // this.store.select(getCurrentProd).subscribe((data) => {
-    //   if (data.category) {
-    //     this.sku.setValue(data.seller_custom_field);
-    //   }
-    // });
+    this.store.select(CurrentProdState.currentProd).subscribe((prod) => {
+      if (prod.seller_custom_field) this.sku.setValue(prod.seller_custom_field);
+    });
   }
 
   change() {
-    // this.store.dispatch(
-    //   updateCurrentProd({
-    //     property: { seller_custom_field: this.sku.value },
-    //   })
-    // );
+    this.store.dispatch(
+      new CurrentProdUpdate({
+        property: 'seller_custom_field',
+        value: this.sku.value,
+      })
+    );
   }
 }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
-// import { updateCurrentProd } from 'app/state/actions/currentProd.actions';
-// import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
+import { CurrentProdUpdate } from 'app/store/currentProd/currentProd.actions';
+import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
 
 @Component({
   selector: 'app-title',
@@ -20,19 +20,16 @@ export class TitleComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    // this.store.select(getCurrentProd).subscribe((data) => {
-    //   if (data.category) {
-    //     this.title.setValue(data.title);
-    //     this.maxTitle = data.category!.settings.max_title_length;
-    //   }
-    // });
+    this.store.select(CurrentProdState.currentProd).subscribe((prod) => {
+      if (prod.title) this.title.setValue(prod.title);
+      if (prod.category)
+        this.maxTitle = prod.category.settings.max_title_length;
+    });
   }
 
   change() {
-    // this.store.dispatch(
-    //   updateCurrentProd({
-    //     property: { title: this.title.value },
-    //   })
-    // );
+    this.store.dispatch(
+      new CurrentProdUpdate({ property: 'title', value: this.title.value })
+    );
   }
 }

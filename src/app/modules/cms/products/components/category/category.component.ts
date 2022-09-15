@@ -7,6 +7,8 @@ import { CategorySearchComponent } from './category-search/category-search.compo
 // import { updateCurrentProd } from 'app/state/actions/currentProd.actions';
 import { ConfirmDialogData } from '@models/index';
 import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component';
+import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
+import { CurrentProdUpdate } from 'app/store/currentProd/currentProd.actions';
 
 @Component({
   selector: 'app-category',
@@ -19,11 +21,9 @@ export class CategoryComponent implements OnInit {
   constructor(private store: Store, public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    // this.store.select(getCurrentProd).subscribe((data) => {
-    //   if (data.category) {
-    //     this.category = data.category;
-    //   }
-    // });
+    this.store.select(CurrentProdState.currentProd).subscribe((prod) => {
+      if (prod.category) this.category = prod.category;
+    });
   }
 
   seachCategory() {
@@ -51,16 +51,18 @@ export class CategoryComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((confirm) => {
           if (confirm) {
-            // this.store.dispatch(
-            //   updateCurrentProd({
-            //     property: { category: result },
-            //   })
-            // );
-            // this.store.dispatch(
-            //   updateCurrentProd({
-            //     property: { category_id: result.id },
-            //   })
-            // );
+            this.store.dispatch(
+              new CurrentProdUpdate({
+                property: 'category',
+                value: result,
+              })
+            );
+            this.store.dispatch(
+              new CurrentProdUpdate({
+                property: 'category_id',
+                value: result.id,
+              })
+            );
           }
         });
       }
