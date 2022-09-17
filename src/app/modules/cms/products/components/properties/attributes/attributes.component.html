@@ -1,0 +1,148 @@
+<h1>Atributos</h1>
+
+<table mat-table [dataSource]="totalAttribs$" class="mat-elevation-z8">
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef width="20%">Atributo</th>
+    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+  </ng-container>
+
+  <!-- Value Column -->
+  <ng-container matColumnDef="value_name">
+    <th mat-header-cell *matHeaderCellDef>Valor</th>
+    <td mat-cell *matCellDef="let element">
+      <div *ngIf="!element.values">
+        <mat-form-field
+          style="margin-bottom: -1.25em"
+          class="control-sm full-width"
+          appearance="outline"
+        >
+          <input
+            matInput
+            (change)="onChange(element, $event)"
+            type="text"
+            [(ngModel)]="
+              element.value_type === 'number_unit'
+                ? element.value_struct
+                  ? element.value_struct.number
+                  : ''
+                : element.value_name
+            "
+          />
+        </mat-form-field>
+      </div>
+      <div *ngIf="element.values">
+        <ng-select
+          class="custom"
+          [items]="element.values"
+          [addTag]="
+            element.value_type === 'list' || element.value_type === 'string'
+          "
+          bindLabel="name"
+          bindValue="id"
+          (change)="onChange(element, $event)"
+          [multiple]="element.tags.hasOwnProperty('multivalued')"
+          [closeOnSelect]="!element.tags.hasOwnProperty('multivalued')"
+          [(ngModel)]="element.value_id"
+        >
+          <ng-template
+            ng-optgroup-tmp
+            let-item="item"
+            let-item$="item$"
+            let-index="index"
+          >
+            <input
+              id="item-{{ index }}"
+              type="checkbox"
+              [ngModel]="item$.selected"
+            />
+            {{ item.gender | uppercase }}
+          </ng-template>
+          <ng-template
+            ng-option-tmp
+            let-item="item"
+            let-item$="item$"
+            let-index="index"
+          >
+            <input
+              id="item-{{ index }}"
+              type="checkbox"
+              [ngModel]="item$.selected"
+            />
+            {{ item.name }}
+          </ng-template>
+        </ng-select>
+      </div>
+    </td>
+  </ng-container>
+
+  <!-- <ng-container matColumnDef="value_type">
+    <th mat-header-cell *matHeaderCellDef>Type</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.value_type }}
+    </td>
+  </ng-container> -->
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="allowed_units">
+    <th mat-header-cell *matHeaderCellDef>Unit</th>
+    <td mat-cell *matCellDef="let element">
+      <div *ngIf="element.allowed_units">
+        <ng-select
+          class="custom"
+          [items]="element.allowed_units"
+          bindLabel="name"
+          bindValue="id"
+          (change)="onChange2(element, $event)"
+          [(ngModel)]="
+            element.value_struct
+              ? element.value_struct.unit
+              : element.default_unit
+          "
+        >
+          <ng-template
+            ng-optgroup-tmp
+            let-item="item"
+            let-item$="item$"
+            let-index="index"
+          >
+            <input
+              id="item-{{ index }}"
+              type="checkbox"
+              [ngModel]="item$.selected"
+            />
+            {{ item.gender | uppercase }}
+          </ng-template>
+          <ng-template
+            ng-option-tmp
+            let-item="item"
+            let-item$="item$"
+            let-index="index"
+          >
+            <input
+              id="item-{{ index }}"
+              type="checkbox"
+              [ngModel]="item$.selected"
+            />
+            {{ item.name }}
+          </ng-template>
+        </ng-select>
+      </div>
+    </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="tags">
+    <th mat-header-cell *matHeaderCellDef>Tags</th>
+    <td mat-cell *matCellDef="let element">
+      <div
+        style="text-align: left"
+        [innerHTML]="element.tags | prettyJson"
+      ></div>
+      <!-- {{ element.tags | prettyJson }} -->
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime, of, startWith, switchMap } from 'rxjs';
-import { Category } from '@models/index';
+import { ICategory } from '@models/index';
 import { CategoriesService } from 'app/services/categories.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { CategoriesService } from 'app/services/categories.service';
 export class CategoryUsedComponent implements OnInit {
   @Output() onCatSelect = new EventEmitter();
   search = new FormControl();
-  categories: Category[] = [];
+  categories: ICategory[] = [];
   selected = '';
 
   constructor(private categoriesService: CategoriesService) {}
@@ -24,7 +24,7 @@ export class CategoryUsedComponent implements OnInit {
     });
   }
 
-  selectCat(category: Category) {
+  selectCat(category: ICategory) {
     this.onCatSelect.emit(category.id);
   }
 

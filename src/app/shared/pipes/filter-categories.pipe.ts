@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Category } from '@models/index';
+import { ICategory } from '@models/index';
 
 @Pipe({
   name: 'filterCategories',
@@ -9,7 +9,7 @@ export class FilterCategoriesPipe implements PipeTransform {
   //   return null;
   // }
 
-  transform(items: Category[], searchText: string): Category[] {
+  transform(items: ICategory[], searchText: string): ICategory[] {
     if (!items) return [];
     if (!searchText) return items;
     searchText = searchText.toLowerCase();

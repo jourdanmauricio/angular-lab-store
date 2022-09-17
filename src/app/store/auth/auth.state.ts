@@ -1,6 +1,6 @@
 import { State, Store, StateContext, Action, Selector } from '@ngxs/store';
+import { IAuthState } from '@models/index';
 import {
-  AuthStateModel,
   LoginRequestAttempt,
   LoginRequestSuccess,
   Logout,
@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
 import { ROLES } from '@core/constants/enums';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
-@State<AuthStateModel>({
+@State<IAuthState>({
   name: 'auth',
   defaults: {
     token: null,
@@ -44,23 +44,23 @@ export class AuthState {
   ) {}
 
   @Selector()
-  static isAuthenticated(state: AuthStateModel): boolean {
+  static isAuthenticated(state: IAuthState): boolean {
     return state.id !== null;
   }
 
   @Selector()
-  static role(state: AuthStateModel): ROLES | null {
+  static role(state: IAuthState): ROLES | null {
     return state.role;
   }
 
   @Selector()
-  static id(state: AuthStateModel): number | null {
+  static id(state: IAuthState): number | null {
     return state.id;
   }
 
   @Action(LoginRequestAttempt)
   async loginRequestAttempt(
-    ctx: StateContext<AuthStateModel>,
+    ctx: StateContext<IAuthState>,
     action: LoginRequestAttempt
   ) {
     this.store.dispatch(new SetLoading(true));
@@ -84,7 +84,7 @@ export class AuthState {
 
   @Action(LoginRequestSuccess)
   UsersRequestSuccess(
-    ctx: StateContext<AuthStateModel>,
+    ctx: StateContext<IAuthState>,
     action: LoginRequestSuccess
   ) {
     this.localStorageService.saveItem('token', action.token);
@@ -97,7 +97,7 @@ export class AuthState {
   }
 
   @Action(UserRequest)
-  userRequest(ctx: StateContext<AuthStateModel>, action: UserRequest) {
+  userRequest(ctx: StateContext<IAuthState>, action: UserRequest) {
     this.store.dispatch(new SetLoading(true));
     return this.userService.getProfile().pipe(
       tap((user) => {
@@ -122,7 +122,7 @@ export class AuthState {
   }
 
   @Action(UserMlRequest)
-  userMlRequest(ctx: StateContext<AuthStateModel>) {
+  userMlRequest(ctx: StateContext<IAuthState>) {
     this.store.dispatch(new SetLoading(true));
     return this.userService.getApiUserMl().pipe(
       tap((userMl) => {
@@ -150,7 +150,7 @@ export class AuthState {
   }
 
   @Action(Logout)
-  logout(ctx: StateContext<AuthStateModel>) {
+  logout(ctx: StateContext<IAuthState>) {
     const state = ctx.getState();
     this.localStorageService.removeItem('token');
     this.localStorageService.removeItem('tokenMl');

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { fadeInAnimation } from '@core/_animations';
-import { Select } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { ApplicationState } from 'app/store/application/application.state';
-import { Observable } from 'rxjs';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-layout',
@@ -15,17 +15,23 @@ export class LayoutComponent implements OnInit {
   isExpanded: boolean = true;
   showMenu: boolean = true;
   side: 'push' | 'over' | 'side' = 'side';
+  isLoading$: boolean = false;
 
-  constructor() {}
+  constructor(private store: Store) {}
+
   ngOnInit(): void {
     //Total hack
     window.onresize = (e) => {
       this.checkMenu();
     };
     this.checkMenu();
-  }
 
-  @Select(ApplicationState.isLoading) isLoading$!: Observable<boolean>;
+    setTimeout(() => {
+      this.store.select(ApplicationState.isLoading).subscribe((loading) => {
+        this.isLoading$ = loading;
+      });
+    });
+  }
 
   onToggleMenu() {
     this.showMenu = !this.showMenu;

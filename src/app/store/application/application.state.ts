@@ -1,45 +1,29 @@
 import { Injectable } from '@angular/core';
-import { State, Store, StateContext, Action, Selector } from '@ngxs/store';
-import {
-  ApplicationStateModel,
-  SetLoading,
-  // SetMessage,
-} from './application.actions';
+import { State, StateContext, Action, Selector } from '@ngxs/store';
+import { SetLoading } from './application.actions';
+import { IApplicationState } from '@models/index';
 
-@State<ApplicationStateModel>({
-  name: 'application',
-  // defaults: {
-  //   app: null,
-  //   // loading: false,
-  //   // message: '',
-  // },
-  // children: [ApplicationState],
+@State<IApplicationState>({
+  name: 'app',
+  defaults: {
+    loading: false,
+  },
 })
 @Injectable()
 export class ApplicationState {
-  constructor(private store: Store) {}
+  constructor() {}
 
   @Action(SetLoading)
-  setLoading(ctx: StateContext<ApplicationStateModel>, action: SetLoading) {
+  setLoading(ctx: StateContext<IApplicationState>, action: SetLoading) {
     const state = ctx.getState();
     ctx.setState({
       ...state,
-      app: { loading: action.loading },
-      // loading: action.loading
+      loading: action.loading,
     });
   }
 
-  // @Action(SetMessage)
-  // setMessage(ctx: StateContext<ApplicationStateModel>, action: SetMessage) {
-  //   const state = ctx.getState();
-  //   ctx.setState({
-  //     ...state,
-  //     message: action.message,
-  //   });
-  // }
-
   @Selector()
-  static isLoading(state: ApplicationStateModel): boolean {
-    return state.app ? state.app.loading : false;
+  static isLoading(state: IApplicationState): boolean {
+    return state.loading;
   }
 }

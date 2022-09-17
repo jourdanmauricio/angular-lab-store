@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Category } from '@models/index';
+import { ICategory } from '@models/index';
 import { CategoriesService } from 'app/services/categories.service';
 import { MessageService } from 'app/services/message.service';
 
@@ -11,7 +11,7 @@ import { MessageService } from 'app/services/message.service';
   styleUrls: ['./category-search.component.scss'],
 })
 export class CategorySearchComponent implements OnInit {
-  category?: Category | null;
+  category?: ICategory | null;
 
   constructor(
     public dialogRef: MatDialogRef<CategorySearchComponent>,

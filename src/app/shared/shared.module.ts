@@ -10,9 +10,11 @@ import * as fromPipes from './pipes';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { TradPipe } from './pipes/trad.pipe';
+import { PrettyJsonPipe } from './pipes/pretty-json.pipe';
 
 @NgModule({
-  declarations: [ConfirmDialogComponent, ...fromPipes.pipes],
+  declarations: [ConfirmDialogComponent, ...fromPipes.pipes, TradPipe, PrettyJsonPipe],
   imports: [
     CommonModule,
     ReactiveFormsModule,

@@ -6,11 +6,11 @@ import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
 import { environment } from 'environments/environment';
 // Models
 import { UserMl } from '../models/index';
-import { ApiProduct, CreateProductDto, Product } from '../models/index';
+import { IProduct, CreateProductDto, Product } from '../models/index';
 // Services
 import { ProductsMlService } from './products-ml.service';
 import { CategoriesService } from './categories.service';
-import { Category } from '../models/category.model';
+import { ICategory } from '@models/index';
 import { ProductMl } from '../models/index';
 import { LocalStorageService } from './local-storage.service';
 import { UsersService } from './users.service';
@@ -30,7 +30,7 @@ export class ProductsService {
 
   // Variables
   userMl: UserMl | null = null;
-  mlItems: ApiProduct[] = [];
+  mlItems: IProduct[] = [];
   categories: string[] = [];
 
   constructor(
@@ -65,12 +65,12 @@ export class ProductsService {
   }
 
   getProduct(id: string) {
-    return this.http.get<CurrentProdState>(`${this.apiUrl}/products/${id}`, {
+    return this.http.get<IProduct>(`${this.apiUrl}/products/${id}`, {
       context: apiToken('API'),
     });
   }
 
-  createProduct(data: ApiProduct) {
+  createProduct(data: IProduct) {
     const newProd: CreateProductDto = {
       // ml_id: data.id,
       attributes: data.attributes,
@@ -152,7 +152,7 @@ export class ProductsService {
     return forkJoin(offsets);
   }
 
-  getMlDescriptions(prod: ApiProduct) {
+  getMlDescriptions(prod: IProduct) {
     return this.http
       .get(`${this.apiUrlMl}/items/${prod.id}/description`, {
         context: apiToken('ML'),
@@ -188,8 +188,8 @@ export class ProductsService {
         this.productsMlService.getProductsMl(),
       ]).subscribe((result) => {
         const newCats: string[] = [];
-        const mlProductsMl: ApiProduct[] = result[0];
-        const categories: Category[] = result[1];
+        const mlProductsMl: IProduct[] = result[0];
+        const categories: ICategory[] = result[1];
         const productsMl: ProductMl[] = result[2];
         mlProductsMl.forEach((mlProd) => {
           const updMlProd: ProductMl = {
@@ -217,7 +217,7 @@ export class ProductsService {
             // TODO: Modificar el precio en base a settings
 
             let index = categories.findIndex(
-              (cat: Category) => cat.id === newItemsPrice.category_id
+              (cat: ICategory) => cat.id === newItemsPrice.category_id
             );
             if (index === -1) {
               if (!newCats.includes(newItemsPrice.category_id)) {
@@ -226,10 +226,10 @@ export class ProductsService {
                   .getCategoryMl(newItemsPrice.category_id)
                   .pipe(
                     switchMap((newCat) =>
-                      this.categoriesService.createCategory(newCat as Category)
+                      this.categoriesService.createCategory(newCat as ICategory)
                     ),
                     switchMap(() =>
-                      this.createProduct(newItemsPrice as ApiProduct).pipe(
+                      this.createProduct(newItemsPrice as IProduct).pipe(
                         map((prod) => (updMlProd.prod_id = prod.id))
                       )
                     ),
@@ -242,7 +242,7 @@ export class ProductsService {
                   .subscribe();
               }
             } else {
-              this.createProduct(newItemsPrice as ApiProduct)
+              this.createProduct(newItemsPrice as IProduct)
                 .pipe(map((prod) => (updMlProd.prod_id = prod.id)))
                 .pipe(
                   switchMap(() =>

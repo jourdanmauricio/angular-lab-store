@@ -21,6 +21,9 @@ import { VariationsComponent } from './components/properties/variations/variatio
 import { VariationsCombinationsComponent } from './components/properties/variations/variations-combinations/variations-combinations.component';
 import { AddCustomAttribComponent } from './components/properties/variations/add-custom-attrib/add-custom-attrib.component';
 import { VariationsTableComponent } from './components/properties/variations/variations-table/variations-table.component';
+import { AttributesComponent } from './components/properties/attributes/attributes.component';
+import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -38,8 +41,11 @@ import { VariationsTableComponent } from './components/properties/variations/var
     VariationsCombinationsComponent,
     AddCustomAttribComponent,
     VariationsTableComponent,
+    AttributesComponent,
   ],
   imports: [
+    NgSelectModule,
+    FormsModule,
     CommonModule,
     ProductsRoutingModule,
     SharedModule,

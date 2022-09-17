@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { CategoryAttribute } from '@models/category.model';
-import { Variation } from '@models/index';
+
+import { ICatAttribute } from '@models/index';
+import { IVariation } from '@models/index';
 import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
 import { CurrentProdUpdate } from 'app/store/currentProd/currentProd.actions';
 
@@ -11,8 +12,8 @@ import { CurrentProdUpdate } from 'app/store/currentProd/currentProd.actions';
   styleUrls: ['./variations-table.component.scss'],
 })
 export class VariationsTableComponent implements OnInit {
-  variations: Variation[] = [];
-  attributes: CategoryAttribute[] = [];
+  variations: IVariation[] = [];
+  attributes: ICatAttribute[] = [];
   atribProdVariations: string[] = [];
   constructor(private store: Store) {}
 
@@ -21,7 +22,7 @@ export class VariationsTableComponent implements OnInit {
       if (prod.variations)
         this.variations = JSON.parse(JSON.stringify(prod.variations));
       if (prod.category)
-        this.attributes = prod.category.attributes.filter((attribute) =>
+        this.attributes = prod.category.attributes.filter((attribute: any) =>
           attribute.tags?.hasOwnProperty('allow_variations')
         );
     });

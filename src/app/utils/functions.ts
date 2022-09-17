@@ -1,4 +1,4 @@
-import { Category, Variation } from '@models/index';
+import { ICategory, IVariation } from '@models/index';
 import { IAttribComb } from '@models/ui/IAttribComb.model';
 
 /**
@@ -6,7 +6,7 @@ import { IAttribComb } from '@models/ui/IAttribComb.model';
  * @param variations
  * @returns sku: string
  */
-export function newVarSku(variations: Variation[]) {
+export function newVarSku(variations: IVariation[]) {
   let sku = 1;
   if (variations.length > 0) {
     let max = 1;
@@ -57,7 +57,10 @@ export const arraysEqual = (a1: any, a2: any) =>
  * @param variations
  * @returns boolean
  */
-export const isNewVariation = (newVar: Variation, variations: Variation[]) => {
+export const isNewVariation = (
+  newVar: IVariation,
+  variations: IVariation[]
+) => {
   let found = false;
   for (let i = 0; i < variations.length; i++) {
     found = arraysEqual(newVar, variations[i]);
@@ -85,7 +88,7 @@ export const cartesian: any = (a: any, b: any, ...c: any) =>
  * @param category Categoría del producto
  * @returns list of attributes
  */
-export function getAttribsComb(variations: Variation[], category: Category) {
+export function getAttribsComb(variations: IVariation[], category: ICategory) {
   let attribs: IAttribComb[] = [];
   console.log('calc atrib');
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Category } from '@models/category.model';
-import { AttributeCombination, Variation } from '@models/index';
+import { ICategory } from '@models/index';
+import { IAttributeCombination, IVariation } from '@models/index';
 import { AddCustomAttribComponent } from '../add-custom-attrib/add-custom-attrib.component';
 import { MessageService } from 'app/services/message.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -23,7 +23,7 @@ import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
 import { CurrentProdUpdate } from 'app/store/currentProd/currentProd.actions';
 
 export interface AttribComb {
-  [key: string]: AttributeCombination[];
+  [key: string]: IAttributeCombination[];
 }
 
 @Component({
@@ -34,10 +34,10 @@ export interface AttribComb {
 export class VariationsCombinationsComponent implements OnInit {
   seller_custom_field!: string;
   price!: number;
-  variations: Variation[] = [];
+  variations: IVariation[] = [];
   attributes: IAttribComb[] = [];
   customAttribute = false;
-  category!: Category;
+  category!: ICategory;
   attributesComb!: AttribComb;
 
   attributesForm: FormGroup;
@@ -62,28 +62,33 @@ export class VariationsCombinationsComponent implements OnInit {
 
   getData() {
     this.store.select(CurrentProdState.currentProd).subscribe((prod) => {
+      console.log('Prod', prod);
       if (prod.variations)
         this.variations = JSON.parse(JSON.stringify(prod.variations));
       if (prod.category) {
+        console.log('ACAAA2');
         this.category = prod.category;
-        this.attributes = getAttribsComb(this.variations, this.category);
       }
+      if (prod.category && prod.variations)
+        this.attributes = getAttribsComb(this.variations, this.category);
       if (prod.seller_custom_field)
         this.seller_custom_field = prod.seller_custom_field;
       if (prod.price) this.price = prod.price;
 
-      let obj: { [k: string]: any } = {};
-      this.attributes.forEach(
-        (atrib) =>
-          (obj[atrib.id] = new FormControl(
-            { value: '', disabled: !atrib.active },
-            Validators.required
-          ))
-      );
-      if (this.variations.length === 0) {
-        this.customAttribute = false;
+      if (prod.category) {
+        let obj: { [k: string]: any } = {};
+        this.attributes.forEach(
+          (atrib) =>
+            (obj[atrib.id] = new FormControl(
+              { value: '', disabled: !atrib.active },
+              Validators.required
+            ))
+        );
+        if (this.variations.length === 0) {
+          this.customAttribute = false;
+        }
+        this.attributesForm = this.fb.group(obj);
       }
-      this.attributesForm = this.fb.group(obj);
     });
   }
 
@@ -140,8 +145,8 @@ export class VariationsCombinationsComponent implements OnInit {
   createVariation(formDirective: FormGroupDirective) {
     if (!this.attributesForm.valid) return;
 
-    let attributes: AttributeCombination[] = [];
-    let attributeCombinations: AttributeCombination[][] = [];
+    let attributes: IAttributeCombination[] = [];
+    let attributeCombinations: IAttributeCombination[][] = [];
 
     this.attributes.forEach((attrib) => {
       if (attrib.active === true) {
@@ -179,8 +184,8 @@ export class VariationsCombinationsComponent implements OnInit {
       attributeCombinations[0].forEach((value) => output.push([value]));
     }
 
-    const redudeArray = (arr: AttributeCombination[]) =>
-      arr.map((el: AttributeCombination) => {
+    const redudeArray = (arr: IAttributeCombination[]) =>
+      arr.map((el: IAttributeCombination) => {
         return { id: el.id, value_name: el.value_name, name: el.name };
       });
 
@@ -194,7 +199,7 @@ export class VariationsCombinationsComponent implements OnInit {
 
     //////////////////////////////////////////////////
 
-    let newVariations: Variation[] = [];
+    let newVariations: IVariation[] = [];
     let exists = 0;
     let sku = newVarSku(this.variations);
     atribsNewVariations.forEach((newVar) => {

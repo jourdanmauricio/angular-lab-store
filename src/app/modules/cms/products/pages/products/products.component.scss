@@ -1,19 +1,72 @@
+.product-table-resumen {
+  margin: 0.5rem;
+  padding: 5px;
+  background-color: #b9c9fe;
+  border-radius: 5px;
+}
+
+::ng-deep .mat-form-field-wrapper {
+  margin-bottom: -1.25em;
+}
 table {
-  text-align: center !important;
   width: 100%;
 }
+.btn-detail {
+  margin-right: 1vw;
+  background: #4285f4;
+  color: white;
+  font-size: 0.9rem;
+  line-height: 1.5rem;
+  height: auto;
+  width: auto;
+}
+
+.btn-detail-rect {
+  width: 100%;
+}
+
+// .detail-table {
+//   text-align: center !important;
+//   width: 100%;
+//   border: 1px solid gray;
+// }
+
+.detail-table {
+  font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+  font-size: 12px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  // margin-left: auto;
+  // margin-right: auto;
+  // width: 480px;
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+  thead th {
+    font-size: 13px;
+    font-weight: normal;
+    padding: 8px;
+    background: #b9c9fe;
+    border-top: 4px solid #aabcfe;
+    border-bottom: 1px solid #fff;
+    color: #039;
+  }
+  tbody tr td {
+    padding: 8px;
+    background: #e8edff;
+    border-bottom: 1px solid #fff;
+    color: #669;
+    border-top: 1px solid transparent;
+  }
+  tbody tr:hover td {
+    background: #d0dafd;
+    color: #339;
+  }
+}
+
 :host ::ng-deep .mat-sort-header-container {
   display: flex;
   justify-content: center;
-}
-
-.category-actions {
-  display: flex;
-}
-
-.container-grid {
-  display: flex;
-  flex-direction: column;
 }
 
 tr.example-detail-row {
@@ -38,34 +91,25 @@ tr.example-element-row:not(.example-expanded-row):active {
   flex-direction: column;
 }
 
-.example-element-diagram {
-  min-width: 80px;
-  border: 2px solid black;
-  padding: 8px;
-  font-weight: lighter;
-  margin: 8px 0;
-  height: 104px;
-}
+// .example-element-diagram {
+//   min-width: 80px;
+//   border: 2px solid black;
+//   padding: 8px;
+//   font-weight: lighter;
+//   margin: 8px 0;
+//   height: 104px;
+// }
 
-.example-element-symbol {
-  font-weight: bold;
-  font-size: 40px;
-  line-height: normal;
-}
+// .example-element-symbol {
+//   font-weight: bold;
+//   font-size: 40px;
+//   line-height: normal;
+// }
 
-.example-element-description {
-  padding: 16px;
-}
+// .example-element-description {
+//   padding: 16px;
+// }
 
-.example-element-description-attribution {
-  opacity: 0.5;
-}
-
-@media screen and (min-width: 40em) {
-  .container-grid {
-    display: grid;
-    grid-template-columns: auto auto;
-    justify-content: space-between;
-    width: 100%;
-  }
-}
+// .example-element-description-attribution {
+//   opacity: 0.5;
+// }

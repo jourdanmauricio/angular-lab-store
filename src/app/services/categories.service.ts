@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { apiToken } from '@core/interceptors/token.interceptor';
-import { ApiBasicCategory, Category } from '@models/index';
+import { ICategory } from '@models/index';
 import { forkJoin, map, Observable, switchMap } from 'rxjs';
 
 @Injectable({
@@ -25,19 +25,19 @@ export class CategoriesService {
   }
 
   getCategory(id: string) {
-    return this.http.get<Category>(`${this.apiUrl}/categories/${id}`, {
+    return this.http.get<ICategory>(`${this.apiUrl}/categories/${id}`, {
       context: apiToken('API'),
     });
   }
 
-  createCategory(category: Category) {
-    return this.http.post<Category>(`${this.apiUrl}/categories`, category, {
+  createCategory(category: ICategory) {
+    return this.http.post<ICategory>(`${this.apiUrl}/categories`, category, {
       context: apiToken('API'),
     });
   }
 
-  updateCategory(category: Category) {
-    return this.http.put<Category>(
+  updateCategory(category: ICategory) {
+    return this.http.put<ICategory>(
       `${this.apiUrl}/categories/${category.id}`,
       category,
       {
@@ -47,7 +47,7 @@ export class CategoriesService {
   }
 
   deleteCategory(id: string) {
-    return this.http.delete<Category>(`${this.apiUrl}/categories/${id}`, {
+    return this.http.delete<ICategory>(`${this.apiUrl}/categories/${id}`, {
       context: apiToken('API'),
     });
   }
@@ -76,7 +76,7 @@ export class CategoriesService {
 
         console.log('RESULT', result[0]);
 
-        const newCategory: Category = {
+        const newCategory: ICategory = {
           id: result[0].id,
           name: result[0].name,
           full_name: full_name,
@@ -132,7 +132,7 @@ export class CategoriesService {
         delete category.children_categories;
         return category;
       }),
-      switchMap((newCat: any) => this.createCategory(newCat as Category))
+      switchMap((newCat: any) => this.createCategory(newCat as ICategory))
     );
   }
 }

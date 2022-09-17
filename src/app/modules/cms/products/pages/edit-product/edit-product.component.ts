@@ -18,6 +18,7 @@ export class EditProductComponent implements OnInit {
   constructor(private route: ActivatedRoute, private store: Store) {}
 
   ngOnInit(): void {
+    // this.store.dispatch(new SetLoading(true));
     this.route.paramMap
       .pipe(
         switchMap((params) => {
@@ -34,18 +35,5 @@ export class EditProductComponent implements OnInit {
         })
       )
       .subscribe();
-
-    //   this.loading$ = this.store.select(selectLoading);
-    //   this.route.paramMap
-    //     .pipe(
-    //       switchMap((params) => {
-    //         this.currentProdId = params.get('id');
-    //         if (this.currentProdId) {
-    //           this.store.dispatch(loadCurrentProd({ id: this.currentProdId }));
-    //         }
-    //         return [];
-    //       })
-    //     )
-    //     .subscribe();
   }
 }

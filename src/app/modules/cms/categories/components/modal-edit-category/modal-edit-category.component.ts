@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Category } from '@models/index';
+import { ICategory } from '@models/index';
 import { CategoriesService } from 'app/services/categories.service';
 import { MessageService } from 'app/services/message.service';
 import { ModalNewCategoryComponent } from '../modal-new-category/modal-new-category.component';
@@ -12,11 +12,11 @@ import { ModalNewCategoryComponent } from '../modal-new-category/modal-new-categ
   styleUrls: ['./modal-edit-category.component.scss'],
 })
 export class ModalEditCategoryComponent implements OnInit {
-  category!: Category;
+  category!: ICategory;
   description_web = new FormControl(this.data.description_web);
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Category,
+    @Inject(MAT_DIALOG_DATA) public data: ICategory,
     public dialogRef: MatDialogRef<ModalNewCategoryComponent>,
     private categoriesService: CategoriesService,
     private message: MessageService

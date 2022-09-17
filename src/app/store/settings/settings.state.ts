@@ -8,11 +8,11 @@ import { SetLoading } from '../application/application.actions';
 import {
   SettingsRequest,
   SettingsReset,
-  SettingsStateModel,
   SettingsUpdate,
 } from './settings.actions';
+import { ISettingsState } from '@models/index';
 
-@State<SettingsStateModel>({
+@State<ISettingsState>({
   name: 'settings',
   defaults: {
     status: null,
@@ -33,7 +33,7 @@ export class SettingsState {
   ) {}
 
   @Action(SettingsRequest)
-  async settingsRequest(ctx: StateContext<SettingsStateModel>) {
+  async settingsRequest(ctx: StateContext<ISettingsState>) {
     return this.settingsService.getSettings().pipe(
       tap((settings) => ctx.patchState(settings)),
       tap(() => ctx.dispatch(new SetLoading(false))),
@@ -51,7 +51,7 @@ export class SettingsState {
 
   @Action(SettingsUpdate)
   settingsUpdate(
-    ctx: StateContext<SettingsStateModel>,
+    ctx: StateContext<ISettingsState>,
     { payload }: SettingsUpdate
   ) {
     this.store.dispatch(new SetLoading(true));
@@ -82,7 +82,7 @@ export class SettingsState {
   }
 
   @Action(SettingsReset)
-  settingsReset(ctx: StateContext<SettingsStateModel>) {
+  settingsReset(ctx: StateContext<ISettingsState>) {
     const state = ctx.getState();
     ctx.setState({
       ...state,

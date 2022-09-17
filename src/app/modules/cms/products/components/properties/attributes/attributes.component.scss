@@ -1,0 +1,20 @@
+table {
+  width: 100%;
+}
+
+th.mat-header-cell {
+  text-align: left;
+}
+
+td.mat-cell {
+  text-align: left;
+  padding: 8px 20px 8px 0;
+}
+
+.custom {
+  width: 100%;
+}
+
+td.mat-column-value_name {
+  flex: 0 0 5%;
+}

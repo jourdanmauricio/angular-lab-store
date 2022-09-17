@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Category } from '@models/index';
+import { ICategory } from '@models/index';
 import { CategoriesService } from 'app/services/categories.service';
 
 @Component({
@@ -10,8 +10,8 @@ import { CategoriesService } from 'app/services/categories.service';
 })
 export class CategoryTreeComponent implements OnInit {
   @Output() onCatSelect = new EventEmitter();
-  categories: Category[] = [];
-  category!: Category;
+  categories: ICategory[] = [];
+  category!: ICategory;
   selected = false;
   full_path = '';
 
@@ -23,7 +23,7 @@ export class CategoryTreeComponent implements OnInit {
     });
   }
 
-  selectCat(category: Category) {
+  selectCat(category: ICategory) {
     if (this.selected) return;
     this.category = category;
     this.full_path +=

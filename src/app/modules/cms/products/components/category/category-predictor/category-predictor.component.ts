@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Category, IOptionsCat } from '@models/index';
+import { ICategory, IOptionsCat } from '@models/index';
 import { CategoriesService } from 'app/services/categories.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class CategoryPredictorComponent implements OnInit {
   optionsCategories: IOptionsCat[] = [];
   catSelect: string = '';
   categories = [];
-  category?: Category;
+  category?: ICategory;
 
   constructor(private categoriesService: CategoriesService) {}
 

@@ -1,19 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { User } from '@models/index';
-import { createCustomerDto, Customer } from '@models/index';
+import {
+  User,
+  createCustomerDto,
+  ICustomer,
+  IAuthState,
+  IConfirmDialogData,
+} from '@models/index';
 import { MyValidators } from 'app/utils/validators';
 import { ChangePasswordDialogComponent } from '@modules/website/components/change-password-dialog/change-password-dialog.component';
 import { UsersService } from 'app/services/users.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component';
-import { ConfirmDialogData } from '@models/index';
 import { MessageService } from 'app/services/message.service';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { AuthStateModel, Logout } from 'app/store/auth/auth.actions';
+import { Logout } from 'app/store/auth/auth.actions';
 import { AuthState } from 'app/store/auth/auth.state';
+import { DOCUMENT_TYPES } from '@core/constants/enums';
 
 @Component({
   selector: 'app-profile',
@@ -23,8 +28,14 @@ import { AuthState } from 'app/store/auth/auth.state';
 export class ProfileComponent implements OnInit {
   user: User | null = null;
   form: FormGroup;
-  customer: Customer | null = null;
-  documentTypes: string[] = ['DNI', 'LE', 'CUIT', 'CUIL', 'LC'];
+  customer: ICustomer | null = null;
+  documentTypes = [
+    DOCUMENT_TYPES.DNI,
+    DOCUMENT_TYPES.LE,
+    DOCUMENT_TYPES.CUIT,
+    DOCUMENT_TYPES.CUIL,
+    DOCUMENT_TYPES.LC,
+  ];
   loading = false;
 
   constructor(
@@ -50,7 +61,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  @Select(AuthState) user$!: Observable<AuthStateModel>;
+  @Select(AuthState) user$!: Observable<IAuthState>;
 
   ngOnInit(): void {
     this.usersService.getCustomer().subscribe({
@@ -95,7 +106,7 @@ export class ProfileComponent implements OnInit {
   }
 
   openDialogDeleteAccount(): void {
-    const data: ConfirmDialogData = {
+    const data: IConfirmDialogData = {
       title: '¿Estas seguro?',
       message: '¿Deseas eliminar tu usuario?',
       cancelText: 'No',

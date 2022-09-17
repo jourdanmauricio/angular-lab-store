@@ -6,14 +6,13 @@ import {
   HttpStatusCode,
 } from '@angular/common/http';
 import { environment } from 'environments/environment';
-import { Auth, AuthChangePasswordDto } from '../models/index';
+import { IAuth, AuthChangePasswordDto } from '../models/index';
 import { catchError, map, switchMap, tap, throwError } from 'rxjs';
 import { LocalStorageService } from './local-storage.service';
 import { AuthMl } from '../models/index';
 import { createUseMlDto } from '../models/index';
 import { SettingsService } from './settings.service';
 import { UsersService } from './users.service';
-import { IAuth } from '@models/state/IAuth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -36,11 +35,6 @@ export class AuthService {
       email,
       password,
     });
-    // .pipe(
-    //   tap((response) => {
-    //     this.localStorageService.saveItem('token', response.access_token);
-    //   })
-    // );
   }
 
   recoveryPassword(email: string) {
@@ -74,12 +68,6 @@ export class AuthService {
         })
       );
   }
-
-  // logout() {
-  //   this.localStorageService.removeItem('token');
-  //   this.localStorageService.removeItem('tokenMl');
-  //   this.localStorageService.removeItem('refreshTokenMl');
-  // }
 
   /* ######################### ML ######################### */
 

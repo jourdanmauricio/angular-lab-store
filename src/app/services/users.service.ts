@@ -11,12 +11,8 @@ import { CreateUserDto, UpdatePassDto, User } from '../models/index';
 import { LocalStorageService } from './local-storage.service';
 import { apiToken } from '@core/interceptors/token.interceptor';
 import { createUseMlDto, updateUserMlDto, UserMl } from '../models/index';
-import {
-  createCustomerDto,
-  Customer,
-  updateCustomerDto,
-} from '../models/index';
-import { AuthStateModel } from 'app/store/auth/auth.actions';
+import { createCustomerDto, ICustomer, updateCustomerDto } from '@models/index';
+import { IAuthState } from '@models/index';
 
 @Injectable({
   providedIn: 'root',
@@ -151,7 +147,7 @@ export class UsersService {
 
   getCustomer() {
     return this.http
-      .get<Customer>(`${this.apiUrl}/customers`, { context: apiToken('API') })
+      .get<ICustomer>(`${this.apiUrl}/customers`, { context: apiToken('API') })
       .pipe(
         catchError((error: HttpErrorResponse) => {
           if (error.status === HttpStatusCode.NotFound) {
@@ -163,19 +159,19 @@ export class UsersService {
   }
 
   createCustomer(data: createCustomerDto) {
-    return this.http.post<Customer>(`${this.apiUrl}/customers`, data, {
+    return this.http.post<ICustomer>(`${this.apiUrl}/customers`, data, {
       context: apiToken('API'),
     });
   }
 
   updateCustomer(id: number, data: updateCustomerDto) {
-    return this.http.patch<Customer>(`${this.apiUrl}/customers/${id}`, data, {
+    return this.http.patch<ICustomer>(`${this.apiUrl}/customers/${id}`, data, {
       context: apiToken('API'),
     });
   }
 
   getProfile() {
-    return this.http.get<AuthStateModel>(`${this.apiUrl}/users/profile`, {
+    return this.http.get<IAuthState>(`${this.apiUrl}/users/profile`, {
       context: apiToken('API'),
     });
   }

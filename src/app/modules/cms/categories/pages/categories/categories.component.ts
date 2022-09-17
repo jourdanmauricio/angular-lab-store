@@ -3,11 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Category } from '@models/index';
+import { ICategory } from '@models/index';
 import { CategoriesService } from 'app/services/categories.service';
 import { MessageService } from 'app/services/message.service';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { ConfirmDialogData } from '@models/index';
+import { IConfirmDialogData } from '@models/index';
 import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component';
 import { ModalNewCategoryComponent } from '../../components/modal-new-category/modal-new-category.component';
 import { ModalEditCategoryComponent } from '../../components/modal-edit-category/modal-edit-category.component';
@@ -24,7 +24,7 @@ export class CategoriesComponent implements OnInit {
     'description_web',
     'actions',
   ];
-  dataSource = new MatTableDataSource<Category>();
+  dataSource = new MatTableDataSource<ICategory>();
   loading = false;
 
   @ViewChild(MatPaginator) paginator: any = MatPaginator;
@@ -43,7 +43,7 @@ export class CategoriesComponent implements OnInit {
   getAllCategories() {
     this.loading = true;
     this.categoriesService.getCategories().subscribe((data: any) => {
-      this.dataSource = new MatTableDataSource<Category>(data); //pass the array you want in the table
+      this.dataSource = new MatTableDataSource<ICategory>(data); //pass the array you want in the table
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.loading = false;
@@ -60,8 +60,8 @@ export class CategoriesComponent implements OnInit {
     }
   }
 
-  deleteCat(category: Category) {
-    const data: ConfirmDialogData = {
+  deleteCat(category: ICategory) {
+    const data: IConfirmDialogData = {
       title: '¿Estas seguro?',
       message: `¿Deseas eliminar la categoría ${category.id} - ${category.name}?`,
       cancelText: 'No',
@@ -106,7 +106,7 @@ export class CategoriesComponent implements OnInit {
     });
   }
 
-  editCat(category: Category) {
+  editCat(category: ICategory) {
     const dialogRef = this.dialog.open(ModalEditCategoryComponent, {
       minHeight: '250px',
       width: '500px',

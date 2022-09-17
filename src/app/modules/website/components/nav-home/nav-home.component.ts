@@ -4,9 +4,8 @@ import { Router } from '@angular/router';
 import { AuthService } from 'app/services/auth.service';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-// import { UserState } from 'app/store/user/user.state';
-// import { UserStateModel } from 'app/store/user/user.actions';
-import { AuthStateModel, Logout } from 'app/store/auth/auth.actions';
+import { IAuthState } from '@models/index';
+import { Logout } from 'app/store/auth/auth.actions';
 import { AuthState } from 'app/store/auth/auth.state';
 
 @Component({
@@ -26,7 +25,7 @@ export class NavHomeComponent implements OnInit {
     private router: Router
   ) {}
 
-  @Select(AuthState) user$!: Observable<AuthStateModel>;
+  @Select(AuthState) user$!: Observable<IAuthState>;
   @Select(AuthState.isAuthenticated) isAuthenticated$!: Observable<boolean>;
 
   ngOnInit(): void {}

@@ -12,7 +12,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { map } from 'rxjs';
-import { Picture } from '@models/index';
+import { IPicture } from '@models/index';
 import { ProductsService } from 'app/services/products.service';
 import { MessageService } from 'app/services/message.service';
 
@@ -28,12 +28,12 @@ export class ConfProdImageTableComponent implements AfterViewInit, OnInit {
   loading = false;
 
   @Input('pictures')
-  set changePictures(newPictures: Picture[]) {
+  set changePictures(newPictures: IPicture[]) {
     this.dataSource = new MatTableDataSource(newPictures);
   }
 
-  dataSource = new MatTableDataSource<Picture>();
-  @Output() picture = new EventEmitter<Picture>();
+  dataSource = new MatTableDataSource<IPicture>();
+  @Output() picture = new EventEmitter<IPicture>();
   @Output() delPicture = new EventEmitter<string>();
 
   @ViewChild(MatPaginator) paginator: any = MatPaginator;
@@ -78,7 +78,7 @@ export class ConfProdImageTableComponent implements AfterViewInit, OnInit {
       .createImage(formData)
       .pipe(
         map((res) => {
-          const pict: Picture = {
+          const pict: IPicture = {
             id: res.id,
             name: this.imageNameValue!,
             url: res.variations[0].url,

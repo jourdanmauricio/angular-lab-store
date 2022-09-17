@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Category } from '@models/index';
+import { ICategory } from '@models/index';
 // import { getCurrentProd } from 'app/state/selectors/currentProd.selector';
 import { MatDialog } from '@angular/material/dialog';
 import { CategorySearchComponent } from './category-search/category-search.component';
 // import { updateCurrentProd } from 'app/state/actions/currentProd.actions';
-import { ConfirmDialogData } from '@models/index';
+import { IConfirmDialogData } from '@models/index';
 import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component';
 import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
 import { CurrentProdUpdate } from 'app/store/currentProd/currentProd.actions';
@@ -16,7 +16,7 @@ import { CurrentProdUpdate } from 'app/store/currentProd/currentProd.actions';
   styleUrls: ['./category.component.scss'],
 })
 export class CategoryComponent implements OnInit {
-  category?: Category;
+  category?: ICategory;
 
   constructor(private store: Store, public dialog: MatDialog) {}
 
@@ -36,7 +36,7 @@ export class CategoryComponent implements OnInit {
       console.log('The dialog was closed!!!', result);
 
       if (result) {
-        const data: ConfirmDialogData = {
+        const data: IConfirmDialogData = {
           title: '¿Estas seguro?',
           message: `Al cambiar la categoría se eliminan los atributos y variaciones ¿Deseas cambiar la categoría a ${result.id} - ${result.name}?`,
           cancelText: 'No',

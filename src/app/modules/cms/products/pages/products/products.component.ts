@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductsService } from 'app/services/products.service';
 import { MessageService } from 'app/services/message.service';
-import { UserMl } from '@models/index';
+import { IProduct, UserMl } from '@models/index';
 import { MatTableDataSource } from '@angular/material/table';
 import { Product } from '@models/index';
 import { MatSort } from '@angular/material/sort';
@@ -135,5 +135,10 @@ export class ProductsComponent implements OnInit {
     console.log('Edit', product);
     // this.productsService.setProduct(product);
     this.router.navigate([`cms/products/edit/${product.id}`]);
+  }
+
+  viewMlProduct(product: IProduct) {
+    // window.location.href = product.prodMl.permalink;
+    window.open(product.prodMl.permalink, '_blank');
   }
 }
