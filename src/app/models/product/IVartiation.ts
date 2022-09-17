@@ -3,7 +3,7 @@ import { IAttribute } from './IAttribute';
 
 export interface IVariation {
   id: number | string;
-  attributes?: IAttribute[];
+  attributes: IAttribute[];
   available_quantity: number;
   attribute_combinations: IAttributeCombination[];
   catalog_product_id?: null;
@@ -14,6 +14,7 @@ export interface IVariation {
   sale_terms?: any[];
   seller_custom_field?: null;
   sold_quantity?: number;
+  updated?: boolean;
 }
 
 export interface IAttributeCombination {

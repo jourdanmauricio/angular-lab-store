@@ -12,7 +12,7 @@ export class PrettyJsonPipe implements PipeTransform {
     newText = newText
       .replace('{', '')
       .replace('}', '')
-      .replace(',', '<br/>')
+      .replace(/,/g, '<br/>')
       .replace(/"/g, '');
 
     return '<small>' + newText + '</small>';

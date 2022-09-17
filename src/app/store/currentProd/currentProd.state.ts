@@ -1,42 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { ProductsService } from 'app/services/products.service';
-import { catchError, delay, mergeMap, of, tap } from 'rxjs';
+import { catchError, mergeMap, of, tap } from 'rxjs';
 import { SetLoading } from '../application/application.actions';
 import { CurrentProdRequest, CurrentProdUpdate } from './currentProd.actions';
-
-import {
-  ICatAttribute,
-  ICurrentProdState,
-  IprodState,
-  Tags,
-} from '@models/index';
+import { ICatAttribute, ICurrentProdState, IprodState } from '@models/index';
 import { MessageService } from 'app/services/message.service';
-import { IAttribute } from '@models/product/IAttribute';
-import { ValueAtrib } from '@models/category/IValueAtrib';
-import { ValueType } from '@core/constants/enums';
-import { ApiBasicCategory } from '@models/category/IBasicCategory';
-
-export interface Attribute {
-  id?: string;
-  name?: string;
-  tags?: Tags;
-  value_type?: ValueType;
-  values?: ValueAtrib[];
-  value_id?: string;
-  value_name?: string;
-  value_struct: any;
-  allowed_units?: ApiBasicCategory[];
-  default_unit?: string;
-  type?: string;
-  hint?: string;
-  hierarchy?: any;
-  relevance?: number;
-  value_max_length?: number;
-  attribute_group_id?: string;
-  attribute_group_name?: string;
-  tooltip?: string;
-}
+import { IAttributeWork } from '@models/product/IAttribute';
 
 @State<ICurrentProdState>({
   name: 'currentProd',
@@ -61,7 +31,6 @@ export class CurrentProdState {
 
   @Selector()
   static catAttributes(state: ICurrentProdState): any {
-    // let totalAtribs: ICatAttribute[] = [];
     const catAttribs = state.prod?.category?.attributes?.filter(
       (attribute) =>
         !attribute.tags?.hasOwnProperty('hidden') &&
@@ -69,26 +38,19 @@ export class CurrentProdState {
         !attribute.tags?.hasOwnProperty('variation_attribute') &&
         !attribute.tags?.hasOwnProperty('read_only')
     );
-
     return catAttribs ? catAttribs : null;
-    // catAttribs?.forEach((cat) => {
-    //   console.log('catAttribs!!!!!!!!!!!!!!!!!!!!!', cat);
-    //   let found = state.prod?.attributes?.find((prod) => prod.id === cat.id);
-    //   if (found) {
-    //     let obj: ICatAttribute = found;
-    //     obj.value_type = cat.value_type;
-    //     obj.tags = cat.tags;
-    //     obj.values = cat.values;
-    //     obj.allowed_units = cat.allowed_units;
-    //     return obj;
-    //     // totalAtribs.push(obj);
-    //   } else {
-    //     console.log('atrib', cat);
-    //     // totalAtribs.push(cat);
-    //     return cat;
-    //   }
-    // });
-    // // return totalAtribs;
+  }
+
+  @Selector()
+  static catVarAttributes(state: ICurrentProdState): any {
+    const catAttribs = state.prod?.category?.attributes?.filter(
+      (attribute) =>
+        // !attribute.tags?.hasOwnProperty('hidden') &&
+        !attribute.tags?.hasOwnProperty('allow_variations') &&
+        attribute.tags?.hasOwnProperty('variation_attribute') &&
+        !attribute.tags?.hasOwnProperty('read_only')
+    );
+    return catAttribs ? catAttribs : null;
   }
 
   @Selector()
@@ -102,9 +64,9 @@ export class CurrentProdState {
     catAttributes: any,
     prodAttributes: any
   ) {
-    let atribssss: ICatAttribute[] = [];
+    let totalAttribs: IAttributeWork[] = [];
     catAttributes.map((atrib: any) => {
-      let obj: Attribute = JSON.parse(JSON.stringify(atrib));
+      let obj: IAttributeWork = JSON.parse(JSON.stringify(atrib));
       let found = prodAttributes.find((el: any) => el.id === atrib.id);
       if (found) {
         obj.value_name = found.value_name;
@@ -114,8 +76,6 @@ export class CurrentProdState {
           obj.value_id = found.value_name.split(',');
           obj.values?.map((val) => (val.id = val.name));
         }
-
-        // &&!obj.tags?.hasOwnProperty('multivalued')
         if (
           obj.values &&
           obj.values.length > 0 &&
@@ -139,12 +99,12 @@ export class CurrentProdState {
             ];
           }
         }
-        atribssss.push(obj);
+        totalAttribs.push(obj);
       } else {
-        atribssss.push(obj);
+        totalAttribs.push(obj);
       }
     });
-    return atribssss;
+    return totalAttribs;
   }
 
   @Action(CurrentProdUpdate)

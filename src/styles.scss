@@ -67,6 +67,10 @@ input:-webkit-autofill:active {
   margin-right: auto;
 }
 
+.without-error {
+  margin-bottom: -1.25em;
+}
+
 .snackbar-error {
   background-color: red;
   color: white;
@@ -115,7 +119,7 @@ input:-webkit-autofill:active {
 }
 .responsive-table td,
 .responsive-table th {
-  font-size: 14px;
+  font-size: 13px;
   padding: 2px 6px;
   border: 1px solid #ccc;
   text-align: center;

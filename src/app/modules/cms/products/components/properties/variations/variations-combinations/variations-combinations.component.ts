@@ -205,7 +205,7 @@ export class VariationsCombinationsComponent implements OnInit {
     atribsNewVariations.forEach((newVar) => {
       let found = isNewVariation(newVar, atribsVariation);
       if (!found) {
-        let variation = {
+        let variation: IVariation = {
           id: `${this.seller_custom_field}--${sku}`,
           attribute_combinations: newVar,
           available_quantity: 1,
@@ -214,6 +214,8 @@ export class VariationsCombinationsComponent implements OnInit {
             {
               id: 'SELLER_SKU',
               value_name: `${this.seller_custom_field}--${sku}`,
+              name: 'seller_sku',
+              value_id: null,
             },
           ],
           price: this.price || 0,

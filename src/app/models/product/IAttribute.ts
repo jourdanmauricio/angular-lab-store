@@ -4,15 +4,20 @@ import { ValueAtrib } from '@models/category/IValueAtrib';
 import { Tags } from '..';
 
 export interface IAttribute {
-  id?: string;
-  name?: string;
-  value_id?: null | string;
-  value_name?: null | string;
-  value_struct?: null;
-  // values?: ValueAtrib[];
-  // value_type?: ValueType;
-  // tags?: Tags;
-  // allowed_units?: ApiBasicCategory[];
-  attribute_group_id?: any;
-  attribute_group_name?: any;
+  id: string;
+  name: string;
+  value_id?: any;
+  value_name: string;
+  value_struct?: any;
+}
+
+export interface IAttributeWork extends IAttribute {
+  tags?: Tags;
+  value_type?: ValueType;
+  values?: ValueAtrib[];
+  allowed_units?: ApiBasicCategory[];
+  default_unit?: string;
+  hint?: string;
+  value_max_length?: number;
+  tooltip?: string;
 }

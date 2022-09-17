@@ -5,6 +5,9 @@ import { ICatAttribute } from '@models/index';
 import { IVariation } from '@models/index';
 import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
 import { CurrentProdUpdate } from 'app/store/currentProd/currentProd.actions';
+import { Dialog } from '@angular/cdk/dialog';
+import { VarAttributesComponent } from '../var-attributes/var-attributes.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-variations-table',
@@ -15,7 +18,7 @@ export class VariationsTableComponent implements OnInit {
   variations: IVariation[] = [];
   attributes: ICatAttribute[] = [];
   atribProdVariations: string[] = [];
-  constructor(private store: Store) {}
+  constructor(private store: Store, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.store.select(CurrentProdState.currentProd).subscribe((prod) => {
@@ -25,6 +28,20 @@ export class VariationsTableComponent implements OnInit {
         this.attributes = prod.category.attributes.filter((attribute: any) =>
           attribute.tags?.hasOwnProperty('allow_variations')
         );
+    });
+  }
+
+  openAttib(variation: IVariation) {
+    const dialogRef = this.dialog.open(VarAttributesComponent, {
+      minHeight: '250px',
+      width: '800px',
+      data: variation,
+    });
+
+    dialogRef.afterClosed().subscribe((variation) => {
+      if (variation) {
+        this.updateVariation(variation);
+      }
     });
   }
 
@@ -57,6 +74,46 @@ export class VariationsTableComponent implements OnInit {
       new CurrentProdUpdate({
         property: 'variations',
         value: this.variations,
+      })
+    );
+  }
+
+  changeSku(e: Event, variation: IVariation) {
+    const value = (e.target as HTMLInputElement).value;
+    let found = variation.attributes.find((sku) => sku.id === 'SELLER_SKU');
+    if (found) {
+      found.value_name = value;
+    } else {
+      let obj = {
+        id: 'SELLER_SKU',
+        name: 'SKU',
+        value_id: null,
+        value_name: value,
+      };
+      variation.attributes.push(obj);
+    }
+    variation.updated = true;
+
+    this.updateVariation(variation);
+  }
+
+  changeQuantity(e: Event, variation: IVariation) {
+    const value = (e.target as HTMLInputElement).value;
+    variation.available_quantity = parseInt(value);
+    variation.updated = true;
+
+    this.updateVariation(variation);
+  }
+
+  updateVariation(variation: IVariation) {
+    let newVariations = this.variations.map((vari) =>
+      vari.id === variation.id ? variation : vari
+    );
+
+    this.store.dispatch(
+      new CurrentProdUpdate({
+        property: 'variations',
+        value: newVariations,
       })
     );
   }

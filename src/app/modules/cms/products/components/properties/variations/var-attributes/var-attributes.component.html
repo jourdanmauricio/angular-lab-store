@@ -1,4 +1,13 @@
-<h1>Atributos</h1>
+<div style="position: relative; text-align: center">
+  <div class="modal-btn-close">
+    <button mat-icon-button [mat-dialog-close]="false">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <h2 mat-dialog-title>Atributos Var {{ data.id }}</h2>
+</div>
+<hr />
 
 <table mat-table [dataSource]="totalAttribs$" class="mat-elevation-z8">
   <!-- Name Column -->
@@ -145,3 +154,12 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
+<div mat-dialog-actions class="actions" [align]="'end'">
+  <button mat-raised-button color="primary" [mat-dialog-close]="true">
+    Cerrar
+  </button>
+  <button mat-raised-button color="primary" (click)="updateVarAttrib()">
+    <!-- [mat-dialog-close]="true" -->
+    Modificar
+  </button>
+</div>

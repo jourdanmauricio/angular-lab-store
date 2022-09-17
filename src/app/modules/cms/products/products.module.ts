@@ -24,6 +24,7 @@ import { VariationsTableComponent } from './components/properties/variations/var
 import { AttributesComponent } from './components/properties/attributes/attributes.component';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { VarAttributesComponent } from './components/properties/variations/var-attributes/var-attributes.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     AddCustomAttribComponent,
     VariationsTableComponent,
     AttributesComponent,
+    VarAttributesComponent,
   ],
   imports: [
     NgSelectModule,

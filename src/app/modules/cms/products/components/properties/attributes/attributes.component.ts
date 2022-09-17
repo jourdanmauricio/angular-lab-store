@@ -3,30 +3,10 @@ import { ValueType } from '@core/constants/enums';
 import { ApiBasicCategory } from '@models/category/IBasicCategory';
 import { ValueAtrib } from '@models/category/IValueAtrib';
 import { ICatAttribute, Tags } from '@models/index';
+import { IAttributeWork } from '@models/product/IAttribute';
 import { Select, Store } from '@ngxs/store';
 import { CurrentProdUpdate } from 'app/store/currentProd/currentProd.actions';
 import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
-
-export interface Attribute {
-  id?: string;
-  name?: string;
-  tags?: Tags;
-  value_type?: ValueType;
-  values?: ValueAtrib[];
-  value_id?: string;
-  value_name?: string;
-  value_struct: any;
-  allowed_units?: ApiBasicCategory[];
-  default_unit?: string;
-  type?: string;
-  hint?: string;
-  hierarchy?: any;
-  relevance?: number;
-  value_max_length?: number;
-  attribute_group_id?: string;
-  attribute_group_name?: string;
-  tooltip?: string;
-}
 
 @Component({
   selector: 'app-attributes',
@@ -35,10 +15,10 @@ export interface Attribute {
 })
 export class AttributesComponent implements OnInit {
   displayedColumns: string[] = ['name', 'value_name', 'allowed_units', 'tags'];
-  attributes!: Attribute[];
+  attributes!: IAttributeWork[];
   constructor(private store: Store) {}
 
-  onChange2(attribute: any, e: any) {
+  onChange2(attribute: IAttributeWork, e: any) {
     console.log('Attrib', attribute);
     console.log('e', e);
     let found = this.attributes.find((attrib) => attrib.id === attribute.id);
@@ -48,14 +28,14 @@ export class AttributesComponent implements OnInit {
     this.updateAttr();
   }
 
-  onChange(attribute: any, e: any) {
+  onChange(attribute: IAttributeWork, e: any) {
     console.log('attribute', attribute);
     console.log('e', e);
     console.log('attributes', this.attributes);
 
     let found = this.attributes.find((attrib) => attrib.id === attribute.id);
     if (attribute.values) {
-      if (!attribute.tags.hasOwnProperty('multivalued')) {
+      if (!attribute.tags?.hasOwnProperty('multivalued')) {
         found!.value_id = e.id;
         found!.value_name = e.name;
       } else {
@@ -65,7 +45,7 @@ export class AttributesComponent implements OnInit {
     if (!attribute.values) {
       switch (attribute.value_type) {
         case 'string':
-          found!.value_id = attribute.value_id;
+          found!.value_id = null;
           found!.value_name = attribute.value_name;
           break;
         case 'number':
@@ -93,17 +73,6 @@ export class AttributesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.store
-    //   .select(CurrentProdState.catAttributes)
-    //   .subscribe((attribs: ICatAttribute[]) => {
-    //     this.catAttribs = attribs;
-    //     // console.log('catAttribs!!!!!!!!!!!!!!', this.catAttribs);
-    //   });
-    // this.store
-    //   .select(CurrentProdState.prodAttributes)
-    //   .subscribe((attribs: ICatAttribute[]) => {
-    //     this.prodAttribs = attribs;
-    //   });
     this.store
       .select(CurrentProdState.totalAttribs)
       .subscribe((attribs: ICatAttribute[]) => {
@@ -114,7 +83,5 @@ export class AttributesComponent implements OnInit {
       });
   }
 
-  // @Select(CurrentProdState.prodAttributes) prodAttributes$!: ICatAttribute[];
-  // @Select(CurrentProdState.catAttributes) catAttributes$!: ICatAttribute[];
   @Select(CurrentProdState.totalAttribs) totalAttribs$!: ICatAttribute[];
 }
