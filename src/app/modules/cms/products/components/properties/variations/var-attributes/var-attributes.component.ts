@@ -1,9 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { IVariation } from '@models/index';
-import { IAttributeWork } from '@models/product/IAttribute';
+import { IVariation, IAttributeWork } from '@models/index';
 import { Store } from '@ngxs/store';
-import { CurrentProdUpdate } from 'app/store/currentProd/currentProd.actions';
 import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
 
 @Component({

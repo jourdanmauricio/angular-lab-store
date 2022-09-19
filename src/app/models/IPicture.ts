@@ -1,6 +1,6 @@
 export interface IPicture {
   id: string;
-  name: string;
+  name?: string;
   url: string;
   size: string;
   quality: string;

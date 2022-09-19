@@ -5,9 +5,9 @@ import { ICatAttribute } from '@models/index';
 import { IVariation } from '@models/index';
 import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
 import { CurrentProdUpdate } from 'app/store/currentProd/currentProd.actions';
-import { Dialog } from '@angular/cdk/dialog';
 import { VarAttributesComponent } from '../var-attributes/var-attributes.component';
 import { MatDialog } from '@angular/material/dialog';
+import { VarPicturesComponent } from '../var-pictures/var-pictures.component';
 
 @Component({
   selector: 'app-variations-table',
@@ -35,6 +35,20 @@ export class VariationsTableComponent implements OnInit {
     const dialogRef = this.dialog.open(VarAttributesComponent, {
       minHeight: '250px',
       width: '800px',
+      data: variation,
+    });
+
+    dialogRef.afterClosed().subscribe((variation) => {
+      if (variation) {
+        this.updateVariation(variation);
+      }
+    });
+  }
+
+  openPictures(variation: IVariation) {
+    const dialogRef = this.dialog.open(VarPicturesComponent, {
+      height: '500px',
+      width: '900px',
       data: variation,
     });
 

@@ -1,6 +1,13 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Action, Select, State, StateContext, Store } from '@ngxs/store';
+import {
+  Action,
+  Select,
+  Selector,
+  State,
+  StateContext,
+  Store,
+} from '@ngxs/store';
 import { MessageService } from 'app/services/message.service';
 import { SettingsService } from 'app/services/settings.service';
 import { catchError, Observable, of, tap } from 'rxjs';
@@ -31,6 +38,11 @@ export class SettingsState {
     private store: Store,
     private messageService: MessageService
   ) {}
+
+  @Selector()
+  static settingsPictures(state: ISettingsState): any {
+    return state.pictures;
+  }
 
   @Action(SettingsRequest)
   async settingsRequest(ctx: StateContext<ISettingsState>) {

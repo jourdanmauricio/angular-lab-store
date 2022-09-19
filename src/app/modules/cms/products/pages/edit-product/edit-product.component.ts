@@ -36,4 +36,17 @@ export class EditProductComponent implements OnInit {
       )
       .subscribe();
   }
+
+  /**
+   * Update product
+   */
+  // TODO: Si updated contiene 'variations' chquear que las imagenes de las variaciones
+  //       se encuentren en pictures del producto. Insertar las que falten y eliminar
+  //       las que sobren. Se deben enviar
+  //  [{
+  //		"id": "553111-MLA20482692355_112015"
+  //	},
+  //	{
+  //		"id": "629425-MLA25446587248_032017"
+  //	}]
 }

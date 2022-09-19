@@ -1,10 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
+import {
+  Action,
+  createSelector,
+  Selector,
+  State,
+  StateContext,
+  Store,
+} from '@ngxs/store';
 import { ProductsService } from 'app/services/products.service';
 import { catchError, mergeMap, of, tap } from 'rxjs';
 import { SetLoading } from '../application/application.actions';
 import { CurrentProdRequest, CurrentProdUpdate } from './currentProd.actions';
-import { ICatAttribute, ICurrentProdState, IprodState } from '@models/index';
+import {
+  ICatAttribute,
+  ICurrentProdState,
+  IPicture,
+  IprodState,
+} from '@models/index';
 import { MessageService } from 'app/services/message.service';
 import { IAttributeWork } from '@models/product/IAttribute';
 
@@ -25,8 +37,29 @@ export class CurrentProdState {
   ) {}
 
   @Selector()
-  static currentProd(state: ICurrentProdState): IprodState {
+  static currentProd(state: ICurrentProdState): any {
     return state.prod ? state.prod : {};
+  }
+
+  @Selector()
+  static productPictures(state: ICurrentProdState): any {
+    return state.prod?.pictures;
+  }
+
+  static varPictures(id: string | number) {
+    return createSelector([CurrentProdState], (state: ICurrentProdState) => {
+      let variPictures: IPicture[] = [];
+      let variation = state.prod?.variations?.find((vari) => vari.id === id);
+      if (variation) {
+        variation.picture_ids.forEach((varPic) => {
+          let found = state.prod?.pictures?.find(
+            (prodPic) => varPic === prodPic.id
+          );
+          if (found) variPictures.push(found);
+        });
+      }
+      return variPictures;
+    });
   }
 
   @Selector()

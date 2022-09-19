@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ValueType } from '@core/constants/enums';
-import { ApiBasicCategory } from '@models/category/IBasicCategory';
-import { ValueAtrib } from '@models/category/IValueAtrib';
 import { ICatAttribute, Tags } from '@models/index';
 import { IAttributeWork } from '@models/product/IAttribute';
 import { Select, Store } from '@ngxs/store';

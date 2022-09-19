@@ -1,0 +1,8 @@
+<mat-form-field fxFlex class="control-sm item" appearance="outline">
+  <mat-label>Estado</mat-label>
+  <mat-select (selectionChange)="changeStatus()" required [(ngModel)]="status">
+    <mat-option *ngFor="let avStatus of availableStatus" [value]="avStatus">
+      {{ avStatus | trad: "PROD_STATUS" }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

@@ -17,3 +17,4 @@ export * from './state/ISettingsState';
 export * from './category/ICategory';
 export * from './category/ICatAttribute';
 export * from './product/IVartiation';
+export * from './product/IAttribute';

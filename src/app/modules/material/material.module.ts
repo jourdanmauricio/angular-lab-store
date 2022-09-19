@@ -20,6 +20,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const MaterialComponents = [
   MatButtonModule,
@@ -42,6 +43,7 @@ const MaterialComponents = [
   MatTooltipModule,
   MatTableModule,
   MatTabsModule,
+  DragDropModule,
 ];
 
 @NgModule({

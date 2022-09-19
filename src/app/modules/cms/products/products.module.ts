@@ -25,6 +25,11 @@ import { AttributesComponent } from './components/properties/attributes/attribut
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { VarAttributesComponent } from './components/properties/variations/var-attributes/var-attributes.component';
+import { VarPicturesComponent } from './components/properties/variations/var-pictures/var-pictures.component';
+import { DndDirective } from './components/properties/variations/var-pictures/dnd.directive';
+import { FeaturesComponent } from './components/properties/features/features.component';
+import { StatusComponent } from './components/properties/status/status.component';
+import { QuantityComponent } from './components/properties/quantity/quantity.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +49,11 @@ import { VarAttributesComponent } from './components/properties/variations/var-a
     VariationsTableComponent,
     AttributesComponent,
     VarAttributesComponent,
+    VarPicturesComponent,
+    DndDirective,
+    FeaturesComponent,
+    StatusComponent,
+    QuantityComponent,
   ],
   imports: [
     NgSelectModule,

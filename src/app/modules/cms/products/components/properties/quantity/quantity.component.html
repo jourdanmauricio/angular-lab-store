@@ -1,0 +1,11 @@
+<mat-form-field fxFlex class="control-sm" appearance="outline">
+  <mat-label>Cantidad</mat-label>
+  <input
+    matInput
+    type="number"
+    (change)="changeQuantity()"
+    required
+    min="0"
+    [(ngModel)]="available_quantity"
+  />
+</mat-form-field>

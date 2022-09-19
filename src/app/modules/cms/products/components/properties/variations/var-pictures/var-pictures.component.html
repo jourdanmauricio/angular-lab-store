@@ -1,0 +1,86 @@
+<div class="content">
+  <div style="position: relative; text-align: center">
+    <div class="modal-btn-close">
+      <button mat-icon-button [mat-dialog-close]="false">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <h2 mat-dialog-title>Imágenes de la variación {{ data.id }}</h2>
+  </div>
+  <hr />
+
+  <div class="pictures-container">
+    <div
+      class="example-list"
+      cdkDropList
+      #varPictList="cdkDropList"
+      [cdkDropListData]="varPictures"
+      cdkDropListOrientation="horizontal"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <div
+        class="example-box"
+        style="position: relative"
+        *ngFor="let item of varPictures"
+        cdkDrag
+      >
+        <img class="picture" alt="gallery" [src]="item.secure_url" />
+        <!-- on:click={(e) => deletePicture(picture.id)} class="" -->
+        <button
+          (click)="deleteImg(item.id)"
+          style="position: absolute; top: -10px; right: -10px; z-index: 100"
+          mat-icon-button
+          matSuffix
+        >
+          <mat-icon style="color: red">delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <mat-tab-group class="add-pictures mt" animationDuration="0ms">
+    <mat-tab label="Upload">
+      <!-- UPLOAD  -->
+      <div class="file-upload mt" appDnd (fileDropped)="onFileDropped($event)">
+        <input
+          (change)="fileBrowseHandler($event)"
+          #fileDropRef
+          id="fileDropRef"
+          multiple
+          class="file"
+          type="file"
+        />
+        <h3>Drag and drop file here or</h3>
+        <label for="fileDropRef"> Browse for file</label>
+      </div>
+    </mat-tab>
+    <mat-tab label="Preconfiguradas">
+      <!-- PRECONFIGURADAS -->
+      <div class="example-container mt">
+        <div
+          class="example-list"
+          cdkDropList
+          #settingsList="cdkDropList"
+          [cdkDropListData]="settingsPic"
+          [cdkDropListConnectedTo]="[varPictList]"
+          cdkDropListOrientation="horizontal"
+          (cdkDropListDropped)="drop($event)"
+        >
+          <div class="example-box" *ngFor="let item of settingsPic" cdkDrag>
+            <img class="picture" alt="gallery" [src]="item.secure_url" />
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+
+  <div mat-dialog-actions class="actions" [align]="'end'">
+    <button mat-raised-button color="primary" [mat-dialog-close]="true">
+      Cerrar
+    </button>
+    <button mat-raised-button color="primary" (click)="updateVarPictures()">
+      Modificar
+    </button>
+  </div>
+</div>

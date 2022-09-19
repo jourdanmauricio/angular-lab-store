@@ -208,4 +208,18 @@ mat-form-field {
     color: #3f51b5;
   }
 }
+
+/* Colores ScrollBar */
+::-webkit-scrollbar {
+  width: 4px;
+  overflow-y: scroll;
+  background: lightgray;
+  box-shadow: inset 0 0 4px #707070;
+}
+
+::-webkit-scrollbar-thumb {
+  background: lightseagreen;
+  border-radius: 10px;
+}
+
 /************* Material ***************/
