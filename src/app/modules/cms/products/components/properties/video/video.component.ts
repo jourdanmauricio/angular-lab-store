@@ -1,34 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { PRODUCT_STATUS } from '@core/constants/constants';
-import { ProdStatus } from '@core/constants/enums';
 import { Store } from '@ngxs/store';
 import { CurrentProdUpdate } from 'app/store/currentProd/currentProd.actions';
 import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
 
 @Component({
-  selector: 'app-status',
-  templateUrl: './status.component.html',
-  styleUrls: ['./status.component.scss'],
+  selector: 'app-video',
+  templateUrl: './video.component.html',
+  styleUrls: ['./video.component.scss'],
 })
-export class StatusComponent implements OnInit {
-  availableStatus = PRODUCT_STATUS;
-  status: ProdStatus = ProdStatus.ACTIVE;
-
+export class VideoComponent implements OnInit {
+  video!: string;
   constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.store.select(CurrentProdState.currentProd).subscribe((prod) => {
       if (prod) {
-        this.status = prod.status;
+        this.video = prod.video;
       }
     });
   }
 
-  changeStatus() {
+  changeVideo() {
     this.store.dispatch(
       new CurrentProdUpdate({
-        property: 'status',
-        value: this.status,
+        property: 'video',
+        value: this.video,
       })
     );
   }

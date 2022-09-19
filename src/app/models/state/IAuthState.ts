@@ -1,9 +1,9 @@
-import { ROLES } from '@core/constants/enums';
+import { Roles } from '@core/constants/enums';
 
 export interface IAuthState {
   id: number | null;
   email: string | null;
-  role: ROLES | null;
+  role: Roles | null;
   token: string | null;
   ml_id: number | null;
   nickname: string | null;

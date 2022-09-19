@@ -1,0 +1,24 @@
+<mat-form-field fxFlex appearance="outline">
+  <!-- *ngIf="value" -->
+  <button
+    (click)="clearDescription()"
+    mat-button
+    matSuffix
+    mat-icon-button
+    aria-label="Clear"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <mat-label>Descripción</mat-label>
+  <textarea
+    style="line-height: 1.2rem"
+    matInput
+    cdkTextareaAutosize
+    #autosize="cdkTextareaAutosize"
+    cdkAutosizeMinRows="1"
+    cdkAutosizeMaxRows="15"
+    [(ngModel)]="description"
+    (change)="changeDescription()"
+  ></textarea>
+</mat-form-field>

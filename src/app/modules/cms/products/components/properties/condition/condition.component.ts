@@ -1,34 +1,34 @@
 import { Component, OnInit } from '@angular/core';
-import { PRODUCT_STATUS } from '@core/constants/constants';
-import { ProdStatus } from '@core/constants/enums';
+import { PRODUCT_CONDITION } from '@core/constants/constants';
+import { ProdCondition } from '@core/constants/enums';
 import { Store } from '@ngxs/store';
 import { CurrentProdUpdate } from 'app/store/currentProd/currentProd.actions';
 import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
 
 @Component({
-  selector: 'app-status',
-  templateUrl: './status.component.html',
-  styleUrls: ['./status.component.scss'],
+  selector: 'app-condition',
+  templateUrl: './condition.component.html',
+  styleUrls: ['./condition.component.scss'],
 })
-export class StatusComponent implements OnInit {
-  availableStatus = PRODUCT_STATUS;
-  status: ProdStatus = ProdStatus.ACTIVE;
+export class ConditionComponent implements OnInit {
+  availableConditions = PRODUCT_CONDITION;
+  condition: ProdCondition = ProdCondition.NEW;
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.store.select(CurrentProdState.currentProd).subscribe((prod) => {
       if (prod) {
-        this.status = prod.status;
+        this.condition = prod.condition;
       }
     });
   }
 
-  changeStatus() {
+  changeCondition() {
     this.store.dispatch(
       new CurrentProdUpdate({
-        property: 'status',
-        value: this.status,
+        property: 'condition',
+        value: this.condition,
       })
     );
   }

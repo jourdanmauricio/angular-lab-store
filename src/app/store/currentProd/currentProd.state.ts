@@ -42,8 +42,13 @@ export class CurrentProdState {
   }
 
   @Selector()
-  static productPictures(state: ICurrentProdState): any {
+  static prodPictures(state: ICurrentProdState): any {
     return state.prod?.pictures;
+  }
+
+  @Selector()
+  static productSaleTerms(state: ICurrentProdState): any {
+    return state.prod?.sale_terms;
   }
 
   static varPictures(id: string | number) {

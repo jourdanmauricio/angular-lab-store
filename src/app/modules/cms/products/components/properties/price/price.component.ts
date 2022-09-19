@@ -1,34 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-import { PRODUCT_STATUS } from '@core/constants/constants';
-import { ProdStatus } from '@core/constants/enums';
 import { Store } from '@ngxs/store';
 import { CurrentProdUpdate } from 'app/store/currentProd/currentProd.actions';
 import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
 
 @Component({
-  selector: 'app-status',
-  templateUrl: './status.component.html',
-  styleUrls: ['./status.component.scss'],
+  selector: 'app-price',
+  templateUrl: './price.component.html',
+  styleUrls: ['./price.component.scss'],
 })
-export class StatusComponent implements OnInit {
-  availableStatus = PRODUCT_STATUS;
-  status: ProdStatus = ProdStatus.ACTIVE;
+export class PriceComponent implements OnInit {
+  price: number = 0;
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.store.select(CurrentProdState.currentProd).subscribe((prod) => {
       if (prod) {
-        this.status = prod.status;
+        this.price = prod.price;
       }
     });
   }
 
-  changeStatus() {
+  changePrice() {
     this.store.dispatch(
       new CurrentProdUpdate({
-        property: 'status',
-        value: this.status,
+        property: 'price',
+        value: this.price,
       })
     );
   }

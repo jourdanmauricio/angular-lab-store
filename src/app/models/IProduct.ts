@@ -1,11 +1,12 @@
 import {
-  CONDITION,
-  PROD_LISTING_TYPE,
-  PROD_STATUS,
+  ProdCondition,
+  ProdListingType,
+  ProdStatus,
 } from '@core/constants/enums';
 import { ICategory } from './category/ICategory';
 import { IAttribute } from './product/IAttribute';
 import { IPicture } from './product/IPicture';
+import { ISaleTerms } from './product/ISaleTerms';
 import { IVariation } from './product/IVartiation';
 
 /* ###################### ML ####################### */
@@ -13,12 +14,12 @@ export interface IProduct {
   id: string;
   attributes: IAttribute[];
   title: string;
-  listing_type_id: PROD_LISTING_TYPE;
-  sale_terms: any[];
+  listing_type_id: ProdListingType;
+  sale_terms: ISaleTerms[];
   permalink: string;
   thumbnail: string;
   variations: IVariation[];
-  status: PROD_STATUS;
+  status: ProdStatus;
   available_quantity: number;
   start_time: Date;
   prodMl?: any;
@@ -27,9 +28,10 @@ export interface IProduct {
   category_id: string;
   price: number;
   sold_quantity: number;
-  condition: CONDITION;
+  condition: ProdCondition;
   seller_custom_field: string;
   description: string;
+  video?: string;
   category?: ICategory;
 }
 

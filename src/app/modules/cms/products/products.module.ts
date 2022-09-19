@@ -26,10 +26,19 @@ import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { VarAttributesComponent } from './components/properties/variations/var-attributes/var-attributes.component';
 import { VarPicturesComponent } from './components/properties/variations/var-pictures/var-pictures.component';
-import { DndDirective } from './components/properties/variations/var-pictures/dnd.directive';
 import { FeaturesComponent } from './components/properties/features/features.component';
 import { StatusComponent } from './components/properties/status/status.component';
 import { QuantityComponent } from './components/properties/quantity/quantity.component';
+import { ConditionComponent } from './components/properties/condition/condition.component';
+import { ListingComponent } from './components/properties/listing/listing.component';
+import { PriceComponent } from './components/properties/price/price.component';
+import { PurchaseMaxQuantityComponent } from './components/properties/purchase-max-quantity/purchase-max-quantity.component';
+import { WarrantyComponent } from './components/properties/warranty/warranty.component';
+import { ManufacturingComponent } from './components/properties/manufacturing/manufacturing.component';
+import { DescriptionComponent } from './components/properties/description/description.component';
+import { VideoComponent } from './components/properties/video/video.component';
+import { PicturesComponent } from './components/properties/pictures/pictures.component';
+import { DndDirective } from '@shared/directives/dnd.directive';
 
 @NgModule({
   declarations: [
@@ -54,6 +63,15 @@ import { QuantityComponent } from './components/properties/quantity/quantity.com
     FeaturesComponent,
     StatusComponent,
     QuantityComponent,
+    ConditionComponent,
+    ListingComponent,
+    PriceComponent,
+    PurchaseMaxQuantityComponent,
+    WarrantyComponent,
+    ManufacturingComponent,
+    DescriptionComponent,
+    VideoComponent,
+    PicturesComponent,
   ],
   imports: [
     NgSelectModule,

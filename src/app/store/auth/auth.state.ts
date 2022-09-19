@@ -16,7 +16,7 @@ import { catchError, mergeMap, of, tap } from 'rxjs';
 import { UsersService } from 'app/services/users.service';
 import { SettingsRequest, SettingsReset } from '../settings/settings.actions';
 import { Router } from '@angular/router';
-import { ROLES } from '@core/constants/enums';
+import { Roles } from '@core/constants/enums';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
 @State<IAuthState>({
@@ -49,7 +49,7 @@ export class AuthState {
   }
 
   @Selector()
-  static role(state: IAuthState): ROLES | null {
+  static role(state: IAuthState): Roles | null {
     return state.role;
   }
 

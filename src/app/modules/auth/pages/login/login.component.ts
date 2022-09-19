@@ -4,7 +4,7 @@ import { Store } from '@ngxs/store';
 import { Router } from '@angular/router';
 import { LoginRequestAttempt } from 'app/store/auth/auth.actions';
 import { AuthState } from 'app/store/auth/auth.state';
-import { ROLES } from '@core/constants/enums';
+import { Roles } from '@core/constants/enums';
 
 @Component({
   selector: 'app-login',
@@ -29,9 +29,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.select(AuthState.role).subscribe((role) => {
-      if (role === ROLES.ADMIN || role === ROLES.SUPERADMIN)
+      if (role === Roles.ADMIN || role === Roles.SUPERADMIN)
         return this.router.navigate(['cms']);
-      if (role === ROLES.CUSTOMER) return this.router.navigate(['home']);
+      if (role === Roles.CUSTOMER) return this.router.navigate(['home']);
       return;
     });
   }

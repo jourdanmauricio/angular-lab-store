@@ -18,7 +18,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Logout } from 'app/store/auth/auth.actions';
 import { AuthState } from 'app/store/auth/auth.state';
-import { DOCUMENT_TYPES } from '@core/constants/enums';
+import { DOCUMENT_TYPES } from '@core/constants/constants';
 
 @Component({
   selector: 'app-profile',
@@ -29,13 +29,7 @@ export class ProfileComponent implements OnInit {
   user: User | null = null;
   form: FormGroup;
   customer: ICustomer | null = null;
-  documentTypes = [
-    DOCUMENT_TYPES.DNI,
-    DOCUMENT_TYPES.LE,
-    DOCUMENT_TYPES.CUIT,
-    DOCUMENT_TYPES.CUIL,
-    DOCUMENT_TYPES.LC,
-  ];
+  documentTypes = DOCUMENT_TYPES;
   loading = false;
 
   constructor(

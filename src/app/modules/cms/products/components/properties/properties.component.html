@@ -4,6 +4,7 @@
   </mat-tab>
   <mat-tab label="Atributos"> <app-attributes></app-attributes> </mat-tab>
   <mat-tab label="Cacterísticas"> <app-features></app-features> </mat-tab>
-  <mat-tab label="Descripción"> Descripción </mat-tab>
-  <mat-tab label="Imágenes"> Imágenes </mat-tab>
+  <mat-tab *ngIf="quantityVar === 0" label="Imágenes">
+    <app-pictures></app-pictures>
+  </mat-tab>
 </mat-tab-group>

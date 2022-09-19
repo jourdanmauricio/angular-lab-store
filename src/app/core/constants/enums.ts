@@ -1,15 +1,15 @@
-export enum ROLES {
+export enum Roles {
   ADMIN = 'admin',
   CUSTOMER = 'customer',
   SUPERADMIN = 'superadmin',
 }
 
-export enum CONDITION {
+export enum ProdCondition {
   NEW = 'new',
   USED = 'used',
 }
 
-export enum PROD_STATUS {
+export enum ProdStatus {
   ACTIVE = 'active',
   PAUSED = 'paused',
   UNDER_REVIEW = 'under_review',
@@ -17,17 +17,29 @@ export enum PROD_STATUS {
   CLOSED = 'closed',
 }
 
-export enum PROD_LISTING_TYPE {
+export enum ProdListingType {
   GOLD_PRO = 'gold_pro',
   GOLD_SPECIAL = 'gold_special',
 }
 
-export enum DOCUMENT_TYPES {
+export enum DocumentTypes {
   DNI = 'DNI',
   LE = 'LE',
   CUIT = 'CUIT',
   CUIL = 'CUIL',
   LC = 'LC',
+}
+
+export enum WarrantyType {
+  GARANTIA_VENDEDOR = 'Garantía del vendedor',
+  GARANTIA_FABRICA = 'Garantía de fábrica',
+  SIN_GARANTIA = 'Sin garantía',
+}
+
+export enum WarrantyUnit {
+  DIAS = 'días',
+  MESES = 'meses',
+  ANIOS = 'años',
 }
 
 export enum AttributeGroupID {
