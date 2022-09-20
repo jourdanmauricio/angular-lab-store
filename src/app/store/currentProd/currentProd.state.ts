@@ -42,6 +42,11 @@ export class CurrentProdState {
   }
 
   @Selector()
+  static prodUpdated(state: ICurrentProdState): any {
+    return state.updated;
+  }
+
+  @Selector()
   static prodPictures(state: ICurrentProdState): any {
     return state.prod?.pictures;
   }

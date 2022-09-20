@@ -4,28 +4,43 @@ import { CommonModule } from '@angular/common';
 /* Forms */
 import { ReactiveFormsModule } from '@angular/forms';
 
-// Components
-import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { MaterialModule } from '@modules/material/material.module';
+
 import * as fromPipes from './pipes';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { TradPipe } from './pipes/trad.pipe';
 import { PrettyJsonPipe } from './pipes/pretty-json.pipe';
 
+// Components
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+// import { MatDialogModule } from '@angular/material/dialog';
+// import { MatIconModule } from '@angular/material/icon';
+// import { MatButtonModule } from '@angular/material/button';
+import { SelectComponent } from './components/select/select.component';
+import { InputComponent } from './components/input/input.component';
+
 @NgModule({
-  declarations: [ConfirmDialogComponent, ...fromPipes.pipes, TradPipe, PrettyJsonPipe],
+  declarations: [
+    ConfirmDialogComponent,
+    ...fromPipes.pipes,
+    TradPipe,
+    PrettyJsonPipe,
+    SelectComponent,
+    InputComponent,
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     // Material
-    MatButtonModule,
-    MatDialogModule,
-    MatIconModule,
+    MaterialModule,
+    // MatButtonModule,
+    // MatDialogModule,
+    // MatIconModule,
   ],
   exports: [
     // Forms
     ReactiveFormsModule,
+    SelectComponent,
+    InputComponent,
     ...fromPipes.pipes,
   ],
   providers: [],

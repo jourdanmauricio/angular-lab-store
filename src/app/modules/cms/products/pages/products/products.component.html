@@ -128,32 +128,6 @@
       </td>
     </ng-container>
 
-    <!-- <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
-      <td mat-cell *matCellDef="let row">
-        <div class="category-actions">
-          <button
-            mat-icon-button
-            type="button"
-            color="warn"
-            aria-label="icon-button for delete image"
-          >
-            (click)="deleteCat(row)"
-            <mat-icon>delete</mat-icon>
-          </button>
-          <button
-            mat-icon-button
-            type="button"
-            color="primary"
-            aria-label="icon-button for delete image"
-          >
-            (click)="editCat(row)"
-            <mat-icon>edit</mat-icon>
-          </button>
-        </div>
-      </td>
-    </ng-container> -->
-
     <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
     <ng-container matColumnDef="expandedDetail">
       <td
@@ -167,81 +141,7 @@
             element == expandedElement ? 'expanded' : 'collapsed'
           "
         >
-          <div
-            fxLayout="row"
-            fxLayoutAlign="center"
-            fxLayoutGap.gt-xs="30px"
-            fxLayout.lt-md="column"
-          >
-            <table class="detail-table">
-              <thead>
-                <th>Feature</th>
-                <th>Local</th>
-                <th>ML</th>
-                <th>Web</th>
-              </thead>
-              <tbody>
-                <tr style="border-top: 1px solid gray">
-                  <td>ID</td>
-                  <td>{{ element.id }}</td>
-                  <td>{{ element.prodMl.id }}</td>
-                  <td *ngIf="element.prodWeb">{{ element.prodWeb.id }}</td>
-                  <td *ngIf="!element.prodWeb">Migrar</td>
-                </tr>
-                <tr>
-                  <td>Precio</td>
-                  <td>{{ element.price }}</td>
-                  <td>{{ element.prodMl.price }}</td>
-                  <td *ngIf="element.prodWeb">{{ element.prodWeb.price }}</td>
-                  <td *ngIf="!element.prodWeb">Migrar</td>
-                </tr>
-                <tr>
-                  <td>Estado</td>
-                  <td>{{ element.status | trad: "PROD_STATUS" }}</td>
-                  <td>{{ element.prodMl.status | trad: "PROD_STATUS" }}</td>
-                  <td *ngIf="element.prodWeb">
-                    {{ element.prodWeb.status | trad: "PROD_STATUS" }}
-                  </td>
-                  <td *ngIf="!element.prodWeb">Migrar</td>
-                </tr>
-                <tr>
-                  <td>Cantidad</td>
-                  <td>{{ element.available_quantity }}</td>
-                  <td>{{ element.prodMl.available_quantity }}</td>
-                  <td *ngIf="element.prodWeb">
-                    {{ element.prodWeb.available_quantity }}
-                  </td>
-                  <td *ngIf="!element.prodWeb">Migrar</td>
-                </tr>
-              </tbody>
-            </table>
-            <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="10px">
-              <p
-                #tooltip="matTooltip"
-                matTooltipPosition="left"
-                matTooltip="Categoría"
-              >
-                {{ element.category_id }}
-              </p>
-              <button
-                class="btn-detail btn-detail-rect"
-                (click)="editProduct(element)"
-                mat-raised-button
-                color="primary"
-              >
-                Editar
-              </button>
-              <button
-                [disabled]="element.prodMl === null"
-                class="btn-detail btn-detail-rect"
-                (click)="viewMlProduct(element)"
-                mat-raised-button
-                color="primary"
-              >
-                Ver ML
-              </button>
-            </div>
-          </div>
+          <app-product-detail [element]="element"></app-product-detail>
         </div>
       </td>
     </ng-container>

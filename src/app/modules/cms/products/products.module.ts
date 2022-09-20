@@ -39,6 +39,7 @@ import { DescriptionComponent } from './components/properties/description/descri
 import { VideoComponent } from './components/properties/video/video.component';
 import { PicturesComponent } from './components/properties/pictures/pictures.component';
 import { DndDirective } from '@shared/directives/dnd.directive';
+import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { DndDirective } from '@shared/directives/dnd.directive';
     DescriptionComponent,
     VideoComponent,
     PicturesComponent,
+    ProductDetailComponent,
   ],
   imports: [
     NgSelectModule,

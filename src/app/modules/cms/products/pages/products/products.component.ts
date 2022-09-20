@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductsService } from 'app/services/products.service';
 import { MessageService } from 'app/services/message.service';
-import { IProduct, UserMl } from '@models/index';
+import { UserMl } from '@models/index';
 import { MatTableDataSource } from '@angular/material/table';
 import { Product } from '@models/index';
 import { MatSort } from '@angular/material/sort';
@@ -14,7 +14,6 @@ import {
   transition,
   animate,
 } from '@angular/animations';
-import { Router } from '@angular/router';
 import { UsersService } from 'app/services/users.service';
 
 @Component({
@@ -35,13 +34,11 @@ import { UsersService } from 'app/services/users.service';
 export class ProductsComponent implements OnInit {
   displayedColumns: string[] = [
     'select',
-    // 'id',
     'thumbnail',
     'seller_custom_field',
     'status',
     'price',
     'title',
-    // 'actions',
   ];
   dataSource = new MatTableDataSource<Product>();
   selection = new SelectionModel<Product>(true, []);
@@ -56,8 +53,7 @@ export class ProductsComponent implements OnInit {
   constructor(
     private productsService: ProductsService,
     private usersService: UsersService,
-    private messageService: MessageService,
-    private router: Router
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -126,19 +122,7 @@ export class ProductsComponent implements OnInit {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      // row.position + 1
       row.id
     }`;
-  }
-
-  editProduct(product: Product) {
-    console.log('Edit', product);
-    // this.productsService.setProduct(product);
-    this.router.navigate([`cms/products/edit/${product.id}`]);
-  }
-
-  viewMlProduct(product: IProduct) {
-    // window.location.href = product.prodMl.permalink;
-    window.open(product.prodMl.permalink, '_blank');
   }
 }

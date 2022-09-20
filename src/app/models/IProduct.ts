@@ -6,6 +6,7 @@ import {
 import { ICategory } from './category/ICategory';
 import { IAttribute } from './product/IAttribute';
 import { IPicture } from './product/IPicture';
+import { IProductMl } from './product/IProductMl';
 import { ISaleTerms } from './product/ISaleTerms';
 import { IVariation } from './product/IVartiation';
 
@@ -22,7 +23,7 @@ export interface IProduct {
   status: ProdStatus;
   available_quantity: number;
   start_time: Date;
-  prodMl?: any;
+  prodMl?: IProductMl;
   prodWeb?: any;
   pictures: IPicture[];
   category_id: string;

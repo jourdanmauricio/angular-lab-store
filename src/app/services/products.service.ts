@@ -5,7 +5,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
 import { environment } from 'environments/environment';
 // Models
-import { UserMl } from '../models/index';
+import { IprodState, UserMl } from '../models/index';
 import { IProduct, CreateProductDto, Product } from '../models/index';
 // Services
 import { ProductsMlService } from './products-ml.service';
@@ -178,6 +178,13 @@ export class ProductsService {
       headers,
     });
   }
+
+  updateMlProd(id: string, data: IprodState) {
+    return this.http.put<ProductMl>(`${this.apiUrlMl}/items/${id}`, data, {
+      context: apiToken('ML'),
+    });
+  }
+
   /* ####################### SERVICE ###################### */
 
   getMlAllProducts() {
@@ -204,10 +211,10 @@ export class ProductsService {
           };
           const found = productsMl.find((prodMl) => prodMl.id === mlProd.id);
           if (found) {
-            (updMlProd.prod_id = found!.prod_id),
-              this.productsMlService
-                .updateProductMl(updMlProd as ProductMl)
-                .subscribe();
+            updMlProd.prod_id = found!.prod_id;
+            this.productsMlService
+              .updateProductMl(updMlProd as ProductMl)
+              .subscribe();
             return;
           }
 

@@ -15,6 +15,14 @@ export const PRODUCT_STATUS = [
   ProdStatus.UNDER_REVIEW,
 ];
 
+export const PRODUCT_STATUS_ML = [
+  { name: ProdStatus.ACTIVE, disabled: false },
+  { name: ProdStatus.PAUSED, disabled: false },
+  { name: ProdStatus.CLOSED, disabled: false },
+  { name: ProdStatus.INACTIVE, disabled: true },
+  { name: ProdStatus.UNDER_REVIEW, disabled: true },
+];
+
 export const PRODUCT_CONDITION = [ProdCondition.NEW, ProdCondition.USED];
 
 export const PRODUCT_LISTING = [
