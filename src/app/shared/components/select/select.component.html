@@ -1,4 +1,8 @@
-<mat-form-field fxFlex class="control-sm full-width" appearance="outline">
+<mat-form-field
+  fxFlex
+  class="control-sm full-width without-error"
+  appearance="outline"
+>
   <mat-label>{{ label }}</mat-label>
   <mat-select
     (selectionChange)="changeOption($event.value)"

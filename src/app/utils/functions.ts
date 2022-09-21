@@ -90,7 +90,6 @@ export const cartesian: any = (a: any, b: any, ...c: any) =>
  */
 export function getAttribsComb(variations: IVariation[], category: ICategory) {
   let attribs: IAttribComb[] = [];
-  console.log('calc atrib');
 
   let attribsVarCat = category?.attributes
     .filter((attribute) => attribute.tags?.hasOwnProperty('allow_variations'))
@@ -129,8 +128,6 @@ export function getAttribsComb(variations: IVariation[], category: ICategory) {
     });
   }
 
-  console.log('calc atrib2', category);
-
   attribsVarCat.forEach((cat) => {
     let index = attribs.findIndex((prod) => prod.id === cat.id);
     if (index === -1) {
@@ -138,7 +135,5 @@ export function getAttribsComb(variations: IVariation[], category: ICategory) {
       attribs.push(cat);
     }
   });
-
-  console.log('attributes', attribs);
   return attribs;
 }

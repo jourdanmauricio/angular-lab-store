@@ -27,13 +27,11 @@ export class PicturesComponent implements OnInit {
   ngOnInit(): void {
     this.store.select(SettingsState.settingsPictures).subscribe((pictures) => {
       this.settingsPic = JSON.parse(JSON.stringify(pictures));
-      console.log('this.settingsPic', this.settingsPic);
     });
 
     this.store.select(CurrentProdState.prodPictures).subscribe((pictures) => {
       if (pictures) {
         this.prodPictures = JSON.parse(JSON.stringify(pictures));
-        console.log('this.varPictures', this.prodPictures);
       }
     });
   }
@@ -69,7 +67,6 @@ export class PicturesComponent implements OnInit {
   }
 
   getFile() {
-    console.log('UPLOAD!!!!!!!!!!!', this.files);
     Array.from(this.files).map((file) => {
       let formData = new FormData();
       formData.append('file', file);
@@ -90,7 +87,6 @@ export class PicturesComponent implements OnInit {
           })
         )
         .subscribe((resp) => {
-          console.log('RESP', resp);
           this.prodPictures.unshift(resp);
           this.updatePictures();
         });

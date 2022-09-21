@@ -61,7 +61,6 @@ export class ProfileComponent implements OnInit {
     this.usersService.getCustomer().subscribe({
       next: (customer) => {
         this.customer = customer;
-        console.log('Customer', customer);
         this.form.patchValue(customer);
       },
       error: (err) => {

@@ -11,14 +11,11 @@ import { ProductsService } from 'app/services/products.service';
 import { catchError, mergeMap, of, tap } from 'rxjs';
 import { SetLoading } from '../application/application.actions';
 import { CurrentProdRequest, CurrentProdUpdate } from './currentProd.actions';
-import {
-  ICatAttribute,
-  ICurrentProdState,
-  IPicture,
-  IprodState,
-} from '@models/index';
+import { ICurrentProdState, IPicture } from '@models/index';
 import { MessageService } from 'app/services/message.service';
 import { IAttributeWork } from '@models/product/IAttribute';
+import { ProdMlRequest } from '../prodMl/prodMl.actions';
+import { ProdWebRequest, ProdWebReset } from '../prodWeb/prodWeb.actions';
 
 @State<ICurrentProdState>({
   name: 'currentProd',
@@ -150,26 +147,32 @@ export class CurrentProdState {
     return totalAttribs;
   }
 
-  @Action(CurrentProdUpdate)
-  currentProdUpdate(
-    ctx: StateContext<ICurrentProdState>,
-    { payload }: CurrentProdUpdate
-  ) {
-    const state = ctx.getState();
-    ctx.setState({
-      ...state,
-      updated: [...state.updated, payload.property],
-      prod: { ...state.prod, ...{ [payload.property]: payload.value } },
-    });
-  }
-
   @Action(CurrentProdRequest)
   async currentProdRequest(
     ctx: StateContext<ICurrentProdState>,
     { payload }: CurrentProdRequest
   ) {
     return this.productsService.getProduct(payload.prod).pipe(
-      tap((prod) => {
+      tap((res) => {
+        if (res.prodMl)
+          this.store.dispatch(
+            new ProdMlRequest({ action: payload.action, prod: res.prodMl })
+          );
+      }),
+      tap((res) => {
+        if (res.prodWeb) {
+          this.store.dispatch(
+            new ProdWebRequest({ action: payload.action, prod: res.prodWeb })
+          );
+        } else {
+          this.store.dispatch(new ProdWebReset());
+        }
+      }),
+      tap((res) => {
+        let prod = res;
+        delete prod.prodMl;
+        delete prod.prodWeb;
+
         const state = ctx.getState();
         ctx.setState({
           ...state,
@@ -187,5 +190,18 @@ export class CurrentProdState {
         return of(err);
       })
     );
+  }
+
+  @Action(CurrentProdUpdate)
+  currentProdUpdate(
+    ctx: StateContext<ICurrentProdState>,
+    { payload }: CurrentProdUpdate
+  ) {
+    const state = ctx.getState();
+    ctx.setState({
+      ...state,
+      updated: [...state.updated, payload.property],
+      prod: { ...state.prod, ...{ [payload.property]: payload.value } },
+    });
   }
 }

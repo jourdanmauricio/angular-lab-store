@@ -62,11 +62,9 @@ export class VariationsCombinationsComponent implements OnInit {
 
   getData() {
     this.store.select(CurrentProdState.currentProd).subscribe((prod) => {
-      console.log('Prod', prod);
       if (prod.variations)
         this.variations = JSON.parse(JSON.stringify(prod.variations));
       if (prod.category) {
-        console.log('ACAAA2');
         this.category = prod.category;
       }
       if (prod.category && prod.variations)
@@ -130,16 +128,12 @@ export class VariationsCombinationsComponent implements OnInit {
   }
 
   onDelAttrib() {
-    console.log('Delete Attribute');
-    console.log('--------------------------');
     this.customAttribute = false;
     let index = this.attributes.findIndex((attr) => attr.source === 'custom');
     this.attributes.splice(index, 1);
     this.attributes = this.category.attributes.filter((attribute) =>
       attribute.tags?.hasOwnProperty('allow_variations')
     ) as IAttribComb[];
-    console.log('Attributes: ', this.attributes);
-    console.log('--------------------------');
   }
 
   createVariation(formDirective: FormGroupDirective) {
@@ -151,7 +145,6 @@ export class VariationsCombinationsComponent implements OnInit {
     this.attributes.forEach((attrib) => {
       if (attrib.active === true) {
         let value_name = this.attributesForm.value[attrib.id];
-        console.log('typeof value_name', typeof value_name);
         if (typeof value_name === 'string') {
           attributes.push({
             id: attrib.id,

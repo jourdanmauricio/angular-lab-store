@@ -67,7 +67,6 @@ export class SettingsState {
     { payload }: SettingsUpdate
   ) {
     this.store.dispatch(new SetLoading(true));
-    console.log('payload.userId', payload.userId);
     return this.settingsService
       .updateSettings(payload.userId, payload.settings)
       .pipe(

@@ -33,8 +33,6 @@ export class CategoryComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed!!!', result);
-
       if (result) {
         const data: IConfirmDialogData = {
           title: '¿Estas seguro?',

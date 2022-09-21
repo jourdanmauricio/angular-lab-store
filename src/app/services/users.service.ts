@@ -47,7 +47,6 @@ export class UsersService {
           if (error.status === HttpStatusCode.Conflict) {
             return throwError(() => 'El email ya se encuentra registrado');
           }
-          console.log('Errrorrrrrrr', error);
           return throwError(() => 'Ups algo salió mal');
         })
       );

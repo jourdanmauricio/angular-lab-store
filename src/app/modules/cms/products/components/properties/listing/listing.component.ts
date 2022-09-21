@@ -25,7 +25,6 @@ export class ListingComponent implements OnInit {
   }
 
   changeListingType() {
-    console.log('this.listingType', this.listingType);
     this.store.dispatch(
       new CurrentProdUpdate({
         property: 'listing_type_id',

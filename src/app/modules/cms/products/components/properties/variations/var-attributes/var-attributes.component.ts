@@ -23,7 +23,6 @@ export class VarAttributesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('OPEN', this.data);
     this.variation = JSON.parse(JSON.stringify(this.data));
     /**********
      * Recorro atribsVars de catgoría completando los valores desde ProdVars
@@ -74,7 +73,6 @@ export class VarAttributesComponent implements OnInit {
               this.totalAttribs$.push(obj);
             }
           });
-          console.log('newVarAttributes', this.totalAttribs$);
           this.attributes = this.totalAttribs$;
         }
       });

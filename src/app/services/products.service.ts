@@ -5,23 +5,27 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
 import { environment } from 'environments/environment';
 // Models
-import { IprodState, UserMl } from '../models/index';
-import { IProduct, CreateProductDto, Product } from '../models/index';
+import {
+  IprodState,
+  IProductDto,
+  UserMl,
+  IProduct,
+  CreateProductDto,
+  ICategory,
+  ProductMl,
+  IProductWeb,
+} from '../models/index';
 // Services
-import { ProductsMlService } from './products-ml.service';
 import { CategoriesService } from './categories.service';
-import { ICategory } from '@models/index';
-import { ProductMl } from '../models/index';
 import { LocalStorageService } from './local-storage.service';
 import { UsersService } from './users.service';
-import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
   // Product State
-  private currentProduct = new BehaviorSubject<Product | null>(null);
+  private currentProduct = new BehaviorSubject<IProductDto | null>(null);
   currentProduct$ = this.currentProduct.asObservable();
 
   // Environment
@@ -37,13 +41,12 @@ export class ProductsService {
     private http: HttpClient,
     private localStorageService: LocalStorageService,
     private usersService: UsersService,
-    private categoriesService: CategoriesService,
-    private productsMlService: ProductsMlService
+    private categoriesService: CategoriesService
   ) {
     this.usersService.userMl$.subscribe((data) => (this.userMl = data));
   }
 
-  setProduct(product: Product) {
+  setProduct(product: IProductDto) {
     this.localStorageService.saveItem('currentProd', JSON.stringify(product));
     this.currentProduct.next(product);
   }
@@ -92,12 +95,45 @@ export class ProductsService {
       variations: data.variations,
     };
 
-    return this.http.post<Product>(`${this.apiUrl}/products`, newProd, {
+    return this.http.post<IProductDto>(`${this.apiUrl}/products`, newProd, {
+      context: apiToken('API'),
+    });
+  }
+
+  /* ###################### LOCAL ML ###################### */
+
+  getProductsMl() {
+    return this.http.get<ProductMl[]>(`${this.apiUrl}/productsml`, {
+      context: apiToken('API'),
+    });
+  }
+
+  updateProductMl(data: ProductMl) {
+    return this.http.put<ProductMl>(
+      `${this.apiUrl}/productsml/${data.id}`,
+      data,
+      {
+        context: apiToken('API'),
+      }
+    );
+  }
+
+  createProductMl(data: ProductMl) {
+    return this.http.post<ProductMl>(`${this.apiUrl}/productsweb`, data, {
+      context: apiToken('API'),
+    });
+  }
+
+  /* ##################### LOCAL WEB ###################### */
+
+  createProductWeb(data: IProductWeb) {
+    return this.http.post<IProductWeb>(`${this.apiUrl}/productsweb`, data, {
       context: apiToken('API'),
     });
   }
 
   /* ######################### ML ######################### */
+
   getMlQuantityItems() {
     return this.http
       .get<any>(`${this.apiUrlMl}/users/${this.userMl?.id}/items/search`, {
@@ -192,7 +228,7 @@ export class ProductsService {
       forkJoin([
         this.getMlProductsDetail(),
         this.categoriesService.getCategories(),
-        this.productsMlService.getProductsMl(),
+        this.getProductsMl(),
       ]).subscribe((result) => {
         const newCats: string[] = [];
         const mlProductsMl: IProduct[] = result[0];
@@ -202,7 +238,7 @@ export class ProductsService {
           const updMlProd: ProductMl = {
             id: mlProd.id,
             seller_custom_field: mlProd.seller_custom_field,
-            price: mlProd.price.toString(),
+            price: mlProd.price,
             available_quantity: mlProd.available_quantity,
             status: mlProd.status,
             permalink: mlProd.permalink,
@@ -212,9 +248,7 @@ export class ProductsService {
           const found = productsMl.find((prodMl) => prodMl.id === mlProd.id);
           if (found) {
             updMlProd.prod_id = found!.prod_id;
-            this.productsMlService
-              .updateProductMl(updMlProd as ProductMl)
-              .subscribe();
+            this.updateProductMl(updMlProd as ProductMl).subscribe();
             return;
           }
 
@@ -241,9 +275,7 @@ export class ProductsService {
                       )
                     ),
                     switchMap(() =>
-                      this.productsMlService.createProductMl(
-                        updMlProd as ProductMl
-                      )
+                      this.createProductMl(updMlProd as ProductMl)
                     )
                   )
                   .subscribe();
@@ -252,11 +284,7 @@ export class ProductsService {
               this.createProduct(newItemsPrice as IProduct)
                 .pipe(map((prod) => (updMlProd.prod_id = prod.id)))
                 .pipe(
-                  switchMap(() =>
-                    this.productsMlService.createProductMl(
-                      updMlProd as ProductMl
-                    )
-                  )
+                  switchMap(() => this.createProductMl(updMlProd as ProductMl))
                 )
                 .subscribe();
             }

@@ -1,6 +1,6 @@
 import { IVariation } from './IVartiation';
 
-export interface IProductMl {
+export interface IProductWeb {
   id: string;
   status: string;
   prod_id?: number;
@@ -12,4 +12,4 @@ export interface IProductMl {
   variations: IVariation[];
 }
 
-export interface IProductMlState extends Partial<IProductMl> {}
+export interface IProductWebState extends Partial<IProductWeb> {}

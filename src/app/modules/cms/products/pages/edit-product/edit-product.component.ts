@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Observable, switchMap } from 'rxjs';
-import { IprodState, Product } from '@models/index';
+import { IprodState, IProductDto } from '@models/index';
 import { CurrentProdRequest } from 'app/store/currentProd/currentProd.actions';
 import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
 import { ProductsService } from 'app/services/products.service';
@@ -15,7 +15,7 @@ import { ProductsService } from 'app/services/products.service';
 export class EditProductComponent implements OnInit {
   currentProdId: string | null = null;
   loading$: Observable<any> = new Observable();
-  currentProd!: Product;
+  currentProd!: IProductDto;
   updated!: string[];
 
   constructor(
@@ -77,7 +77,7 @@ export class EditProductComponent implements OnInit {
   /**
    * Update product
    */
-  // TODO: Si updated contiene 'variations' chquear que las imagenes de las variaciones
+  // TODO: Si updated contiene 'variations' chequear que las imagenes de las variaciones
   //       se encuentren en pictures del producto. Insertar las que falten y eliminar
   //       las que sobren. Se deben enviar
   //  [{

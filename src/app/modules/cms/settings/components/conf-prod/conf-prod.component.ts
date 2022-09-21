@@ -64,8 +64,6 @@ export class ConfProdComponent implements OnInit {
       price_percent_web: this.form.value.price_percent_web,
     };
 
-    // Dispatch
-    console.log('this.user.id', this.user.id);
     if (this.user.id !== null)
       this.store
         .dispatch(new SettingsUpdate({ userId: this.user.id, settings: data }))

@@ -40,6 +40,8 @@ import { VideoComponent } from './components/properties/video/video.component';
 import { PicturesComponent } from './components/properties/pictures/pictures.component';
 import { DndDirective } from '@shared/directives/dnd.directive';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
+import { EditProductIntegrationsComponent } from './components/edit-product-integrations/edit-product-integrations.component';
+import { EditProductLocalComponent } from './components/edit-product-local/edit-product-local.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +76,8 @@ import { ProductDetailComponent } from './components/product-detail/product-deta
     VideoComponent,
     PicturesComponent,
     ProductDetailComponent,
+    EditProductIntegrationsComponent,
+    EditProductLocalComponent,
   ],
   imports: [
     NgSelectModule,

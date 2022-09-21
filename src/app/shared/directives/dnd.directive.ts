@@ -37,7 +37,6 @@ export class DndDirective {
     this.fileOver = false;
     let files = evt.dataTransfer.files;
     if (files.length > 0) {
-      console.log('DROP', files);
       this.fileDropped.emit(files);
     }
   }

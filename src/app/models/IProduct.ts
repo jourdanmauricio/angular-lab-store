@@ -7,6 +7,7 @@ import { ICategory } from './category/ICategory';
 import { IAttribute } from './product/IAttribute';
 import { IPicture } from './product/IPicture';
 import { IProductMl } from './product/IProductMl';
+import { IProductWeb } from './product/IProductWeb';
 import { ISaleTerms } from './product/ISaleTerms';
 import { IVariation } from './product/IVartiation';
 
@@ -24,7 +25,7 @@ export interface IProduct {
   available_quantity: number;
   start_time: Date;
   prodMl?: IProductMl;
-  prodWeb?: any;
+  prodWeb?: IProductWeb;
   pictures: IPicture[];
   category_id: string;
   price: number;
@@ -39,11 +40,12 @@ export interface IProduct {
 export interface IprodState extends Partial<IProduct> {}
 
 /* #################### LOCAL ####################### */
-export interface Product extends Omit<IProduct, 'id'> {
+export interface IProductDto extends Omit<IProduct, 'id'> {
   id: number;
   // category?: Category;
 }
 
-export interface CreateProductDto extends Omit<Product, 'id' | 'permalink'> {
+export interface CreateProductDto
+  extends Omit<IProductDto, 'id' | 'permalink'> {
   // ml_id: string;
 }

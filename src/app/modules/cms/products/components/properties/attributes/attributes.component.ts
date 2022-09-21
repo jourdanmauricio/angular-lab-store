@@ -16,20 +16,13 @@ export class AttributesComponent implements OnInit {
   constructor(private store: Store) {}
 
   onChange2(attribute: IAttributeWork, e: any) {
-    console.log('Attrib', attribute);
-    console.log('e', e);
     let found = this.attributes.find((attrib) => attrib.id === attribute.id);
     found!.value_name = attribute.value_struct.number + ' ' + e.name;
     found!.value_struct.unit = e.name;
-    console.log('found', found);
     this.updateAttr();
   }
 
   onChange(attribute: IAttributeWork, e: any) {
-    console.log('attribute', attribute);
-    console.log('e', e);
-    console.log('attributes', this.attributes);
-
     let found = this.attributes.find((attrib) => attrib.id === attribute.id);
     if (attribute.values) {
       if (!attribute.tags?.hasOwnProperty('multivalued')) {
@@ -55,12 +48,10 @@ export class AttributesComponent implements OnInit {
           break;
       }
     }
-    console.log('found', found);
     this.updateAttr();
   }
 
   updateAttr() {
-    console.log('UPD');
     this.store.dispatch(
       new CurrentProdUpdate({
         property: 'attributes',
@@ -75,7 +66,6 @@ export class AttributesComponent implements OnInit {
       .subscribe((attribs: ICatAttribute[]) => {
         if (attribs) {
           this.attributes = JSON.parse(JSON.stringify(attribs));
-          console.log('catAttribs!!!!!!!!!!!!!!', attribs);
         }
       });
   }

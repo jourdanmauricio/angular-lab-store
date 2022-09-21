@@ -20,14 +20,8 @@ export class SettingsService {
 
   updateSettings(id: number, data: ISettingsState) {
     let settings = { setting: data };
-    return this.http
-      .put<ISettings>(`${this.apiUrl}/settings/${id}`, settings, {
-        context: apiToken('API'),
-      })
-      .pipe(
-        tap((settings) => {
-          console.log('Settings', settings);
-        })
-      );
+    return this.http.put<ISettings>(`${this.apiUrl}/settings/${id}`, settings, {
+      context: apiToken('API'),
+    });
   }
 }

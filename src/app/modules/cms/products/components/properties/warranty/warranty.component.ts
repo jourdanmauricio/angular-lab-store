@@ -26,13 +26,11 @@ export class WarrantyComponent implements OnInit {
       .select(CurrentProdState.productSaleTerms)
       .subscribe((saleTerms) => {
         if (saleTerms) {
-          console.log('saleTerms', saleTerms);
           this.saleTerms = JSON.parse(JSON.stringify(saleTerms));
 
           const foundType = saleTerms.find(
             (warratyType: ISaleTerms) => warratyType.id === 'WARRANTY_TYPE'
           );
-          console.log('foundType', foundType);
           this.warrantyType = foundType ? foundType.value_name : '';
 
           const foundTime = saleTerms.find(
@@ -45,7 +43,6 @@ export class WarrantyComponent implements OnInit {
   }
 
   changeWarrantyType() {
-    console.log('warrantyType', this.warrantyType);
     let obj = {
       id: 'WARRANTY_TYPE',
       value_name: this.warrantyType,
@@ -67,7 +64,6 @@ export class WarrantyComponent implements OnInit {
   }
 
   changeWarrantyTime() {
-    console.log('warrantyTime', this.warrantyTime);
     let obj = {
       id: 'WARRANTY_TIME',
       value_name: this.warrantyTime + ' ' + this.warrantyUnit,
@@ -89,7 +85,6 @@ export class WarrantyComponent implements OnInit {
     this.updateSaleTerms();
   }
   changeWarrantyUnit() {
-    console.log('warrantyTime', this.warrantyTime);
     let obj = {
       id: 'WARRANTY_TIME',
       value_name: this.warrantyTime + ' ' + this.warrantyUnit,

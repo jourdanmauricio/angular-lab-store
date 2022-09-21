@@ -42,7 +42,6 @@ export class VarPicturesComponent implements OnInit {
   ngOnInit(): void {
     this.store.select(SettingsState.settingsPictures).subscribe((pictures) => {
       this.settingsPic = JSON.parse(JSON.stringify(pictures));
-      console.log('this.settingsPic', this.settingsPic);
     });
 
     this.store
@@ -50,7 +49,6 @@ export class VarPicturesComponent implements OnInit {
       .subscribe((pictures) => {
         if (pictures) {
           this.varPictures = JSON.parse(JSON.stringify(pictures));
-          console.log('this.varPictures', this.varPictures);
         }
       });
 
@@ -91,7 +89,6 @@ export class VarPicturesComponent implements OnInit {
   }
 
   getFile() {
-    console.log('UPLOAD!!!!!!!!!!!', this.files);
     Array.from(this.files).map((file) => {
       let formData = new FormData();
       formData.append('file', file);
@@ -112,7 +109,6 @@ export class VarPicturesComponent implements OnInit {
           })
         )
         .subscribe((resp) => {
-          console.log('RESP', resp);
           this.varPictures.unshift(resp);
         });
     });
@@ -120,7 +116,6 @@ export class VarPicturesComponent implements OnInit {
 
   updateVarPictures() {
     this.variation.picture_ids = this.varPictures.map((pic) => pic.id);
-    console.log('this.varPictures', this.varPictures);
     this.dialogRef.close(this.variation);
   }
 }

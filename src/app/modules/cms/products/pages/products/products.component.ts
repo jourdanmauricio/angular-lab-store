@@ -3,7 +3,7 @@ import { ProductsService } from 'app/services/products.service';
 import { MessageService } from 'app/services/message.service';
 import { UserMl } from '@models/index';
 import { MatTableDataSource } from '@angular/material/table';
-import { Product } from '@models/index';
+import { IProductDto } from '@models/index';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -40,10 +40,10 @@ export class ProductsComponent implements OnInit {
     'price',
     'title',
   ];
-  dataSource = new MatTableDataSource<Product>();
-  selection = new SelectionModel<Product>(true, []);
+  dataSource = new MatTableDataSource<IProductDto>();
+  selection = new SelectionModel<IProductDto>(true, []);
   columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
-  expandedElement!: Product | null;
+  expandedElement!: IProductDto | null;
   loading = false;
   userMl: UserMl | null = null;
 
@@ -72,7 +72,7 @@ export class ProductsComponent implements OnInit {
   getAllProducts() {
     this.loading = true;
     this.productsService.getProducts().subscribe((data: any) => {
-      this.dataSource = new MatTableDataSource<Product>(data); //pass the array you want in the table
+      this.dataSource = new MatTableDataSource<IProductDto>(data); //pass the array you want in the table
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.loading = false;
@@ -117,7 +117,7 @@ export class ProductsComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: Product): string {
+  checkboxLabel(row?: IProductDto): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }

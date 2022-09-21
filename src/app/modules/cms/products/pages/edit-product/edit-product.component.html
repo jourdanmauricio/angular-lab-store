@@ -1,28 +1,20 @@
-<div fxLayout="row" fxLayoutGap.gt-xs="30px" fxLayout.xs="column">
-  <div fxFlex="75">
-    <app-title></app-title>
-  </div>
-  <div fxFlex="25">
-    <app-sku></app-sku>
-  </div>
-</div>
-<app-category></app-category>
-<div class="mt">
-  <app-properties></app-properties>
-</div>
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<div>
-  <mat-dialog-actions class="actions mt" [align]="'end'">
-    <button mat-raised-button [mat-dialog-close]="false">Cancelar</button>
-    <button mat-raised-button color="primary" (click)="updateProduct()">
-      <!-- [mat-dialog-close]="true" -->
-      Modificar
-    </button>
-  </mat-dialog-actions>
+<mat-tab-group mat-align-tabs="start" dynamicHeight animationDuration="0ms">
+  <mat-tab label="Integración">
+    <app-edit-product-integrations></app-edit-product-integrations>
+  </mat-tab>
+  <mat-tab label="Local">
+    <app-edit-product-local></app-edit-product-local>
+  </mat-tab>
+</mat-tab-group>
+<div
+  class="mt actions"
+  fxLayout="row"
+  fxLayoutGap.gt-xs="30px"
+  fxLayout.xs="column"
+  fxLayoutAlign="end"
+>
+  <button mat-raised-button="false">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="updateProduct()">
+    Modificar
+  </button>
 </div>

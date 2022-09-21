@@ -74,8 +74,6 @@ export class CategoriesService {
           full_name += index === 0 ? parent.name : ` / ${parent.name}`;
         });
 
-        console.log('RESULT', result[0]);
-
         const newCategory: ICategory = {
           id: result[0].id,
           name: result[0].name,

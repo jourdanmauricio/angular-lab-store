@@ -1,0 +1,165 @@
+<div>
+  <table class="detail-table">
+    <thead>
+      <th>Feature</th>
+      <th>Local</th>
+      <th>ML</th>
+      <th>Web</th>
+    </thead>
+    <tbody>
+      <!-- ID -->
+      <tr style="border-top: 1px solid gray">
+        <td>ID</td>
+        <td>{{ prod.id }}</td>
+        <td>{{ prodMl.id }}</td>
+        <td>{{ prodWeb ? prodWeb.id : "" }}</td>
+      </tr>
+      <!-- Precio -->
+      <tr>
+        <td>Precio</td>
+        <td>{{ prod.price }}</td>
+        <td>
+          <app-input
+            label="Precio"
+            [value]="prodMl.price"
+            field="price-ml"
+            type="number"
+            [min]="200"
+            [mlId]="prodMl.id"
+            [id]="prod.id"
+            (selected)="onSelected($event)"
+          >
+          </app-input>
+        </td>
+
+        <td *ngIf="prodWeb">
+          <app-input
+            label="Precio"
+            [value]="prodWeb.price"
+            field="price-web"
+            type="number"
+            [min]="200"
+            [mlId]="prodWeb.id"
+            [id]="prod.id"
+            (selected)="onSelected($event)"
+          >
+          </app-input>
+        </td>
+        <td *ngIf="!prodWeb"></td>
+      </tr>
+      <!-- Estado -->
+      <tr>
+        <td>Estado</td>
+        <td>{{ prod.status | trad: "PROD_STATUS" }}</td>
+        <td>
+          <app-select
+            label="Estado"
+            [options]="optionStatusML"
+            [value]="prodMl.status"
+            field="status-ml"
+            traduction="PROD_STATUS"
+            [mlId]="prodMl.id"
+            [id]="prod.id"
+            (selected)="onSelected($event)"
+          ></app-select>
+        </td>
+
+        <td *ngIf="prodWeb">
+          <app-select
+            label="Estado"
+            [options]="optionStatusML"
+            [value]="prodWeb.status"
+            field="status-web"
+            traduction="PROD_STATUS"
+            [mlId]="prodWeb.id"
+            [id]="prod.id"
+            (selected)="onSelected($event)"
+          ></app-select>
+        </td>
+        <td *ngIf="!prodWeb"></td>
+      </tr>
+      <!-- Cantidad -->
+      <tr>
+        <td>Cantidad</td>
+        <td>{{ prod.available_quantity }}</td>
+        <td>
+          <app-input
+            label="Cantidad"
+            [value]="prodMl.available_quantity"
+            field="quantity-ml"
+            [disabled]="prod.variations && prod.variations.length > 0"
+            type="number"
+            [min]="0"
+            [mlId]="prodMl.id"
+            [id]="prod.id"
+            (selected)="onSelected($event)"
+          >
+          </app-input>
+        </td>
+        <td *ngIf="prodWeb">
+          <app-input
+            label="Cantidad"
+            [value]="prodWeb.available_quantity"
+            field="quantity-web"
+            [disabled]="prod.variations && prod.variations.length > 0"
+            type="number"
+            [min]="0"
+            [mlId]="prodWeb.id"
+            [id]="prod.id"
+            (selected)="onSelected($event)"
+          >
+          </app-input>
+          <!-- {{ prod.prodWeb.available_quantity }} -->
+        </td>
+        <td *ngIf="!prodWeb"></td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- Variaciones -->
+  <ng-container *ngIf="prodMl.variations">
+    <table class="detail-table">
+      <thead>
+        <th>ID</th>
+        <th>SKU</th>
+        <th>Variación</th>
+        <th>Cantidad ML</th>
+        <th>Cantidad Web</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let variation of prod.variations">
+          <td>{{ variation.id }}</td>
+          <td>{{ sku(variation.id) }}</td>
+          <td>{{ variationDesc(variation.attribute_combinations) }}</td>
+          <td>
+            <!-- [value]="variation.available_quantity" -->
+            <app-input
+              label="Cantidad"
+              [value]="varQuantityMl(variation.id)"
+              field="var-quantity-ml"
+              type="number"
+              [min]="0"
+              [mlId]="prodMl.id"
+              [id]="variation.id"
+              (selected)="onSelected($event)"
+            >
+            </app-input>
+          </td>
+          <td *ngIf="prodWeb">
+            <app-input
+              label="Cantidad"
+              [value]="varQuantityWeb(variation.id)"
+              field="var-quantity-web"
+              type="number"
+              [min]="0"
+              [mlId]="prodWeb.id"
+              [id]="variation.id"
+              (selected)="onSelected($event)"
+            >
+            </app-input>
+          </td>
+          <td *ngIf="!prodWeb"></td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+</div>

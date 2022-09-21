@@ -17,7 +17,7 @@ export class SelectComponent implements OnInit {
   @Input() traduction: string = '';
   @Input() field!: string;
   @Input() mlId: string = '';
-  @Input() id: string = '';
+  @Input() id: number | null = null;
   @Output() selected = new EventEmitter();
 
   constructor() {}
