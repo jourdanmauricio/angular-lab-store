@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PRODUCT_STATUS_ML } from '@core/constants/constants';
+import { PRODUCT_STATUS_ML } from '@core/data/constants';
 import { IAttributeCombination, IProductWeb } from '@models/index';
 import { IProductDto } from '@models/IProduct';
 import { IProductMl } from '@models/product/IProductMl';

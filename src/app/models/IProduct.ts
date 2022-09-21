@@ -1,10 +1,6 @@
-import {
-  ProdCondition,
-  ProdListingType,
-  ProdStatus,
-} from '@core/constants/enums';
+import { ProdCondition, ProdListingType, ProdStatus } from '@core/data/enums';
 import { ICategory } from './category/ICategory';
-import { IAttribute } from './product/IAttribute';
+import { IAttribute, IAttributeWork } from './product/IAttribute';
 import { IPicture } from './product/IPicture';
 import { IProductMl } from './product/IProductMl';
 import { IProductWeb } from './product/IProductWeb';
@@ -33,19 +29,19 @@ export interface IProduct {
   condition: ProdCondition;
   seller_custom_field: string;
   description: string;
-  video?: string;
+  video_id?: string;
   category?: ICategory;
 }
 
-export interface IprodState extends Partial<IProduct> {}
+export interface IProdUpdDto extends Partial<IProduct> {}
 
 /* #################### LOCAL ####################### */
-export interface IProductDto extends Omit<IProduct, 'id'> {
+export interface IProductDto extends Omit<IProduct, 'id' | 'attributes'> {
   id: number;
+  attributes: IAttributeWork[];
   // category?: Category;
 }
 
-export interface CreateProductDto
-  extends Omit<IProductDto, 'id' | 'permalink'> {
+export interface IProdCreateDto extends Omit<IProdUpdDto, 'id' | 'permalink'> {
   // ml_id: string;
 }

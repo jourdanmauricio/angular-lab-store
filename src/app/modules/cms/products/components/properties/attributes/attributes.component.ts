@@ -13,17 +13,21 @@ import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
 export class AttributesComponent implements OnInit {
   displayedColumns: string[] = ['name', 'value_name', 'allowed_units', 'tags'];
   attributes!: IAttributeWork[];
+  prodAttributes!: IAttributeWork[];
+
   constructor(private store: Store) {}
 
   onChange2(attribute: IAttributeWork, e: any) {
     let found = this.attributes.find((attrib) => attrib.id === attribute.id);
     found!.value_name = attribute.value_struct.number + ' ' + e.name;
     found!.value_struct.unit = e.name;
-    this.updateAttr();
+    found!.updated = true;
+    this.updateAttr(found!);
   }
 
   onChange(attribute: IAttributeWork, e: any) {
     let found = this.attributes.find((attrib) => attrib.id === attribute.id);
+    found!.updated = true;
     if (attribute.values) {
       if (!attribute.tags?.hasOwnProperty('multivalued')) {
         found!.value_id = e.id;
@@ -48,14 +52,23 @@ export class AttributesComponent implements OnInit {
           break;
       }
     }
-    this.updateAttr();
+    this.updateAttr(found!);
   }
 
-  updateAttr() {
+  updateAttr(attribute: IAttributeWork) {
+    let index = this.prodAttributes.findIndex(
+      (prodAttrib) => prodAttrib.id === attribute.id
+    );
+    if (index !== -1) {
+      this.prodAttributes[index] = attribute;
+    } else {
+      this.prodAttributes.push(attribute);
+    }
+
     this.store.dispatch(
       new CurrentProdUpdate({
         property: 'attributes',
-        value: this.attributes,
+        value: this.prodAttributes,
       })
     );
   }
@@ -66,6 +79,15 @@ export class AttributesComponent implements OnInit {
       .subscribe((attribs: ICatAttribute[]) => {
         if (attribs) {
           this.attributes = JSON.parse(JSON.stringify(attribs));
+        }
+      });
+
+    this.store
+      .select(CurrentProdState.prodAttributes)
+      .subscribe((attribs: ICatAttribute[]) => {
+        if (attribs) {
+          this.prodAttributes = JSON.parse(JSON.stringify(attribs));
+          this.prodAttributes.map((attr) => (attr.updated = false));
         }
       });
   }

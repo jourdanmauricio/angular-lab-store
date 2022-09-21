@@ -137,3 +137,7 @@ export function getAttribsComb(variations: IVariation[], category: ICategory) {
   });
   return attribs;
 }
+
+export function removeDuplicates(arr: any[]) {
+  return [...new Set(arr)];
+}

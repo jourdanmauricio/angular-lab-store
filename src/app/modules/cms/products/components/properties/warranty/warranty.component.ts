@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WARRANTY_TYPE, WARRANTY_UNIT } from '@core/constants/constants';
+import { WARRANTY_TYPE, WARRANTY_UNIT } from '@core/data/constants';
 import { ISaleTerms } from '@models/product/ISaleTerms';
 import { Store } from '@ngxs/store';
 import { CurrentProdUpdate } from 'app/store/currentProd/currentProd.actions';

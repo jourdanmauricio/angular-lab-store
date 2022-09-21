@@ -9,7 +9,7 @@ import { map, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { AuthState } from 'app/store/auth/auth.state';
-import { Roles } from '@core/constants/enums';
+import { Roles } from '@core/data/enums';
 
 @Injectable({
   providedIn: 'root',

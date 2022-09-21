@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PRODUCT_LISTING } from '@core/constants/constants';
-import { ProdListingType } from '@core/constants/enums';
+import { PRODUCT_LISTING } from '@core/data/constants';
+import { ProdListingType } from '@core/data/enums';
 import { Store } from '@ngxs/store';
 import { CurrentProdUpdate } from 'app/store/currentProd/currentProd.actions';
 import { CurrentProdState } from 'app/store/currentProd/currentProd.state';

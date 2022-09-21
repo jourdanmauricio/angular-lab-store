@@ -24,17 +24,20 @@ export class PurchaseMaxQuantityComponent implements OnInit {
           let found = saleTerms.find(
             (quantity: ISaleTerms) => quantity.id === 'PURCHASE_MAX_QUANTITY'
           );
-          if (found) this.purchase = found.vale_name;
+
+          if (found) this.purchase = found.value_name;
         }
       });
   }
 
   changePurchase() {
-    let newData: ISaleTerms[] = [];
+    let newData: ISaleTerms[] = this.saleTerms;
+    console.log('this.purchase', this.purchase);
     if (this.purchase) {
+      const purchase = this.purchase.toString();
       newData = this.saleTerms.map((element) =>
         element.id === 'PURCHASE_MAX_QUANTITY'
-          ? { ...element, value_name: this.purchase }
+          ? { ...element, value_name: purchase }
           : element
       );
 
@@ -44,13 +47,21 @@ export class PurchaseMaxQuantityComponent implements OnInit {
       if (index === -1)
         newData.push({
           id: 'PURCHASE_MAX_QUANTITY',
-          value_name: this.purchase,
+          value_name: purchase,
         });
     } else {
-      let index = this.saleTerms.findIndex(
-        (quantity) => quantity.id === 'PURCHASE_MAX_QUANTITY'
+      // let index = this.saleTerms.findIndex(
+      //   (quantity) => quantity.id === 'PURCHASE_MAX_QUANTITY'
+      // );
+      // if (index !== -1) {
+      // newData.splice(index, 1);
+      newData = this.saleTerms.map((element) =>
+        element.id === 'PURCHASE_MAX_QUANTITY'
+          ? { ...element, value_name: '' }
+          : element
       );
-      if (index !== -1) this.saleTerms.splice(index, 1);
+
+      //      }
     }
     this.store.dispatch(
       new CurrentProdUpdate({

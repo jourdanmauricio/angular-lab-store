@@ -1,4 +1,4 @@
-import { ValueType } from '@core/constants/enums';
+import { ValueType } from '@core/data/enums';
 import { ApiBasicCategory } from '@models/category/IBasicCategory';
 import { ValueAtrib } from '@models/category/IValueAtrib';
 import { Tags } from '..';
@@ -20,4 +20,5 @@ export interface IAttributeWork extends IAttribute {
   hint?: string;
   value_max_length?: number;
   tooltip?: string;
+  updated?: boolean;
 }

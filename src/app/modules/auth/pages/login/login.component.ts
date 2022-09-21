@@ -4,7 +4,7 @@ import { Store } from '@ngxs/store';
 import { Router } from '@angular/router';
 import { LoginRequestAttempt } from 'app/store/auth/auth.actions';
 import { AuthState } from 'app/store/auth/auth.state';
-import { Roles } from '@core/constants/enums';
+import { Roles } from '@core/data/enums';
 
 @Component({
   selector: 'app-login',

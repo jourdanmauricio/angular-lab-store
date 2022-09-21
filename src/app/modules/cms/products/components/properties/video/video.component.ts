@@ -9,13 +9,13 @@ import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
   styleUrls: ['./video.component.scss'],
 })
 export class VideoComponent implements OnInit {
-  video!: string;
+  video_id!: string;
   constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.store.select(CurrentProdState.currentProd).subscribe((prod) => {
       if (prod) {
-        this.video = prod.video;
+        this.video_id = prod.video_id;
       }
     });
   }
@@ -23,8 +23,8 @@ export class VideoComponent implements OnInit {
   changeVideo() {
     this.store.dispatch(
       new CurrentProdUpdate({
-        property: 'video',
-        value: this.video,
+        property: 'video_id',
+        value: this.video_id,
       })
     );
   }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PRODUCT_STATUS } from '@core/constants/constants';
-import { ProdStatus } from '@core/constants/enums';
+import { PRODUCT_STATUS } from '@core/data/constants';
+import { ProdStatus } from '@core/data/enums';
 import { Store } from '@ngxs/store';
 import { CurrentProdUpdate } from 'app/store/currentProd/currentProd.actions';
 import { CurrentProdState } from 'app/store/currentProd/currentProd.state';

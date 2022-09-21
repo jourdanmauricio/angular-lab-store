@@ -1,7 +1,7 @@
 import { PortalHostDirective } from '@angular/cdk/portal';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PRODUCT_STATUS_ML } from '@core/constants/constants';
+import { PRODUCT_STATUS_ML } from '@core/data/constants';
 import { IProductWeb, IProduct } from '@models/index';
 import { MessageService } from 'app/services/message.service';
 import { ProductsService } from 'app/services/products.service';

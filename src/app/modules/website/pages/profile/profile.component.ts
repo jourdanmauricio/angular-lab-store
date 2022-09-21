@@ -18,7 +18,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Logout } from 'app/store/auth/auth.actions';
 import { AuthState } from 'app/store/auth/auth.state';
-import { DOCUMENT_TYPES } from '@core/constants/constants';
+import { DOCUMENT_TYPES } from '@core/data/constants';
 
 @Component({
   selector: 'app-profile',

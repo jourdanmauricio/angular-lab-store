@@ -1,8 +1,4 @@
-import {
-  ProdCondition,
-  ProdListingType,
-  ProdStatus,
-} from '@core/constants/enums';
+import { ProdCondition, ProdListingType, ProdStatus } from '@core/data/enums';
 import { IPicture } from './index';
 
 export interface ISettings {

@@ -1,4 +1,4 @@
-import { Roles } from '@core/constants/enums';
+import { Roles } from '@core/data/enums';
 
 export interface IAuthState {
   id: number | null;

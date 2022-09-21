@@ -6,11 +6,11 @@ import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
 import { environment } from 'environments/environment';
 // Models
 import {
-  IprodState,
+  IProdUpdDto,
   IProductDto,
   UserMl,
   IProduct,
-  CreateProductDto,
+  IProdCreateDto,
   ICategory,
   ProductMl,
   IProductWeb,
@@ -74,13 +74,11 @@ export class ProductsService {
   }
 
   createProduct(data: IProduct) {
-    const newProd: CreateProductDto = {
-      // ml_id: data.id,
+    const newProd: IProdCreateDto = {
       attributes: data.attributes,
       title: data.title,
       seller_custom_field: data.seller_custom_field,
       price: data.price,
-      // permalink: data.permalink,
       available_quantity: data.available_quantity,
       sold_quantity: data.sold_quantity,
       status: data.status,
@@ -93,11 +91,40 @@ export class ProductsService {
       start_time: data.start_time,
       sale_terms: data.sale_terms,
       variations: data.variations,
+      video_id: data.video_id,
     };
 
     return this.http.post<IProductDto>(`${this.apiUrl}/products`, newProd, {
       context: apiToken('API'),
     });
+  }
+
+  updateProduct(id: number, data: IProdUpdDto) {
+    const updProd = {
+      attributes: data.attributes,
+      title: data.title,
+      seller_custom_field: data.seller_custom_field,
+      price: data.price,
+      available_quantity: data.available_quantity,
+      status: data.status,
+      description: data.description,
+      pictures: data.pictures,
+      listing_type_id: data.listing_type_id,
+      condition: data.condition,
+      thumbnail: data.thumbnail,
+      category_id: data.category_id,
+      sale_terms: data.sale_terms,
+      variations: data.variations,
+      video_id: data.video_id,
+    };
+
+    return this.http.put<IProductDto>(
+      `${this.apiUrl}/products/${id}`,
+      updProd,
+      {
+        context: apiToken('API'),
+      }
+    );
   }
 
   /* ###################### LOCAL ML ###################### */
@@ -159,7 +186,7 @@ export class ProductsService {
             `${this.apiUrlMl}/items?ids=${items.splice(
               0,
               20
-            )}&attributes=id,attributes,title,price,category_id,title,thumbnail,listing_type_id,condition,available_quantity,sold_quantity,status,permalink,pictures,sale_terms,variations,start_time,seller_custom_field&include_attributes=all`,
+            )}&attributes=id,attributes,title,price,category_id,title,thumbnail,listing_type_id,condition,available_quantity,sold_quantity,status,permalink,pictures,sale_terms,variations,start_time,seller_custom_field,video_id&include_attributes=all`,
             {
               context: apiToken('ML'),
             }
@@ -215,10 +242,20 @@ export class ProductsService {
     });
   }
 
-  updateMlProd(id: string, data: IprodState) {
-    return this.http.put<ProductMl>(`${this.apiUrlMl}/items/${id}`, data, {
+  updateMlProd(id: string, data: IProdUpdDto) {
+    return this.http.put<IProduct>(`${this.apiUrlMl}/items/${id}`, data, {
       context: apiToken('ML'),
     });
+  }
+
+  updateMlProdDescription(id: string, data: IProdUpdDto) {
+    return this.http.put<IProduct>(
+      `${this.apiUrlMl}/items/${id}/description?api_version=2`,
+      data,
+      {
+        context: apiToken('ML'),
+      }
+    );
   }
 
   /* ####################### SERVICE ###################### */

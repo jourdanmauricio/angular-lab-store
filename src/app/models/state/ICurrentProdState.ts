@@ -1,7 +1,7 @@
-import { IprodState } from '..';
+import { IProdUpdDto } from '..';
 
 export interface ICurrentProdState {
-  prod: IprodState | null;
+  prod: IProdUpdDto | null;
   updated: string[];
   action: string;
 }

@@ -1,4 +1,4 @@
-import { ValueType } from '@core/constants/enums';
+import { ValueType } from '@core/data/enums';
 import { ApiBasicCategory } from './IBasicCategory';
 import { ValueAtrib } from './IValueAtrib';
 
