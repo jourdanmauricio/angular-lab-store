@@ -1,3 +1,4 @@
+import { CDK_DRAG_HANDLE } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { ICatAttribute, Tags } from '@models/index';
 import { IAttributeWork } from '@models/product/IAttribute';
@@ -19,13 +20,32 @@ export class AttributesComponent implements OnInit {
 
   onChange2(attribute: IAttributeWork, e: any) {
     let found = this.attributes.find((attrib) => attrib.id === attribute.id);
-    found!.value_name = attribute.value_struct.number + ' ' + e.name;
+    if (!found!.value_struct) {
+      found!.value_struct = {
+        number: '',
+        unit: e.name,
+      };
+    }
+    found!.value_name = found!.value_struct.number + ' ' + e.name;
     found!.value_struct.unit = e.name;
     found!.updated = true;
     this.updateAttr(found!);
   }
 
   onChange(attribute: IAttributeWork, e: any) {
+    // e = e.map((el: any) => ({ id: el.name, name: el.name }));
+    console.log('e', typeof e, e);
+    // let value_name = '';
+    // let value_id = '';
+    // if (e.target) {
+    //   value_name = e.target.value;
+    // } else {
+    //   value_name = e.name;
+    //   value_id = e.id;
+    // }
+    // console.log('value_id', value_id);
+    // console.log('value_name', value_name);
+
     let found = this.attributes.find((attrib) => attrib.id === attribute.id);
     found!.updated = true;
     if (attribute.values) {
@@ -34,20 +54,26 @@ export class AttributesComponent implements OnInit {
         found!.value_name = e.name;
       } else {
         found!.value_name = e.map((val: any) => val.name).join();
+        found!.value_id = e.map((val: any) => val.name);
       }
     }
     if (!attribute.values) {
       switch (attribute.value_type) {
         case 'string':
           found!.value_id = null;
-          found!.value_name = attribute.value_name;
+          found!.value_name = e.target.value;
           break;
         case 'number':
           found!.value_name = e.target.value;
           break;
         case 'number_unit':
-          found!.value_name =
-            e.target.value + ' ' + attribute.value_struct.unit;
+          if (!found!.value_struct) {
+            found!.value_struct = {
+              number: e.target.value,
+              unit: attribute.default_unit,
+            };
+          }
+          found!.value_name = e.target.value + ' ' + found!.value_struct.unit;
           found!.value_struct.number = e.target.value;
           break;
       }

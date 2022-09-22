@@ -108,6 +108,7 @@ export class CurrentProdState {
     catAttributes.map((atrib: any) => {
       let obj: IAttributeWork = JSON.parse(JSON.stringify(atrib));
       let found = prodAttributes.find((el: any) => el.id === atrib.id);
+      console.log('FOUNDDDDD', found);
       if (found) {
         obj.value_name = found.value_name;
         obj.value_struct = found.value_struct;
@@ -126,17 +127,17 @@ export class CurrentProdState {
           );
           if (index === -1) {
             if (found.value_id === null) obj.value_id = obj.value_name;
-            obj.values = [
-              ...obj.values,
-              // {
-              //   id: found.value_id,
-              //   name: found.value_name,
-              // },
-              {
-                id: found.value_id === null ? found.value_name : found.value_id,
-                name: found.value_name,
-              },
-            ];
+            // obj.values = [
+            //   ...obj.values,
+            //   // {
+            //   //   id: found.value_id,
+            //   //   name: found.value_name,
+            //   // },
+            //   {
+            //     id: found.value_id === null ? found.value_name : found.value_id,
+            //     name: found.value_name,
+            //   },
+            // ];
           }
         }
         totalAttribs.push(obj);

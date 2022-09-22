@@ -81,16 +81,18 @@ export class EditProductComponent implements OnInit {
             body.available_quantity = this.currentProd.available_quantity;
             break;
           case 'attributes':
-            let attributes = this.currentProd.attributes.map((attrib) =>
-              attrib.updated === true
+            let attributes = this.currentProd.attributes.map((attrib) => {
+              return attrib.updated === true
                 ? {
                     id: attrib.id,
                     name: attrib.name,
-                    value_id: attrib.value_id,
+                    value_id: attrib.tags?.hasOwnProperty('multivalued')
+                      ? null
+                      : attrib.value_id,
                     value_name: attrib.value_name,
                   }
-                : { id: attrib.id }
-            );
+                : { id: attrib.id };
+            });
             bodyMl.attributes = attributes;
             break;
           case 'condition':
@@ -201,12 +203,18 @@ export class EditProductComponent implements OnInit {
   /**
    * Update product
    */
-  // TODO: Si updated contiene 'variations' chequear que las imagenes de las variaciones
+  // TODO 1: Si updated contiene 'variations' chequear que las imagenes de las variaciones
   //       se encuentren en pictures del producto. Insertar las que falten y eliminar
   //       las que sobren. Se deben enviamessageService
   //	{
   //		"id": "629425-MLA25446587248_032017"
   //	}]
+  //
+  // TODO 2: Attributes. Si value_type = 'number_unit' -> verificar
+  // value_struct: {number: value,  unit: value} o value_name: 'value value'
+  // TODO 3: Precio mínimo -> Analizar si agregar a configuración
+  // TODO 4: Cantidad de imágenes en variaciones y en prod. Too agegar a componentes.
+  // Se obtiene de la categoría
 }
 
 export interface Anterior {
