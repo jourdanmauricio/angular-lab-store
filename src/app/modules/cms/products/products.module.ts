@@ -38,7 +38,7 @@ import { ManufacturingComponent } from './components/properties/manufacturing/ma
 import { DescriptionComponent } from './components/properties/description/description.component';
 import { VideoComponent } from './components/properties/video/video.component';
 import { PicturesComponent } from './components/properties/pictures/pictures.component';
-import { DndDirective } from '@shared/directives/dnd.directive';
+// import { DndDirective } from '@shared/directives/dnd.directive';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { EditProductIntegrationsComponent } from './components/edit-product-integrations/edit-product-integrations.component';
 import { EditProductLocalComponent } from './components/edit-product-local/edit-product-local.component';
@@ -62,7 +62,7 @@ import { EditProductLocalComponent } from './components/edit-product-local/edit-
     AttributesComponent,
     VarAttributesComponent,
     VarPicturesComponent,
-    DndDirective,
+    // DndDirective,
     FeaturesComponent,
     StatusComponent,
     QuantityComponent,

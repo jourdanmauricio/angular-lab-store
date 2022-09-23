@@ -1,0 +1,28 @@
+<div class="pictures-container mt">
+  <div
+    cdkDropList
+    cdkDropListOrientation="horizontal"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)"
+  >
+    <div
+      class="example-box"
+      style="position: relative"
+      *ngFor="let item of pictures"
+      cdkDrag
+    >
+      <img class="picture" alt="gallery" [src]="item.secure_url" />
+      <!-- on:click={(e) => deletePicture(picture.id)} class="" -->
+      <button
+        (click)="deleteImg(item.id)"
+        style="position: absolute; top: -10px; right: -10px; z-index: 100"
+        mat-icon-button
+        matSuffix
+      >
+        <mat-icon style="color: red">delete</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+
+<app-upload-image (addImage)="onAddImage($event)"></app-upload-image>

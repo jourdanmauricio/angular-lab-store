@@ -10,6 +10,7 @@ import { SettingsComponent } from './pages/settings.component';
 import { ConfMlComponent } from './components/conf-ml/conf-ml.component';
 import { ConfProdComponent } from './components/conf-prod/conf-prod.component';
 import { ConfProdImageTableComponent } from './components/conf-prod-image-table/conf-prod-image-table.component';
+import { ConfProdImagesComponent } from './components/conf-prod-images/conf-prod-images.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { ConfProdImageTableComponent } from './components/conf-prod-image-table/
     ConfMlComponent,
     ConfProdComponent,
     ConfProdImageTableComponent,
+    ConfProdImagesComponent,
   ],
   imports: [CommonModule, SettingsRoutingModule, MaterialModule, SharedModule], //
 })

@@ -1,14 +1,14 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'prettyJson',
+  name: 'prettyArray',
 })
-export class PrettyJsonPipe implements PipeTransform {
+export class PrettyArrayPipe implements PipeTransform {
   transform(val: any) {
     let newText = JSON.stringify(val, null, 2);
     newText = newText
-      .replace('{', '')
-      .replace('}', '')
+      .replace('[', '')
+      .replace(']', '')
       .replace(/,/g, '<br/>')
       .replace(/"/g, '');
 

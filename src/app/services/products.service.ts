@@ -19,6 +19,11 @@ import {
 import { CategoriesService } from './categories.service';
 import { LocalStorageService } from './local-storage.service';
 import { UsersService } from './users.service';
+import {
+  IProductMl,
+  IProdMlUpdDto,
+  IProdMlCreateDto,
+} from '@models/product/IProductMl';
 
 @Injectable({
   providedIn: 'root',
@@ -135,8 +140,8 @@ export class ProductsService {
     });
   }
 
-  updateProductMl(data: ProductMl) {
-    return this.http.put<ProductMl>(
+  updateProductMl(data: IProdMlUpdDto) {
+    return this.http.put<IProductMl>(
       `${this.apiUrl}/productsml/${data.id}`,
       data,
       {
@@ -145,8 +150,8 @@ export class ProductsService {
     );
   }
 
-  createProductMl(data: ProductMl) {
-    return this.http.post<ProductMl>(`${this.apiUrl}/productsweb`, data, {
+  createProductMl(data: IProdMlCreateDto) {
+    return this.http.post<IProductMl>(`${this.apiUrl}/productsMl`, data, {
       context: apiToken('API'),
     });
   }

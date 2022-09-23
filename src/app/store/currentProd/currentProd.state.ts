@@ -16,6 +16,7 @@ import { MessageService } from 'app/services/message.service';
 import { IAttributeWork } from '@models/product/IAttribute';
 import { ProdMlRequest } from '../prodMl/prodMl.actions';
 import { ProdWebRequest, ProdWebReset } from '../prodWeb/prodWeb.actions';
+import { ValueAtrib } from '@models/category/IValueAtrib';
 
 @State<ICurrentProdState>({
   name: 'currentProd',
@@ -108,38 +109,79 @@ export class CurrentProdState {
     catAttributes.map((atrib: any) => {
       let obj: IAttributeWork = JSON.parse(JSON.stringify(atrib));
       let found = prodAttributes.find((el: any) => el.id === atrib.id);
-      console.log('FOUNDDDDD', found);
+      // console.log('FOUND', found, atrib);
       if (found) {
         obj.value_name = found.value_name;
         obj.value_struct = found.value_struct;
         obj.value_id = found.value_id;
-        if (obj.tags?.hasOwnProperty('multivalued')) {
-          obj.value_id = found.value_name.split(',');
-          obj.values?.map((val) => (val.id = val.name));
-        }
-        if (
-          obj.values &&
-          obj.values.length > 0 &&
-          !obj.tags?.hasOwnProperty('multivalued')
-        ) {
-          let index = found.values.findIndex(
-            (val: any) => val.value_id === obj.value_id
-          );
-          if (index === -1) {
-            if (found.value_id === null) obj.value_id = obj.value_name;
-            // obj.values = [
-            //   ...obj.values,
-            //   // {
-            //   //   id: found.value_id,
-            //   //   name: found.value_name,
-            //   // },
-            //   {
-            //     id: found.value_id === null ? found.value_name : found.value_id,
-            //     name: found.value_name,
-            //   },
-            // ];
+        obj.updated = found.updated;
+        // VALUES
+        if (obj.value_id !== '-1') {
+          if (obj.hasOwnProperty('values')) {
+            console.log('AQUI', obj, found);
+            if (obj.tags?.hasOwnProperty('multivalued')) {
+              let values_names = found.value_name.split(',');
+              obj.value_id = values_names.map((name: string) => {
+                let found = obj.values?.find((val) => val.name === name);
+                if (!found) {
+                  obj.values?.push({ id: name, name });
+                }
+                return found ? found.id : name;
+              });
+            } else {
+              let found = obj.values?.find(
+                (val) => val.name === obj.value_name
+              );
+              if (!found) {
+                obj.values?.push({ id: obj.value_name, name: obj.value_name });
+                obj.value_id = obj.value_name;
+              }
+
+              console.log('OBJ', obj);
+            }
           }
         }
+
+        // VALUES
+        // if (obj.tags?.hasOwnProperty('multivalued')) {
+        //   obj.value_id = found.value_name.split(',');
+        //   obj.values?.map((val) => (val.id = val.name));
+        //   console.log('ACA', obj);
+        //   obj.value_id.forEach((val: any) => {
+        //     if (!obj.values?.includes(val))
+        //       obj.values?.push({ id: val, name: val });
+        //   });
+        // }
+        // if (
+        //   obj.values &&
+        //   obj.values.length > 0 &&
+        //   !obj.tags?.hasOwnProperty('multivalued')
+        // ) {
+        //   if (found.value_id === null) obj.value_id = obj.value_name;
+        //   let index = obj.values.findIndex(
+        //     (val: any) => val.id === obj.value_id
+        //   );
+        //   console.log('index', index, found.values, obj.value_id);
+        //   if (index === -1) {
+        //     if (!found.value_id) obj.value_id = obj.value_name;
+        //     console.log('PUSH');
+        //     obj.values.push({
+        //       id: obj.value_id,
+        //       name: obj.value_name,
+        //     });
+        //     // obj.values = [
+        //     //   ...obj.values,
+        //     //   // {
+        //     //   //   id: found.value_id,
+        //     //   //   name: found.value_name,
+        //     //   // },
+        //     //   {
+        //     //     id: found.value_id === null ? found.value_name : found.value_id,
+        //     //     name: found.value_name,
+        //     //   },
+        //     // ];
+        //   }
+        // }
         totalAttribs.push(obj);
       } else {
         totalAttribs.push(obj);

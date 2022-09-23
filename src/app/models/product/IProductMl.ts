@@ -12,4 +12,7 @@ export interface IProductMl {
   variations: IVariation[];
 }
 
+export interface IProdMlUpdDto extends Partial<IProductMl> {}
+export interface IProdMlCreateDto extends Omit<IProdMlUpdDto, 'id'> {}
+
 export interface IProductMlState extends Partial<IProductMl> {}

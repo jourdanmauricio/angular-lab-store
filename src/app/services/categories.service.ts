@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { apiToken } from '@core/interceptors/token.interceptor';
-import { ICategory } from '@models/index';
+import { Group, IAttributeWork, ICategory } from '@models/index';
 import { forkJoin, map, Observable, switchMap } from 'rxjs';
 
 @Injectable({
@@ -67,23 +67,40 @@ export class CategoriesService {
       const tecSpecs = this.http.get<any>(
         `${this.apiUrlMl}/categories/${id}/technical_specs/input`
       );
-
       forkJoin([category, attributes, tecSpecs]).subscribe((result) => {
         let full_name: string = '';
         result[0].path_from_root.forEach((parent: any, index: number) => {
           full_name += index === 0 ? parent.name : ` / ${parent.name}`;
         });
 
+        result[2].groups.forEach((group: Group) => {
+          console.log('group', group);
+          group.components.forEach((component: any) => {
+            component.attributes.forEach((attrib: IAttributeWork) => {
+              let found = result[1].find(
+                (attribute: IAttributeWork) => attribute.id === attrib.id
+              );
+              if (found) {
+                found.allow_custom_value =
+                  component.ui_config.allow_custom_value;
+                found.allow_filtering = component.ui_config.allow_filtering;
+                found.component = component.component;
+                found.group = group.label;
+                found.tags_spec = attrib.tags;
+              }
+            });
+          });
+        });
+        console.log('Attributes', result[1]);
+
         const newCategory: ICategory = {
           id: result[0].id,
           name: result[0].name,
           full_name: full_name,
           path_from_root: result[0].path_from_root,
-          children_categories: result[0].children_categories,
           settings: result[0].settings,
           picture: result[0].picture,
           attributes: result[1],
-          attributes_oblg: result[2],
           description_web: result[0].name,
         };
         observer.next(newCategory);

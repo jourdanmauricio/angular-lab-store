@@ -1,62 +1,64 @@
 <div class="mt">
-  <h2>Variaciones</h2>
+  <table
+    class="general-table"
+    *ngIf="variations.length > 0"
+    class="responsive-table"
+  >
+    <thead>
+      <th>Id</th>
+      <th>Sku</th>
+      <th
+        *ngFor="let categoryVariation of variations[0].attribute_combinations"
+      >
+        {{ categoryVariation.name }}
+      </th>
+      <th>Cantidad</th>
+      <th>Acciones</th>
+    </thead>
+    <tbody *ngIf="variations.length > 0">
+      <tr *ngFor="let variation of variations">
+        <td>{{ variation.id }}</td>
+        <td>
+          <mat-form-field
+            style="max-width: 150px"
+            class="control-sm without-error"
+            appearance="outline"
+          >
+            <!-- <mat-label>SKU</mat-label> -->
+            <input
+              matInput
+              type="text"
+              (change)="changeSku($event, variation)"
+              [value]="sku(variation.id)"
+            />
+          </mat-form-field>
+        </td>
+        <td *ngFor="let comb of variation.attribute_combinations">
+          {{ comb.value_name }}
+        </td>
+        <td>
+          <mat-form-field class="control-sm without-error" appearance="outline">
+            <!-- <mat-label>Cantidad</mat-label> -->
+            <input
+              matInput
+              (change)="changeQuantity($event, variation)"
+              type="number"
+              [value]="variation.available_quantity"
+            />
+          </mat-form-field>
+        </td>
+        <td>
+          <button (click)="openAttib(variation)" mat-icon-button matSuffix>
+            <mat-icon style="color: purple">edit_attributes</mat-icon>
+          </button>
+          <button (click)="openPictures(variation)" mat-icon-button matSuffix>
+            <mat-icon style="color: teal">photo</mat-icon>
+          </button>
+          <button (click)="delVar(variation.id)" mat-icon-button matSuffix>
+            <mat-icon style="color: red">delete</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
-
-<table *ngIf="variations.length > 0" class="responsive-table">
-  <thead>
-    <th>Id</th>
-    <th>Sku</th>
-    <th *ngFor="let categoryVariation of variations[0].attribute_combinations">
-      {{ categoryVariation.name }}
-    </th>
-    <th>Cantidad</th>
-    <th>Acciones</th>
-  </thead>
-  <tbody *ngIf="variations.length > 0">
-    <tr *ngFor="let variation of variations">
-      <td>{{ variation.id }}</td>
-      <td>
-        <!--  without-error -->
-        <mat-form-field
-          style="max-width: 150px"
-          class="control-sm without-error"
-          appearance="outline"
-        >
-          <mat-label>SKU</mat-label>
-          <input
-            matInput
-            type="text"
-            (change)="changeSku($event, variation)"
-            [value]="sku(variation.id)"
-          />
-        </mat-form-field>
-      </td>
-      <td *ngFor="let comb of variation.attribute_combinations">
-        {{ comb.value_name }}
-      </td>
-      <!--  without-error -->
-      <td>
-        <mat-form-field class="control-sm without-error" appearance="outline">
-          <mat-label>Cantidad</mat-label>
-          <input
-            matInput
-            (change)="changeQuantity($event, variation)"
-            type="number"
-            [value]="variation.available_quantity"
-          />
-        </mat-form-field>
-      </td>
-      <td>
-        <button (click)="openAttib(variation)" mat-icon-button matSuffix>
-          <mat-icon style="color: purple">edit_attributes</mat-icon>
-        </button>
-        <button (click)="openPictures(variation)" mat-icon-button matSuffix>
-          <mat-icon style="color: teal">photo</mat-icon>
-        </button>
-        <button (click)="delVar(variation.id)" mat-icon-button matSuffix>
-          <mat-icon style="color: red">delete</mat-icon>
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>

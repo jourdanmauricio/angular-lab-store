@@ -11,7 +11,6 @@ export interface ICategory {
   picture: string | null;
   settings: ICatSettings;
   attributes: ICatAttribute[];
-  attributes_oblg: AttributesOblg;
   description_web: string | null;
 }
 

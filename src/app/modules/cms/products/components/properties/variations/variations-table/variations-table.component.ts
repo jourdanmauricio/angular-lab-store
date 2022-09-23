@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngxs/store';
 
 import { ICatAttribute } from '@models/index';
@@ -15,6 +15,8 @@ import { VarPicturesComponent } from '../var-pictures/var-pictures.component';
   styleUrls: ['./variations-table.component.scss'],
 })
 export class VariationsTableComponent implements OnInit {
+  @Output() updateVations = new EventEmitter();
+
   variations: IVariation[] = [];
   attributes: ICatAttribute[] = [];
   atribProdVariations: string[] = [];
@@ -84,12 +86,14 @@ export class VariationsTableComponent implements OnInit {
 
     this.variations.splice(index, 1);
 
-    this.store.dispatch(
-      new CurrentProdUpdate({
-        property: 'variations',
-        value: this.variations,
-      })
-    );
+    this.updateVariation(null);
+
+    // this.store.dispatch(
+    //   new CurrentProdUpdate({
+    //     property: 'variations',
+    //     value: this.variations,
+    //   })
+    // );
   }
 
   changeSku(e: Event, variation: IVariation) {
@@ -119,16 +123,21 @@ export class VariationsTableComponent implements OnInit {
     this.updateVariation(variation);
   }
 
-  updateVariation(variation: IVariation) {
-    let newVariations = this.variations.map((vari) =>
-      vari.id === variation.id ? variation : vari
-    );
+  updateVariation(variation: IVariation | null) {
+    let newVariations = this.variations;
 
-    this.store.dispatch(
-      new CurrentProdUpdate({
-        property: 'variations',
-        value: newVariations,
-      })
-    );
+    if (variation)
+      newVariations = this.variations.map((vari) =>
+        vari.id === variation.id ? variation : vari
+      );
+
+    this.updateVations.emit(newVariations);
+
+    // this.store.dispatch(
+    //   new CurrentProdUpdate({
+    //     property: 'variations',
+    //     value: newVariations,
+    //   })
+    // );
   }
 }

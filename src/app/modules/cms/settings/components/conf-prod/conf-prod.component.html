@@ -72,11 +72,17 @@
       <span>Imágenes</span>
       <hr />
     </div>
-    <app-conf-prod-image-table
+    <!-- <app-conf-prod-image-table
       (picture)="addPicture($event)"
       (delPicture)="delPicture($event)"
       [pictures]="pictures"
-    ></app-conf-prod-image-table>
+    ></app-conf-prod-image-table> -->
+
+    <app-conf-prod-images
+      (updPicture)="onUpdPicture($event)"
+      [settingspictures]="pictures"
+    ></app-conf-prod-images>
+
     <div class="control-rigth mt">
       <button mat-raised-button color="primary" type="submit">Modificar</button>
     </div>

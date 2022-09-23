@@ -25,3 +25,5 @@ export interface IAttributeCombination {
   name: string;
   value_id?: null | string;
 }
+
+export interface IVariationUpdDto extends Partial<IVariation> {}

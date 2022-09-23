@@ -2,14 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { map, Observable, switchMap } from 'rxjs';
-import { IProdUpdDto, IProductDto } from '@models/index';
+import {
+  IProdUpdDto,
+  IProductDto,
+  IVariationUpdDto,
+  IProduct,
+} from '@models/index';
 import { CurrentProdRequest } from 'app/store/currentProd/currentProd.actions';
 import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
 import { ProductsService } from 'app/services/products.service';
 import { removeDuplicates } from 'app/utils/functions';
-import { IProductMl } from '@models/product/IProductMl';
+import { IProductMl } from '@models/index';
 import { ProdMlState } from 'app/store/prodMl/prodMl.state';
 import { MessageService } from 'app/services/message.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-edit-product',
@@ -121,6 +127,39 @@ export class EditProductComponent implements OnInit {
           case 'title':
             bodyMl.title = this.currentProd.title;
             break;
+          case 'variations':
+            console.log('variations', this.currentProd.variations);
+            let variations: IVariationUpdDto[] = [];
+            let pictures: { id: string }[] = [];
+            this.currentProd.variations.forEach((variation) => {
+              variation.picture_ids.forEach((picture) => {
+                if (pictures.findIndex((pic) => pic.id === picture) === -1)
+                  pictures.push({ id: picture });
+              });
+
+              let obj = {} as IVariationUpdDto;
+              if (variation.updated === true) {
+                obj = {
+                  attribute_combinations: variation.attribute_combinations,
+                  attributes: variation.attributes,
+                  picture_ids: variation.picture_ids,
+                };
+                // Upd
+                if (typeof variation.id === 'number') {
+                  obj.id = variation.id;
+                } else {
+                  // New
+                  obj.available_quantity = variation.available_quantity;
+                  obj.price = variation.price;
+                }
+              } else {
+                obj = { id: variation.id };
+              }
+              variations.push(obj);
+            });
+            bodyMl.variations = variations;
+            bodyMl.pictures = pictures;
+            break;
           case 'video_id':
             bodyMl.video_id = this.currentProd.video_id;
             break;
@@ -135,14 +174,27 @@ export class EditProductComponent implements OnInit {
         this.productsService
           .updateMlProd(this.prodMl.id, bodyMl)
           .pipe(
-            map((prodMl) => ({
-              ...prodMl,
-              status: this.currentProd.status,
-              available_quantity: this.currentProd.available_quantity,
-              price: this.currentProd.price,
-            })),
-            switchMap((newProd: IProdUpdDto) =>
-              this.productsService.updateProduct(this.currentProd.id, newProd)
+            map((prodMl) => {
+              // Variations
+              prodMl.variations.forEach((variation) => {
+                let found = this.currentProd.variations.find(
+                  (prodVar) => prodVar.id === variation.id
+                );
+                if (found) {
+                  variation.price = found.price;
+                  variation.available_quantity = found.available_quantity;
+                }
+              });
+              return {
+                ...prodMl,
+                status: this.currentProd.status,
+                available_quantity: this.currentProd.available_quantity,
+                price: this.currentProd.price,
+              };
+            }),
+
+            switchMap((newProdMl: IProduct) =>
+              this.productsService.updateProduct(this.currentProd.id, newProdMl)
             )
           )
           .subscribe({
@@ -150,9 +202,15 @@ export class EditProductComponent implements OnInit {
               this.messageService.showMsg('Producto actualizado', 'success');
               this.router.navigate(['cms/products']);
             },
-            error: (err) => {
+            error: (err: HttpErrorResponse) => {
+              let message = '';
+              if (err.error) {
+                err.error.cause.forEach((errDesc: any) => {
+                  message += `${errDesc.type} - ${errDesc.message} <br>`;
+                });
+              }
               console.log('ERRRRRORRRRR MLLLLL', err);
-              this.messageService.showMsg(err, 'error');
+              this.messageService.showMsg(message, 'error');
             },
           });
 
@@ -205,7 +263,7 @@ export class EditProductComponent implements OnInit {
    */
   // TODO 1: Si updated contiene 'variations' chequear que las imagenes de las variaciones
   //       se encuentren en pictures del producto. Insertar las que falten y eliminar
-  //       las que sobren. Se deben enviamessageService
+  //       las que sobren. Se deben enviar:
   //	{
   //		"id": "629425-MLA25446587248_032017"
   //	}]

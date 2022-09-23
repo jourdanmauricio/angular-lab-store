@@ -42,16 +42,16 @@ export class ConfProdComponent implements OnInit {
     });
   }
 
-  addPicture(picture: IPicture) {
-    this.pictures = [...this.pictures, picture];
-  }
+  // addPicture(picture: IPicture) {
+  //   this.pictures = [...this.pictures, picture];
+  // }
 
-  delPicture(name: string) {
-    const pics = JSON.parse(JSON.stringify(this.pictures));
-    const index = pics.findIndex((pic: IPicture) => pic.name === name);
-    if (index !== -1) pics.splice(index, 1);
-    this.pictures = pics;
-  }
+  // delPicture(name: string) {
+  //   const pics = JSON.parse(JSON.stringify(this.pictures));
+  //   const index = pics.findIndex((pic: IPicture) => pic.name === name);
+  //   if (index !== -1) pics.splice(index, 1);
+  //   this.pictures = pics;
+  // }
 
   handleChange() {
     const data: ISettingsState = {
@@ -68,5 +68,9 @@ export class ConfProdComponent implements OnInit {
       this.store
         .dispatch(new SettingsUpdate({ userId: this.user.id, settings: data }))
         .subscribe();
+  }
+
+  onUpdPicture(pictures: IPicture[]) {
+    this.pictures = pictures;
   }
 }

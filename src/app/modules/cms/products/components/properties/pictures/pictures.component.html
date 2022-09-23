@@ -29,19 +29,7 @@
 
 <mat-tab-group class="add-pictures mt" animationDuration="0ms">
   <mat-tab label="Upload">
-    <!-- UPLOAD  -->
-    <div class="file-upload mt" appDnd (fileDropped)="onFileDropped($event)">
-      <input
-        (change)="fileBrowseHandler($event)"
-        #fileDropRef
-        id="fileDropRef"
-        multiple
-        class="file"
-        type="file"
-      />
-      <h3>Drag and drop file here or</h3>
-      <label for="fileDropRef"> Browse for file</label>
-    </div>
+    <app-upload-image (addImage)="onAddImage($event)"></app-upload-image>
   </mat-tab>
   <mat-tab label="Preconfiguradas">
     <!-- PRECONFIGURADAS -->
@@ -62,12 +50,3 @@
     </div>
   </mat-tab>
 </mat-tab-group>
-
-<!-- <div mat-dialog-actions class="actions" [align]="'end'">
-    <button mat-raised-button color="primary" [mat-dialog-close]="true">
-      Cerrar
-    </button>
-    <button mat-raised-button color="primary" (click)="updateVarPictures()">
-      Modificar
-    </button>
-  </div> -->

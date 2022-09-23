@@ -28,7 +28,7 @@ export class MessageService {
     switch (type) {
       case 'error':
         panelClass = {
-          duration: 1500,
+          duration: 3000,
           panelClass: 'snackbar-error',
           horizontalPosition: this.horizontalPosition,
           verticalPosition: this.verticalPosition,

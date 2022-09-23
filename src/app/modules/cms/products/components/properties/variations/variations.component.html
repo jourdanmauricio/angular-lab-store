@@ -1,2 +1,6 @@
-<app-variations-combinations></app-variations-combinations>
-<app-variations-table></app-variations-table>
+<app-variations-table
+  (updateVations)="onUpdateVariations($event)"
+></app-variations-table>
+<app-variations-combinations
+  (updateVations)="onUpdateVariations($event)"
+></app-variations-combinations>

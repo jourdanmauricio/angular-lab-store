@@ -1,0 +1,13 @@
+<!-- UPLOAD  -->
+<div class="file-upload mt" appDnd (fileDropped)="onFileDropped($event)">
+  <input
+    (change)="fileBrowseHandler($event)"
+    #fileDropRef
+    id="fileDropRef"
+    multiple
+    class="file"
+    type="file"
+  />
+  <h3>Drag and drop file here or</h3>
+  <label for="fileDropRef"> Browse for file</label>
+</div>

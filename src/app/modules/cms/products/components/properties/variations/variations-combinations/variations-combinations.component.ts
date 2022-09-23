@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { ICategory } from '@models/index';
 import { IAttributeCombination, IVariation } from '@models/index';
@@ -32,6 +32,8 @@ export interface AttribComb {
   styleUrls: ['./variations-combinations.component.scss'],
 })
 export class VariationsCombinationsComponent implements OnInit {
+  @Output() updateVations = new EventEmitter();
+
   seller_custom_field!: string;
   price!: number;
   variations: IVariation[] = [];
@@ -199,7 +201,7 @@ export class VariationsCombinationsComponent implements OnInit {
       let found = isNewVariation(newVar, atribsVariation);
       if (!found) {
         let variation: IVariation = {
-          id: `${this.seller_custom_field}--${sku}`,
+          id: `new-${sku}`,
           attribute_combinations: newVar,
           available_quantity: 1,
           picture_ids: [],
@@ -207,7 +209,7 @@ export class VariationsCombinationsComponent implements OnInit {
             {
               id: 'SELLER_SKU',
               value_name: `${this.seller_custom_field}--${sku}`,
-              name: 'seller_sku',
+              name: 'SKU',
               value_id: null,
             },
           ],
@@ -224,12 +226,13 @@ export class VariationsCombinationsComponent implements OnInit {
       this.messageService.showMsg(`${exists} variaciones existen`, 'error');
 
     if (newVariations.length > 0)
-      this.store.dispatch(
-        new CurrentProdUpdate({
-          property: 'variations',
-          value: [...this.variations, ...newVariations],
-        })
-      );
+      this.updateVations.emit([...this.variations, ...newVariations]);
+    // this.store.dispatch(
+    //   new CurrentProdUpdate({
+    //     property: 'variations',
+    //     value: [...this.variations, ...newVariations],
+    //   })
+    // );
 
     newVariations = [];
 

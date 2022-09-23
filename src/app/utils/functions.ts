@@ -141,3 +141,10 @@ export function getAttribsComb(variations: IVariation[], category: ICategory) {
 export function removeDuplicates(arr: any[]) {
   return [...new Set(arr)];
 }
+
+export function getQuantityFromVariations(variations: IVariation[]): number {
+  return variations.reduce(
+    (acumulador, actual) => acumulador + actual.available_quantity,
+    0
+  );
+}

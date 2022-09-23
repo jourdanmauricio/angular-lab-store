@@ -20,7 +20,6 @@ import { map } from 'rxjs';
 export class PicturesComponent implements OnInit {
   settingsPic!: IPicture[];
   prodPictures!: IPicture[];
-  files: any[] = [];
 
   constructor(private store: Store, private productsService: ProductsService) {}
 
@@ -61,43 +60,6 @@ export class PicturesComponent implements OnInit {
     this.updatePictures();
   }
 
-  fileBrowseHandler(e: any) {
-    this.files = e.target.files;
-    this.getFile();
-  }
-
-  getFile() {
-    Array.from(this.files).map((file) => {
-      let formData = new FormData();
-      formData.append('file', file);
-      this.productsService
-        .createImage(formData)
-        .pipe(
-          map((res) => {
-            const pict: IPicture = {
-              id: res.id,
-              name: file.name,
-              url: res.variations[0].url,
-              size: res.variations[0].size,
-              quality: '',
-              max_size: res.max_size,
-              secure_url: res.variations[0].secure_url,
-            };
-            return pict;
-          })
-        )
-        .subscribe((resp) => {
-          this.prodPictures.unshift(resp);
-          this.updatePictures();
-        });
-    });
-  }
-
-  onFileDropped($event: any) {
-    this.files = $event;
-    this.getFile();
-  }
-
   updatePictures() {
     this.store.dispatch(
       new CurrentProdUpdate({
@@ -105,5 +67,10 @@ export class PicturesComponent implements OnInit {
         value: this.prodPictures,
       })
     );
+  }
+
+  onAddImage(picture: IPicture) {
+    this.prodPictures.unshift(picture);
+    this.updatePictures();
   }
 }

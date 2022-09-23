@@ -24,3 +24,4 @@ export * from './category/ICatAttribute';
 export * from './product/IVartiation';
 export * from './product/IAttribute';
 export * from './product/IProductWeb';
+export * from './product/IProductMl';

@@ -1,8 +1,7 @@
-import { CDK_DRAG_HANDLE } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
-import { ICatAttribute, Tags } from '@models/index';
+import { ICatAttribute } from '@models/index';
 import { IAttributeWork } from '@models/product/IAttribute';
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { CurrentProdUpdate } from 'app/store/currentProd/currentProd.actions';
 import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
 
@@ -12,9 +11,16 @@ import { CurrentProdState } from 'app/store/currentProd/currentProd.state';
   styleUrls: ['./attributes.component.scss'],
 })
 export class AttributesComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'value_name', 'allowed_units', 'tags'];
+  displayedColumns: string[] = [
+    'name',
+    'value_name',
+    'allowed_units',
+    'tags_spec',
+    'N/A',
+  ];
   attributes!: IAttributeWork[];
   prodAttributes!: IAttributeWork[];
+  totalAttribs$!: ICatAttribute[];
 
   constructor(private store: Store) {}
 
@@ -33,35 +39,40 @@ export class AttributesComponent implements OnInit {
   }
 
   onChange(attribute: IAttributeWork, e: any) {
-    // e = e.map((el: any) => ({ id: el.name, name: el.name }));
     console.log('e', typeof e, e);
-    // let value_name = '';
-    // let value_id = '';
-    // if (e.target) {
-    //   value_name = e.target.value;
-    // } else {
-    //   value_name = e.name;
-    //   value_id = e.id;
-    // }
-    // console.log('value_id', value_id);
-    // console.log('value_name', value_name);
+    console.log('attribute', attribute);
 
     let found = this.attributes.find((attrib) => attrib.id === attribute.id);
     found!.updated = true;
+
+    if (attribute.component === 'COMBO') {
+      if (!e) {
+        e = {
+          id: '',
+          name: '',
+        };
+      }
+    }
+
     if (attribute.values) {
       if (!attribute.tags?.hasOwnProperty('multivalued')) {
         found!.value_id = e.id;
         found!.value_name = e.name;
       } else {
-        found!.value_name = e.map((val: any) => val.name).join();
-        found!.value_id = e.map((val: any) => val.name);
+        if (e.length !== 0) {
+          found!.value_name = e.map((val: any) => val.name).join();
+        } else {
+          found!.value_name = null;
+          found!.value_id = null;
+        }
       }
     }
+
     if (!attribute.values) {
       switch (attribute.value_type) {
         case 'string':
           found!.value_id = null;
-          found!.value_name = e.target.value;
+          found!.value_name = attribute.value_name;
           break;
         case 'number':
           found!.value_name = e.target.value;
@@ -82,6 +93,7 @@ export class AttributesComponent implements OnInit {
   }
 
   updateAttr(attribute: IAttributeWork) {
+    console.log('UPD ATRIB', attribute);
     let index = this.prodAttributes.findIndex(
       (prodAttrib) => prodAttrib.id === attribute.id
     );
@@ -99,13 +111,33 @@ export class AttributesComponent implements OnInit {
     );
   }
 
+  enabledNA(attribute: IAttributeWork) {
+    let found = this.attributes.find((attrib) => attrib.id === attribute.id);
+    found!.value_name = '';
+    found!.value_id = null;
+    found!.updated = true;
+    console.log('Attribute', found);
+    this.updateAttr(found!);
+  }
+
+  notApply(attribute: IAttributeWork) {
+    let found = this.attributes.find((attrib) => attrib.id === attribute.id);
+    found!.value_name = null;
+    found!.value_id = '-1';
+    found!.updated = true;
+    console.log('Attribute', found);
+    this.updateAttr(found!);
+  }
+
   ngOnInit(): void {
     this.store
       .select(CurrentProdState.totalAttribs)
       .subscribe((attribs: ICatAttribute[]) => {
         if (attribs) {
           this.attributes = JSON.parse(JSON.stringify(attribs));
+          this.totalAttribs$ = JSON.parse(JSON.stringify(attribs));
         }
+        console.log('this.attributes', this.attributes);
       });
 
     this.store
@@ -113,10 +145,8 @@ export class AttributesComponent implements OnInit {
       .subscribe((attribs: ICatAttribute[]) => {
         if (attribs) {
           this.prodAttributes = JSON.parse(JSON.stringify(attribs));
-          this.prodAttributes.map((attr) => (attr.updated = false));
+          // this.prodAttributes.map((attr) => (attr.updated = false));
         }
       });
   }
-
-  @Select(CurrentProdState.totalAttribs) totalAttribs$!: ICatAttribute[];
 }

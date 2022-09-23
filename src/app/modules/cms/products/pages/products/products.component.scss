@@ -9,6 +9,22 @@ table {
   width: 100%;
 }
 
+.mat-header-row {
+  height: 35px;
+}
+
+.general-table tr:nth-of-type(odd) {
+  background: #eee;
+}
+
+.general-table td,
+.general-table th {
+  font-size: 13px;
+  padding: 2px 6px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
 .btn-detail {
   margin-right: 1vw;
   background: #4285f4;
