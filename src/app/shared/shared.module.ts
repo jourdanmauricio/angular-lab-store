@@ -13,6 +13,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { SelectComponent } from './components/select/select.component';
 import { InputComponent } from './components/input/input.component';
 import { UploadImageComponent } from './components/upload-image/upload-image.component';
+import { DescVarPipe } from './pipes/desc-var.pipe';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { UploadImageComponent } from './components/upload-image/upload-image.com
     SelectComponent,
     InputComponent,
     UploadImageComponent,
+    DescVarPipe,
   ],
   imports: [
     CommonModule,

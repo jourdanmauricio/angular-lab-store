@@ -10,7 +10,7 @@ export interface IVariation {
   inventory_id?: null;
   item_relations?: any[];
   picture_ids: string[];
-  price: number;
+  price: any;
   sale_terms?: any[];
   seller_custom_field?: null;
   sold_quantity?: number;

@@ -1,22 +1,24 @@
-<div>
-  <table class="detail-table">
+<div class="mt">
+  <table class="responsive-table">
     <thead>
-      <th>Feature</th>
+      <th>Característica</th>
       <th>Local</th>
       <th>ML</th>
       <th>Web</th>
     </thead>
     <tbody>
       <!-- ID -->
-      <tr style="border-top: 1px solid gray">
-        <td>ID</td>
-        <td>{{ prod.id }}</td>
+      <tr>
+        <td><div class="row">ID</div></td>
+        <td>
+          {{ prod.id }}
+        </td>
         <td>{{ prodMl.id }}</td>
         <td>{{ prodWeb ? prodWeb.id : "" }}</td>
       </tr>
       <!-- Precio -->
       <tr>
-        <td>Precio</td>
+        <td><div class="row">Precio</div></td>
         <td>{{ prod.price }}</td>
         <td>
           <app-input
@@ -49,7 +51,7 @@
       </tr>
       <!-- Estado -->
       <tr>
-        <td>Estado</td>
+        <td class="row">Estado</td>
         <td>{{ prod.status | trad: "PROD_STATUS" }}</td>
         <td>
           <app-select
@@ -116,20 +118,25 @@
     </tbody>
   </table>
   <!-- Variaciones -->
-  <ng-container *ngIf="prodMl.variations">
-    <table class="detail-table">
+  <ng-container *ngIf="prod.variations">
+    <table class="responsive-table mt">
       <thead>
         <th>ID</th>
         <th>SKU</th>
-        <th>Variación</th>
+        <th>
+          <ng-container *ngIf="prod.variations.length > 0; else variation">
+            {{ prod.variations[0].attribute_combinations | descVar: "title" }}
+          </ng-container>
+          <ng-template #variation>Variación</ng-template>
+        </th>
         <th>Cantidad ML</th>
         <th>Cantidad Web</th>
       </thead>
-      <tbody>
+      <tbody *ngIf="prodMl.variations.length > 0">
         <tr *ngFor="let variation of prod.variations">
           <td>{{ variation.id }}</td>
           <td>{{ sku(variation.id) }}</td>
-          <td>{{ variationDesc(variation.attribute_combinations) }}</td>
+          <td>{{ variation.attribute_combinations | descVar: "value" }}</td>
           <td>
             <!-- [value]="variation.available_quantity" -->
             <app-input

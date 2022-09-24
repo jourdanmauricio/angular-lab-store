@@ -26,8 +26,13 @@ export class ProdMlState {
     return state.prodMl ? state.prodMl : {};
   }
 
+  @Selector()
+  static getUpdatedProdMl(state: IProdMlState): any {
+    return state.updated;
+  }
+
   @Action(ProdMlRequest)
-  async currentProdRequest(
+  async prodMlRequest(
     ctx: StateContext<IProdMlState>,
     { payload }: ProdMlRequest
   ) {

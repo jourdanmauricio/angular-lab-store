@@ -11,7 +11,7 @@ import { ProductsService } from 'app/services/products.service';
 import { catchError, mergeMap, of, tap } from 'rxjs';
 import { SetLoading } from '../application/application.actions';
 import { CurrentProdRequest, CurrentProdUpdate } from './currentProd.actions';
-import { ICurrentProdState, IPicture } from '@models/index';
+import { ICurrentProdState, IPicture, IProduct } from '@models/index';
 import { MessageService } from 'app/services/message.service';
 import { IAttributeWork } from '@models/product/IAttribute';
 import { ProdMlRequest } from '../prodMl/prodMl.actions';
@@ -40,7 +40,7 @@ export class CurrentProdState {
   }
 
   @Selector()
-  static prodUpdated(state: ICurrentProdState): any {
+  static getUpdatedProd(state: ICurrentProdState): any {
     return state.updated;
   }
 
@@ -196,7 +196,8 @@ export class CurrentProdState {
     { payload }: CurrentProdRequest
   ) {
     return this.productsService.getProduct(payload.prod).pipe(
-      tap((res) => {
+      tap((res: IProduct) => {
+        res.prodMl!.price = parseFloat(res.prodMl?.price);
         if (res.prodMl)
           this.store.dispatch(
             new ProdMlRequest({ action: payload.action, prod: res.prodMl })
@@ -204,6 +205,7 @@ export class CurrentProdState {
       }),
       tap((res) => {
         if (res.prodWeb) {
+          res.prodWeb!.price = parseFloat(res.prodWeb?.price);
           this.store.dispatch(
             new ProdWebRequest({ action: payload.action, prod: res.prodWeb })
           );
@@ -215,6 +217,7 @@ export class CurrentProdState {
         let prod = res;
         delete prod.prodMl;
         delete prod.prodWeb;
+        prod.price = parseFloat(prod.price);
 
         const state = ctx.getState();
         ctx.setState({

@@ -10,27 +10,27 @@ import { IVariation } from './product/IVartiation';
 /* ###################### ML ####################### */
 export interface IProduct {
   id: string;
-  attributes: IAttribute[];
-  title: string;
-  listing_type_id: ProdListingType;
-  sale_terms: ISaleTerms[];
-  permalink: string;
-  thumbnail: string;
-  variations: IVariation[];
-  status: ProdStatus;
-  available_quantity: number;
-  start_time: Date;
+  price: any;
   prodMl?: IProductMl;
-  prodWeb?: IProductWeb;
-  pictures: IPicture[];
-  category_id: string;
-  price: number;
-  sold_quantity: number;
-  condition: ProdCondition;
-  seller_custom_field: string;
-  description: string;
-  video_id?: string;
+  attributes: IAttribute[];
+  available_quantity: number;
   category?: ICategory;
+  category_id: string;
+  condition: ProdCondition;
+  description: string;
+  listing_type_id: ProdListingType;
+  permalink: string;
+  pictures: IPicture[];
+  prodWeb?: IProductWeb;
+  sale_terms: ISaleTerms[];
+  sold_quantity: number;
+  seller_custom_field: string;
+  start_time: Date;
+  status: ProdStatus;
+  thumbnail: string;
+  title: string;
+  variations: IVariation[];
+  video_id?: string;
 }
 
 export interface IProdUpdDto extends Partial<IProduct> {}
@@ -39,9 +39,6 @@ export interface IProdUpdDto extends Partial<IProduct> {}
 export interface IProductDto extends Omit<IProduct, 'id' | 'attributes'> {
   id: number;
   attributes: IAttributeWork[];
-  // category?: Category;
 }
 
-export interface IProdCreateDto extends Omit<IProdUpdDto, 'id' | 'permalink'> {
-  // ml_id: string;
-}
+export interface IProdCreateDto extends Omit<IProdUpdDto, 'id' | 'permalink'> {}

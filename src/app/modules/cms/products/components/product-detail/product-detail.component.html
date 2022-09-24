@@ -2,88 +2,96 @@
   fxLayout="row"
   fxLayoutAlign="center"
   fxLayoutGap.gt-xs="30px"
-  fxLayout.lt-md="column"
+  fxLayout.lt-sm="column"
 >
   <!-- style="width: 100%" -->
-  <div>
-    <table class="detail-table">
-      <thead>
-        <th>Feature</th>
-        <th>Local</th>
-        <th>ML</th>
-        <th>Web</th>
-      </thead>
-      <tbody>
-        <tr style="border-top: 1px solid gray">
-          <td>ID</td>
-          <td>{{ element.id }}</td>
-          <td>{{ element.prodMl.id }}</td>
-          <td>{{ element.prodWeb ? element.prodWeb.id : "" }}</td>
-        </tr>
-        <tr>
-          <td>Precio</td>
-          <td>{{ element.price }}</td>
-          <td>{{ element.prodMl.price }}</td>
-          <td>{{ element.prodWeb ? element.prodWeb.price : "" }}</td>
-        </tr>
-        <tr>
-          <td>Estado</td>
-          <td>{{ element.status | trad: "PROD_STATUS" }}</td>
 
-          <td>
-            {{ element.prodMl.status | trad: "PROD_STATUS" }}
-          </td>
+  <table class="responsive-table">
+    <thead>
+      <th>Feature</th>
+      <th>Local</th>
+      <th>ML</th>
+      <th>Web</th>
+    </thead>
+    <tbody>
+      <tr style="border-top: 1px solid gray">
+        <td>ID</td>
+        <td>{{ element.id }}</td>
+        <td>{{ element.prodMl.id }}</td>
+        <td>{{ element.prodWeb ? element.prodWeb.id : "" }}</td>
+      </tr>
+      <tr>
+        <td>Precio</td>
+        <td>{{ element.price }}</td>
+        <td>{{ element.prodMl.price }}</td>
+        <td>{{ element.prodWeb ? element.prodWeb.price : "" }}</td>
+      </tr>
+      <tr>
+        <td>Estado</td>
+        <td>{{ element.status | trad: "PROD_STATUS" }}</td>
 
-          <td>
-            {{
-              element.prodWeb
-                ? (element.prodWeb.status | trad: "PROD_STATUS")
-                : ""
-            }}
-          </td>
-        </tr>
-        <tr>
-          <td>Cantidad</td>
-          <td>{{ element.available_quantity }}</td>
-          <td>
-            {{ element.prodMl.available_quantity }}
-          </td>
-          <td>
-            {{ element.prodWeb ? element.prodWeb.available_quantity : "" }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="10px">
-      <p #tooltip="matTooltip" matTooltipPosition="left" matTooltip="Categoría">
-        {{ element.category_id }}
-      </p>
+        <td>
+          {{ element.prodMl.status | trad: "PROD_STATUS" }}
+        </td>
+
+        <td>
+          {{
+            element.prodWeb
+              ? (element.prodWeb.status | trad: "PROD_STATUS")
+              : ""
+          }}
+        </td>
+      </tr>
+      <tr>
+        <td>Cantidad</td>
+        <td>{{ element.available_quantity }}</td>
+        <td>
+          {{ element.prodMl.available_quantity }}
+        </td>
+        <td>
+          {{ element.prodWeb ? element.prodWeb.available_quantity : "" }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="10px">
+    <div class="button-info">
       <button
-        class="btn-detail btn-detail-rect"
-        (click)="editProduct(element)"
         mat-raised-button
-        color="primary"
+        matTooltipPosition="left"
+        matTooltip="Categoría: {{ element.category.full_name }}"
+        aria-label="Button that displays a tooltip when focused or hovered over"
       >
-        Editar
-      </button>
-      <button
-        [disabled]="element.prodMl === null"
-        class="btn-detail btn-detail-rect"
-        (click)="viewMlProduct(element)"
-        mat-raised-button
-        color="primary"
-      >
-        Ver ML
-      </button>
-      <button
-        [disabled]="element.prodWeb"
-        class="btn-detail btn-detail-rect"
-        (click)="migrateWeb(element)"
-        mat-raised-button
-        color="primary"
-      >
-        Migrar Web
+        <small>{{ element.category_id }}</small>
       </button>
     </div>
+
+    <button
+      class="btn-detail btn-detail-rect"
+      (click)="editProduct(element)"
+      mat-raised-button
+      color="primary"
+    >
+      Editar
+    </button>
+    <button
+      [disabled]="element.prodMl === null"
+      class="btn-detail btn-detail-rect"
+      (click)="viewMlProduct(element)"
+      mat-raised-button
+      color="primary"
+    >
+      Ver ML
+    </button>
+    <button
+      [disabled]="element.prodWeb"
+      class="btn-detail btn-detail-rect"
+      (click)="migrateWeb(element)"
+      mat-raised-button
+      color="primary"
+    >
+      Migrar Web
+    </button>
   </div>
 </div>

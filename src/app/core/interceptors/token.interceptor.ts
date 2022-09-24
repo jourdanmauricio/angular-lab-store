@@ -41,9 +41,16 @@ export class TokenInterceptor implements HttpInterceptor {
     if (type === 'token' || type === 'tokenMl') {
       const token = this.localStorageService.getItem(type);
       if (token) {
-        const authReq = request.clone({
-          headers: request.headers.set('Authorization', `Bearer ${token}`),
+        const headers = new HttpHeaders({
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         });
+
+        const authReq = request.clone({
+          headers,
+          //   headers: request.headers.set('Authorization', `Bearer ${token}`),
+        });
+
         request = authReq;
       }
     }

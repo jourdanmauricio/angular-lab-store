@@ -12,8 +12,8 @@ import {
   IProduct,
   IProdCreateDto,
   ICategory,
-  ProductMl,
   IProductWeb,
+  IProdWebUpdDto,
 } from '../models/index';
 // Services
 import { CategoriesService } from './categories.service';
@@ -135,7 +135,7 @@ export class ProductsService {
   /* ###################### LOCAL ML ###################### */
 
   getProductsMl() {
-    return this.http.get<ProductMl[]>(`${this.apiUrl}/productsml`, {
+    return this.http.get<IProductMl[]>(`${this.apiUrl}/productsml`, {
       context: apiToken('API'),
     });
   }
@@ -162,6 +162,16 @@ export class ProductsService {
     return this.http.post<IProductWeb>(`${this.apiUrl}/productsweb`, data, {
       context: apiToken('API'),
     });
+  }
+
+  updateProductWeb(data: IProdWebUpdDto) {
+    return this.http.put<IProductMl>(
+      `${this.apiUrl}/productsweb/${data.id}`,
+      data,
+      {
+        context: apiToken('API'),
+      }
+    );
   }
 
   /* ######################### ML ######################### */
@@ -275,9 +285,9 @@ export class ProductsService {
         const newCats: string[] = [];
         const mlProductsMl: IProduct[] = result[0];
         const categories: ICategory[] = result[1];
-        const productsMl: ProductMl[] = result[2];
+        const productsMl: IProductMl[] = result[2];
         mlProductsMl.forEach((mlProd) => {
-          const updMlProd: ProductMl = {
+          const updMlProd: IProductMl = {
             id: mlProd.id,
             seller_custom_field: mlProd.seller_custom_field,
             price: mlProd.price,
@@ -290,7 +300,11 @@ export class ProductsService {
           const found = productsMl.find((prodMl) => prodMl.id === mlProd.id);
           if (found) {
             updMlProd.prod_id = found!.prod_id;
-            this.updateProductMl(updMlProd as ProductMl).subscribe();
+            this.updateProductMl(updMlProd as IProductMl)
+              .subscribe
+              // (res) =>
+              // console.log('price:', typeof res.price, res.price)
+              ();
             return;
           }
 
@@ -317,7 +331,7 @@ export class ProductsService {
                       )
                     ),
                     switchMap(() =>
-                      this.createProductMl(updMlProd as ProductMl)
+                      this.createProductMl(updMlProd as IProductMl)
                     )
                   )
                   .subscribe();
@@ -326,7 +340,7 @@ export class ProductsService {
               this.createProduct(newItemsPrice as IProduct)
                 .pipe(map((prod) => (updMlProd.prod_id = prod.id)))
                 .pipe(
-                  switchMap(() => this.createProductMl(updMlProd as ProductMl))
+                  switchMap(() => this.createProductMl(updMlProd as IProductMl))
                 )
                 .subscribe();
             }
@@ -345,6 +359,64 @@ export class ProductsService {
         this.getMlItems(quantity.quantity, quantity.limit)
       ),
       switchMap((items) => this.getMlProds(items.flat()))
+    );
+  }
+
+  updateMlLocalService(id: string, bodyMl: any, currentProd: IProductDto) {
+    return this.updateMlProd(id, bodyMl).pipe(
+      map((prodMl) => {
+        // Variations
+        prodMl.variations.forEach((variation) => {
+          let found = currentProd.variations.find(
+            (prodVar) => prodVar.id === variation.id
+          );
+          if (found) {
+            variation.price = found.price;
+            variation.available_quantity = found.available_quantity;
+          }
+        });
+        return {
+          ...prodMl,
+          status: currentProd.status,
+          available_quantity: currentProd.available_quantity,
+          price: currentProd.price,
+        };
+      }),
+
+      switchMap((newProdMl: IProduct) =>
+        this.updateProduct(currentProd.id, newProdMl)
+      )
+    );
+  }
+
+  updateMlLocalProdDescriptionService(
+    mlId: string,
+    id: number,
+    bodyMlDescription: any,
+    description: string
+  ) {
+    return this.updateMlProdDescription(mlId, bodyMlDescription).pipe(
+      map((prodMl) => ({
+        ...prodMl,
+        description,
+      })),
+      switchMap((newProd: IProdUpdDto) => this.updateProduct(id, newProd))
+    );
+  }
+
+  updateMlLocalMlService(mlId: string, id: number, bodyMl: any) {
+    return this.updateMlProd(mlId, bodyMl).pipe(
+      map((prodMl) => ({
+        id: prodMl.id,
+        status: prodMl.status,
+        available_quantity: prodMl.available_quantity,
+        prod_id: id,
+        seller_custom_field: prodMl.seller_custom_field,
+        price: parseFloat(prodMl.price),
+        permalink: prodMl.permalink,
+        variations: prodMl.variations,
+      })),
+      switchMap((newProdMl: IProdMlUpdDto) => this.updateProductMl(newProdMl))
     );
   }
 }

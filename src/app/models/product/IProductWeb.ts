@@ -6,10 +6,11 @@ export interface IProductWeb {
   prod_id?: number;
   seller_custom_field?: string;
   available_quantity: number;
-  price: number;
+  price: any;
   start_time: Date;
   permalink: string;
   variations: IVariation[];
 }
 
+export interface IProdWebUpdDto extends Partial<IProductWeb> {}
 export interface IProductWebState extends Partial<IProductWeb> {}

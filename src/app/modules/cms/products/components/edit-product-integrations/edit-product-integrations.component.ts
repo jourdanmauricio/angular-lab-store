@@ -150,13 +150,16 @@ export class EditProductIntegrationsComponent implements OnInit {
         break;
 
       case 'price-ml':
+        const price = parseFloat(value);
         newData = this.prodMl.variations.map((vari) => ({
           ...vari,
-          price: value,
+          price: price,
           updated: true,
         }));
 
-        this.store.dispatch(new ProdMlUpdate({ property: 'price', value }));
+        this.store.dispatch(
+          new ProdMlUpdate({ property: 'price', value: price })
+        );
         this.store.dispatch(
           new ProdMlUpdate({ property: 'variations', value: newData })
         );
@@ -164,11 +167,13 @@ export class EditProductIntegrationsComponent implements OnInit {
       case 'price-web':
         newData = this.prodWeb.variations.map((vari) => ({
           ...vari,
-          price: value,
+          price: parseFloat(value),
           updated: true,
         }));
 
-        this.store.dispatch(new ProdWebUpdate({ property: 'price', value }));
+        this.store.dispatch(
+          new ProdWebUpdate({ property: 'price', value: parseFloat(value) })
+        );
         this.store.dispatch(
           new ProdWebUpdate({ property: 'variations', value: newData })
         );

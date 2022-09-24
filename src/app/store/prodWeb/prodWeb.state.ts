@@ -26,6 +26,11 @@ export class ProdWebState {
     return state.prodWeb;
   }
 
+  @Selector()
+  static getUpdatedProdWeb(state: IProdWebState): any {
+    return state.updated;
+  }
+
   @Action(ProdWebRequest)
   async prodWebRequest(
     ctx: StateContext<IProdWebState>,

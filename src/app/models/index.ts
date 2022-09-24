@@ -3,7 +3,6 @@ export * from './authMl.model';
 export * from './ICustomer';
 export * from './IPicture';
 export * from './IProduct';
-export * from './productML.model';
 export * from './ISetting';
 export * from './user.model';
 export * from './userMl.model';

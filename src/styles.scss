@@ -122,6 +122,14 @@ input:-webkit-autofill:active {
   color: white;
   font-weight: normal;
 }
+
+.responsive-table .row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+}
+
 .responsive-table td,
 .responsive-table th {
   font-size: 13px;
@@ -150,6 +158,13 @@ input:-webkit-autofill:active {
 
 .general-table .mat-header-row {
   height: 35px;
+}
+
+.button-info {
+  margin: 0.5rem;
+  padding: 5px;
+  background-color: #b9c9fe;
+  border-radius: 5px;
 }
 
 @media only screen and (max-width: 640px),

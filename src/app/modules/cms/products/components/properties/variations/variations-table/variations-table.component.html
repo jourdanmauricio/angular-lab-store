@@ -7,11 +7,7 @@
     <thead>
       <th>Id</th>
       <th>Sku</th>
-      <th
-        *ngFor="let categoryVariation of variations[0].attribute_combinations"
-      >
-        {{ categoryVariation.name }}
-      </th>
+      <th>{{ variations[0].attribute_combinations | descVar: "title" }}</th>
       <th>Cantidad</th>
       <th>Acciones</th>
     </thead>
@@ -24,7 +20,6 @@
             class="control-sm without-error"
             appearance="outline"
           >
-            <!-- <mat-label>SKU</mat-label> -->
             <input
               matInput
               type="text"
@@ -33,12 +28,9 @@
             />
           </mat-form-field>
         </td>
-        <td *ngFor="let comb of variation.attribute_combinations">
-          {{ comb.value_name }}
-        </td>
+        <td>{{ variations[0].attribute_combinations | descVar: "value" }}</td>
         <td>
           <mat-form-field class="control-sm without-error" appearance="outline">
-            <!-- <mat-label>Cantidad</mat-label> -->
             <input
               matInput
               (change)="changeQuantity($event, variation)"

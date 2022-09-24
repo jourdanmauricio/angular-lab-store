@@ -1,4 +1,10 @@
-import { ICategory, IVariation } from '@models/index';
+import {
+  ICategory,
+  IProductDto,
+  IProductMl,
+  IVariation,
+  IVariationUpdDto,
+} from '@models/index';
 import { IAttribComb } from '@models/ui/IAttribComb.model';
 
 /**
@@ -147,4 +153,129 @@ export function getQuantityFromVariations(variations: IVariation[]): number {
     (acumulador, actual) => acumulador + actual.available_quantity,
     0
   );
+}
+
+export function handleBodyLocalMlWeb(
+  currentProd: IProductDto,
+  updatedProd: string[]
+) {
+  let bodyMl: any = {};
+  let bodyMlDescription: any = {};
+  let body: any = {};
+  updatedProd.forEach((field) => {
+    switch (field) {
+      case 'available_quantity':
+        body.available_quantity = currentProd.available_quantity;
+        break;
+      case 'attributes':
+        let attributes = currentProd.attributes.map((attrib) => {
+          return attrib.updated === true
+            ? {
+                id: attrib.id,
+                name: attrib.name,
+                value_id: attrib.tags?.hasOwnProperty('multivalued')
+                  ? null
+                  : attrib.value_id,
+                value_name: attrib.value_name,
+              }
+            : { id: attrib.id };
+        });
+        bodyMl.attributes = attributes;
+        break;
+      case 'condition':
+        bodyMl.condition = currentProd.condition;
+        break;
+      case 'description':
+        bodyMlDescription.plain_text = currentProd.description;
+        break;
+      case 'pictures':
+        bodyMl.pictures = currentProd.pictures.map((pic) => ({
+          id: pic.id,
+        }));
+        break;
+      case 'price':
+        body.price = currentProd.price;
+        break;
+      case 'sale_terms':
+        bodyMl.sale_terms = currentProd.sale_terms;
+        break;
+      case 'seller_custom_field':
+        bodyMl.seller_custom_field = currentProd.seller_custom_field;
+        break;
+      case 'status':
+        body.status = currentProd.status;
+        break;
+      case 'title':
+        bodyMl.title = currentProd.title;
+        break;
+      case 'variations':
+        console.log('variations', currentProd.variations);
+        let variations: IVariationUpdDto[] = [];
+        let pictures: { id: string }[] = [];
+        currentProd.variations.forEach((variation) => {
+          variation.picture_ids.forEach((picture) => {
+            if (pictures.findIndex((pic) => pic.id === picture) === -1)
+              pictures.push({ id: picture });
+          });
+
+          let obj = {} as IVariationUpdDto;
+          if (variation.updated === true) {
+            obj = {
+              attribute_combinations: variation.attribute_combinations,
+              attributes: variation.attributes,
+              picture_ids: variation.picture_ids,
+            };
+            // Upd
+            if (typeof variation.id === 'number') {
+              obj.id = variation.id;
+            } else {
+              // New
+              obj.available_quantity = variation.available_quantity;
+              obj.price = variation.price;
+            }
+          } else {
+            obj = { id: variation.id };
+          }
+          variations.push(obj);
+        });
+        bodyMl.variations = variations;
+        bodyMl.pictures = pictures;
+        break;
+      case 'video_id':
+        bodyMl.video_id = currentProd.video_id;
+        break;
+    }
+  });
+  return { bodyMl, bodyMlDescription, body };
+}
+
+export function handleBodyMl(prodMl: IProductMl, updatedProdMl: string[]) {
+  let bodyMl: any = {};
+  let variations: IVariationUpdDto[] = prodMl.variations.map((vari) => ({
+    id: vari.id,
+    price: vari.price,
+    available_quantity: vari.available_quantity,
+  }));
+  updatedProdMl.forEach((field) => {
+    switch (field) {
+      case 'available_quantity':
+        if (prodMl.variations.length === 0) {
+          bodyMl.available_quantity = prodMl.available_quantity;
+        } else {
+          bodyMl.variations = variations;
+        }
+        break;
+      case 'status':
+        bodyMl.status = prodMl.status;
+        break;
+      case 'price':
+        if (prodMl.variations.length === 0) {
+          bodyMl.price = prodMl.price;
+        } else {
+          bodyMl.variations = variations;
+        }
+        break;
+    }
+  });
+  return bodyMl;
 }
